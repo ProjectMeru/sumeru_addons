@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="action_product_tree" model="sys.action.window">
+            <field name="name">Products</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="help">Manage your product catalog.</field>
+        </record>
+
+        <record id="action_product_kanban" model="sys.action.window">
+            <field name="name">Products Kanban</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+        <view id="view_product_tree" model="product.product" type="tree">
+            <field name="default_code" string="Reference"/>
+            <field name="barcode" string="Barcode"/>
+            <field name="name" string="Product Name"/>
+            <field name="product_type" string="Type"/>
+            <field name="categ_name" string="Category"/>
+            <field name="list_price" string="Sales Price"/>
+            <field name="standard_price" string="Cost"/>
+            <field name="qty_available" string="On Hand"/>
+            <field name="uom_name" string="UoM"/>
+            <field name="sale_ok" string="Sales"/>
+            <field name="purchase_ok" string="Purchase"/>
+            <field name="active" string="Active"/>
+        </view>
+
+        <view id="view_product_kanban" model="product.product" type="kanban">
+            <field name="name" string="Product Name"/>
+            <field name="default_code" string="Reference"/>
+            <field name="list_price" string="Sales Price"/>
+            <field name="qty_available" string="On Hand"/>
+            <field name="product_type" string="Type"/>
+            <field name="categ_name" string="Category"/>
+        </view>
+
+        <view id="view_product_form" model="product.product" type="form">
+            <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="Product name"/>
+                    </h1>
+                    <div class="flex space-x-4">
+                        <field name="product_type" string="Product Type"/>
+                        <field name="categ_name" string="Category"/>
+                        <field name="active" string="Active"/>
+                    </div>
+                </div>
+                <group>
+                    <group string="General Information">
+                        <field name="default_code" string="Internal Reference"/>
+                        <field name="barcode" string="Barcode"/>
+                        <field name="uom_name" string="Unit of Measure"/>
+                    </group>
+                    <group string="Sales">
+                        <field name="list_price" string="Sales Price"/>
+                        <field name="standard_price" string="Cost"/>
+                        <field name="qty_available" string="Quantity On Hand"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Logistics">
+                        <field name="weight" string="Weight"/>
+                        <field name="volume" string="Volume"/>
+                    </group>
+                    <group string="Sales &amp; Purchase">
+                        <field name="sale_ok" string="Can be Sold"/>
+                        <field name="purchase_ok" string="Can be Purchased"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Description">
+                        <group>
+                            <field name="description_sale" string="Sales Description"/>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+            <chatter>
+                <field name="description_sale" string="Log" widget="mail_thread"/>
+            </chatter>
+        </view>
+    </data>
+</sumeru>

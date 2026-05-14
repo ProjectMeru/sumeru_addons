@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="action_sale_order_tree" model="sys.action.window">
+            <field name="name">Quotations</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">form,tree,kanban</field>
+            <field name="help">Create your first quotation!</field>
+        </record>
+
+        <record id="action_sale_order_kanban" model="sys.action.window">
+            <field name="name">Orders Kanban</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+        <view id="view_order_tree" model="sale.order" type="tree">
+            <field name="name" string="Order Number"/>
+            <field name="client_order_ref" string="Customer Ref"/>
+            <field name="partner_name" string="Customer"/>
+            <field name="date_order" string="Order Date"/>
+            <field name="validity_date" string="Expiration"/>
+            <field name="commitment_date" string="Delivery"/>
+            <field name="amount_untaxed" string="Untaxed"/>
+            <field name="amount_tax" string="Taxes"/>
+            <field name="amount" string="Total"/>
+            <field name="currency" string="Currency"/>
+            <field name="state" string="Status"/>
+            <field name="warehouse_name" string="Warehouse"/>
+        </view>
+
+        <view id="view_order_kanban" model="sale.order" type="kanban">
+            <field name="name" string="Order Number"/>
+            <field name="partner_name" string="Customer"/>
+            <field name="amount" string="Total"/>
+            <field name="amount_untaxed" string="Untaxed"/>
+            <field name="validity_date" string="Expiration"/>
+            <field name="state" string="Status"/>
+            <field name="priority" string="Priority"/>
+        </view>
+
+        <view id="view_order_form" model="sale.order" type="form">
+            <header>
+                <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"/>
+                <button name="action_cancel" string="Cancel" type="object"/>
+                <field name="state" string="Status" widget="statusbar"/>
+            </header>
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                </div>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="e.g. SO001"/>
+                    </h1>
+                    <div class="flex space-x-4">
+                        <field name="client_order_ref" string="Customer Reference"/>
+                        <field name="email" string="Email" widget="email"/>
+                        <field name="phone" string="Phone"/>
+                    </div>
+                </div>
+                <group>
+                    <group string="Customer">
+                        <field name="partner_name" string="Customer"/>
+                        <field name="date_order" string="Order Date"/>
+                        <field name="validity_date" string="Quotation Expiration"/>
+                        <field name="commitment_date" string="Delivery Date"/>
+                    </group>
+                    <group string="Financials">
+                        <field name="currency" string="Currency"/>
+                        <field name="amount_untaxed" string="Untaxed Amount"/>
+                        <field name="amount_tax" string="Taxes"/>
+                        <field name="amount" string="Total"/>
+                        <field name="priority" string="Priority"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Invoicing &amp; Delivery">
+                        <field name="fiscal_position" string="Fiscal Position"/>
+                        <field name="payment_terms" string="Payment Terms"/>
+                        <field name="incoterm" string="Incoterm"/>
+                        <field name="warehouse_name" string="Warehouse"/>
+                    </group>
+                    <group string="Other">
+                        <field name="user_id" string="Salesperson"/>
+                        <field name="company_id" string="Company"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Terms">
+                        <group>
+                            <field name="note" string="Terms and conditions"/>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+            <chatter>
+                <field name="note" string="Log" widget="mail_thread"/>
+            </chatter>
+        </view>
+    </data>
+</sumeru>

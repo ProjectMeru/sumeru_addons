@@ -1,0 +1,11 @@
+{
+  "name": "sales",
+  "version": "1.0",
+  "depends": ["base"],
+  "author": "Sumeru",
+  "description": "Sales Management Module",
+  "data": [
+    "views/sale_order_views.xml",
+    "views/menus.xml"
+  ]
+}

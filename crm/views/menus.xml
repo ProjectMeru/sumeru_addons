@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <!-- sys.menu : CRM -->
+        <menuitem id="menu_crm_root" name="CRM" sequence="20" web_icon="chart"/>
+        <menuitem id="menu_crm_pipeline" name="CRM Pipeline" parent="menu_crm_root" sequence="10" web_icon="chart"/>
+        <menuitem id="menu_crm_leads" name="CRM Leads" parent="menu_crm_pipeline" sequence="10" action="action_crm_lead_tree" web_icon="users"/>
+        <menuitem id="menu_crm_pipeline_kanban" name="CRM Kanban Pipeline" parent="menu_crm_pipeline" sequence="20" action="action_crm_lead_kanban" web_icon="chart"/>
+    </data>
+</sumeru>

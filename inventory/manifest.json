@@ -1,0 +1,12 @@
+{
+  "name": "inventory",
+  "version": "1.0",
+  "depends": ["base"],
+  "author": "Sumeru",
+  "description": "Inventory and warehouse operations",
+  "data": [
+    "views/product_views.xml",
+    "views/stock_picking_views.xml",
+    "views/menus.xml"
+  ]
+}
