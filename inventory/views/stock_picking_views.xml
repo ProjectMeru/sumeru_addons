@@ -3,7 +3,7 @@
     <data>
         <record id="action_stock_picking_tree" model="sys.action.window">
             <field name="name">Transfers</field>
-            <field name="res_model">stock.picking</field>
+            <field name="core_model">stock.picking</field>
             <field name="view_mode">tree,form</field>
             <field name="help">Track deliveries and receipts.</field>
         </record>

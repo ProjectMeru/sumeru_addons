@@ -3,14 +3,14 @@
     <data>
         <record id="action_crm_lead_tree" model="sys.action.window">
             <field name="name">Leads</field>
-            <field name="res_model">crm.lead</field>
+            <field name="core_model">crm.lead</field>
             <field name="view_mode">tree,form,kanban</field>
             <field name="help">Track opportunities from first contact to close.</field>
         </record>
 
         <record id="action_crm_lead_kanban" model="sys.action.window">
             <field name="name">Pipeline</field>
-            <field name="res_model">crm.lead</field>
+            <field name="core_model">crm.lead</field>
             <field name="view_mode">kanban,tree,form</field>
         </record>
 

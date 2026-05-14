@@ -2,7 +2,7 @@ package models
 
 import "sumeru/core/base"
 
-// StockPicking mirrors Odoo-style transfer / delivery order fields (enterprise-oriented subset).
+// StockPicking holds transfer / delivery order fields for Sumeru (enterprise-oriented subset).
 type StockPicking struct {
 	base.BaseModel
 	Name            string `db:"name"`
@@ -43,5 +43,5 @@ func (s *StockPicking) Fields() []base.FieldDefinition {
 }
 
 func init() {
-	base.RegisterModel(base.RegisterModelInput{Model: &StockPicking{}})
+	base.RegisterModel(base.RegisterModelInput{Model: &StockPicking{}, Module: "inventory"})
 }

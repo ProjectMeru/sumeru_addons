@@ -2,7 +2,7 @@ package models
 
 import "sumeru/core/base"
 
-// ProductProduct mirrors Odoo-style storable/consumable product fields (enterprise-oriented subset).
+// ProductProduct holds storable/consumable product fields for Sumeru (enterprise-oriented subset).
 type ProductProduct struct {
 	base.BaseModel
 	Name            string  `db:"name"`
@@ -47,5 +47,5 @@ func (p *ProductProduct) Fields() []base.FieldDefinition {
 }
 
 func init() {
-	base.RegisterModel(base.RegisterModelInput{Model: &ProductProduct{}})
+	base.RegisterModel(base.RegisterModelInput{Model: &ProductProduct{}, Module: "inventory"})
 }

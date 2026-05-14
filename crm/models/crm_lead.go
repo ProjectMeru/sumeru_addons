@@ -2,7 +2,7 @@ package models
 
 import "sumeru/core/base"
 
-// CrmLead mirrors Odoo-style CRM pipeline fields (enterprise-oriented subset).
+// CrmLead holds CRM pipeline fields for Sumeru (enterprise-oriented subset).
 type CrmLead struct {
 	base.BaseModel
 	Name              string  `db:"name"`
@@ -77,5 +77,5 @@ func (c *CrmLead) Fields() []base.FieldDefinition {
 }
 
 func init() {
-	base.RegisterModel(base.RegisterModelInput{Model: &CrmLead{}})
+	base.RegisterModel(base.RegisterModelInput{Model: &CrmLead{}, Module: "crm"})
 }

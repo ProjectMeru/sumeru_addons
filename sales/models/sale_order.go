@@ -2,7 +2,7 @@ package models
 
 import "sumeru/core/base"
 
-// SaleOrder mirrors Odoo-style sales order / quotation fields (enterprise-oriented subset).
+// SaleOrder holds sales order / quotation fields for Sumeru (enterprise-oriented subset).
 type SaleOrder struct {
 	base.BaseModel
 	Name             string  `db:"name"`
@@ -59,5 +59,5 @@ func (s *SaleOrder) Fields() []base.FieldDefinition {
 }
 
 func init() {
-	base.RegisterModel(base.RegisterModelInput{Model: &SaleOrder{}})
+	base.RegisterModel(base.RegisterModelInput{Model: &SaleOrder{}, Module: "sales"})
 }

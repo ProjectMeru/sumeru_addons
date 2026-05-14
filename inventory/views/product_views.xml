@@ -3,14 +3,14 @@
     <data>
         <record id="action_product_tree" model="sys.action.window">
             <field name="name">Products</field>
-            <field name="res_model">product.product</field>
+            <field name="core_model">product.product</field>
             <field name="view_mode">tree,form,kanban</field>
             <field name="help">Manage your product catalog.</field>
         </record>
 
         <record id="action_product_kanban" model="sys.action.window">
             <field name="name">Products Kanban</field>
-            <field name="res_model">product.product</field>
+            <field name="core_model">product.product</field>
             <field name="view_mode">kanban,tree,form</field>
         </record>
 
