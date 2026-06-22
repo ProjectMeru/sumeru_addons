@@ -1,44 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <record id="view_core_partner_form" model="sys.view">
-            <field name="name">core.partner.form</field>
-            <field name="model">core.partner</field>
-            <field name="arch" type="xml">
-                <form string="Contact">
-                    <header>
-                        <field name="active" widget="statusbar"/>
-                    </header>
-                    <sheet>
-                        <div class="sum_title">
-                            <h1>
-                                <field name="name" placeholder="Contact Name..."/>
-                            </h1>
-                        </div>
+        <view id="view_core_partner_form" model="core.partner" type="form">
+            <header>
+                <field name="active" widget="statusbar"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Contact Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="email"/>
+                        <field name="phone"/>
+                    </group>
+                    <group>
+                        <field name="is_company"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Address" name="address">
                         <group>
-                            <group>
-                                <field name="email"/>
-                                <field name="phone"/>
-                            </group>
-                            <group>
-                                <field name="is_company"/>
-                            </group>
+                            <field name="street"/>
+                            <field name="city"/>
+                            <field name="country_id"/>
                         </group>
-                        <notebook>
-                            <page string="Address" name="address">
-                                <group>
-                                    <field name="street"/>
-                                    <field name="city"/>
-                                    <field name="country_id"/>
-                                </group>
-                            </page>
-                            <page string="Notes" name="notes">
-                                <field name="comment" placeholder="Internal notes..."/>
-                            </page>
-                        </notebook>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+                    </page>
+                    <page string="Notes" name="notes">
+                        <field name="comment" placeholder="Internal notes..."/>
+                    </page>
+                </notebook>
+            </sheet>
+        </view>
     </data>
 </sumeru>

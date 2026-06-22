@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <record id="view_core_partner_tree" model="sys.view">
-            <field name="name">core.partner.tree</field>
-            <field name="model">core.partner</field>
-            <field name="arch" type="xml">
-                <tree string="Contacts">
-                    <field name="name"/>
-                    <field name="email"/>
-                    <field name="phone"/>
-                    <field name="is_company" widget="boolean_toggle"/>
-                </tree>
-            </field>
-        </record>
+        <view id="view_core_partner_tree" model="core.partner" type="tree">
+            <field name="name"/>
+            <field name="email"/>
+            <field name="phone"/>
+            <field name="is_company" widget="boolean_toggle"/>
+        </view>
     </data>
 </sumeru>
