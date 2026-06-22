@@ -1,0 +1,20 @@
+{
+  "name": "contacts",
+  "display_name": "Contacts",
+  "version": "1.0.0",
+  "author": "Sumeru",
+  "description": "Centralize your address book.",
+  "depends": [
+    "base"
+  ],
+  "data": [
+    "security/security.xml",
+    "security/sys.access.csv",
+    "views/actions.xml",
+    "views/core_partner_form_views.xml",
+    "views/core_partner_tree_views.xml",
+    "views/core_partner_kanban_views.xml",
+    "views/menus.xml"
+  ],
+  "application": true
+}

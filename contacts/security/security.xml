@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <!-- Module Category -->
+        <record id="module_category_contacts" model="sys.module.category">
+            <field name="name">Contacts</field>
+            <field name="sequence">100</field>
+        </record>
+
+        <!-- User group -->
+        <record id="group_contacts_user" model="core.group">
+            <field name="name">Contacts / User</field>
+            <field name="category_id" ref="module_category_contacts"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <!-- Manager Group -->
+        <record id="group_contacts_manager" model="core.group">
+            <field name="name">Contacts / Manager</field>
+            <field name="category_id" ref="module_category_contacts"/>
+            <field name="implied_ids" eval="[(4, ref('group_contacts_user'))]"/>
+        </record>
+    </data>
+</sumeru>

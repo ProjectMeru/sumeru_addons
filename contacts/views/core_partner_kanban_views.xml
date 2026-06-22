@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="view_core_partner_kanban" model="sys.view">
+            <field name="name">core.partner.kanban</field>
+            <field name="model">core.partner</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="email"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="sum-kanban-global-click">
+                                <div class="sum-kanban-details">
+                                    <strong class="sum-kanban-record-title">
+                                        <field name="name"/>
+                                    </strong>
+                                    <div>
+                                        <field name="email"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+    </data>
+</sumeru>

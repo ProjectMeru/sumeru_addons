@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <!-- Window Action for core.partner -->
+        <record id="action_contacts" model="sys.action.window">
+            <field name="name">Contacts</field>
+            <field name="core_model">core.partner</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="help" type="html">
+                <p class="sum-view-nocontent-smiling-face">
+                    Create your first Contact!
+                </p>
+            </field>
+        </record>
+    </data>
+</sumeru>

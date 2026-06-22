@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <!-- Lost Reason Views -->
+        <view id="view_crm_lost_reason_tree" model="crm.lost.reason" type="tree">
+            <field name="name"/>
+            <field name="active" widget="boolean_toggle"/>
+        </view>
+        <view id="view_crm_lost_reason_form" model="crm.lost.reason" type="form">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </view>
+
+        <!-- Recurring Plan Views -->
+        <view id="view_crm_recurring_plan_tree" model="crm.recurring.plan" type="tree">
+            <field name="sequence" widget="handle"/>
+            <field name="name"/>
+            <field name="number_of_months"/>
+            <field name="active" widget="boolean_toggle"/>
+        </view>
+        <view id="view_crm_recurring_plan_form" model="crm.recurring.plan" type="form">
+            <form>
+                <sheet>
+                    <div class="sum_title">
+                        <h1>
+                            <field name="name" placeholder="Recurring Plan Name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="number_of_months"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </view>
+
+        <!-- Top Menu Item -->
+        <menuitem id="crm_menu_root" 
+                  name="CRM" 
+                  web_icon="target" 
+                  sequence="30"/>
+
+        <!-- Sidebar Sections -->
+        <menuitem id="crm_menu_leads" 
+                  name="Sales" 
+                  parent="crm_menu_root" 
+                  sequence="10"/>
+
+        <menuitem id="crm_menu_report" 
+                  name="Reporting" 
+                  parent="crm_menu_root" 
+                  sequence="20"/>
+
+        <menuitem id="crm_menu_config" 
+                  name="Configuration" 
+                  parent="crm_menu_root" 
+                  sequence="30"
+                  web_icon="settings"/>
+
+        <!-- Leads/Opportunities -->
+        <menuitem id="menu_crm_opportunities" 
+                  name="Pipeline" 
+                  parent="crm_menu_leads" 
+                  action="crm.action_leads" 
+                  sequence="1"
+                  web_icon="pie-chart"/>
+
+        <!-- Configuration Items -->
+        <menuitem id="menu_crm_config_teams" 
+                  name="Sales Teams" 
+                  parent="crm_menu_config" 
+                  action="crm.action_teams" 
+                  sequence="1"
+                  web_icon="users"/>
+
+        <menuitem id="menu_crm_config_stages" 
+                  name="Stages" 
+                  parent="crm_menu_config" 
+                  action="crm.action_stages" 
+                  sequence="2"
+                  web_icon="layers"/>
+
+        <menuitem id="menu_crm_config_lost_reasons" 
+                  name="Lost Reasons" 
+                  parent="crm_menu_config" 
+                  action="crm.action_lost_reasons" 
+                  sequence="3"
+                  web_icon="slash"/>
+
+        <menuitem id="menu_crm_config_recurring_plans" 
+                  name="Recurring Plans" 
+                  parent="crm_menu_config" 
+                  action="crm.action_recurring_plans" 
+                  sequence="4"
+                  web_icon="refresh-cw"/>
+
+        <!-- Actions -->
+        <record id="action_leads" model="sys.action.window">
+            <field name="name">Leads</field>
+            <field name="core_model">crm.lead</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help">Use leads if you need a qualification step before creating an opportunity or a customer.</field>
+        </record>
+
+        <record id="action_teams" model="sys.action.window">
+            <field name="name">Sales Teams</field>
+            <field name="core_model">crm.team</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_stages" model="sys.action.window">
+            <field name="name">Stages</field>
+            <field name="core_model">crm.stage</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_lost_reasons" model="sys.action.window">
+            <field name="name">Lost Reasons</field>
+            <field name="core_model">crm.lost.reason</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_recurring_plans" model="sys.action.window">
+            <field name="name">Recurring Plans</field>
+            <field name="core_model">crm.recurring.plan</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</sumeru>
