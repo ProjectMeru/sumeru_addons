@@ -106,35 +106,20 @@
                   web_icon="refresh-cw"/>
 
         <!-- Actions -->
-        <record id="action_leads" model="sys.action.window">
-            <field name="name">Leads</field>
-            <field name="core_model">crm.lead</field>
-            <field name="view_mode">kanban,tree,form</field>
-            <field name="help">Use leads if you need a qualification step before creating an opportunity or a customer.</field>
-        </record>
+        <action id="action_leads" type="window" model="crm.lead" name="Leads" view_mode="kanban,tree,form">
+            <help>Use leads if you need a qualification step before creating an opportunity or a customer.</help>
+        </action>
 
-        <record id="action_teams" model="sys.action.window">
-            <field name="name">Sales Teams</field>
-            <field name="core_model">crm.team</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+        <action id="action_teams" type="window" model="crm.team" name="Sales Teams" view_mode="tree,form">
+        </action>
 
-        <record id="action_stages" model="sys.action.window">
-            <field name="name">Stages</field>
-            <field name="core_model">crm.stage</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+        <action id="action_stages" type="window" model="crm.stage" name="Stages" view_mode="tree,form">
+        </action>
 
-        <record id="action_lost_reasons" model="sys.action.window">
-            <field name="name">Lost Reasons</field>
-            <field name="core_model">crm.lost.reason</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+        <action id="action_lost_reasons" type="window" model="crm.lost.reason" name="Lost Reasons" view_mode="tree,form">
+        </action>
 
-        <record id="action_recurring_plans" model="sys.action.window">
-            <field name="name">Recurring Plans</field>
-            <field name="core_model">crm.recurring.plan</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+        <action id="action_recurring_plans" type="window" model="crm.recurring.plan" name="Recurring Plans" view_mode="tree,form">
+        </action>
     </data>
 </sumeru>
