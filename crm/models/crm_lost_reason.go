@@ -1,24 +1,24 @@
 package models
 
 import (
-	"sumeru/core/base"
+	"sumeru/core/sdk"
 )
 
 type CrmLostReason struct {
-	base.BaseModel
+	sdk.BaseModel
 }
 
 func (r CrmLostReason) ModelName() string {
 	return "crm.lost.reason"
 }
 
-func (r CrmLostReason) Fields() []base.FieldDefinition {
-	return []base.FieldDefinition{
-		{Name: "name", Type: base.Char, String: "Description", Required: true},
-		{Name: "active", Type: base.Boolean, String: "Active", DefaultVal: true},
+func (r CrmLostReason) Fields() []sdk.FieldDefinition {
+	return []sdk.FieldDefinition{
+		{Name: "name", Type: sdk.Char, String: "Description", Required: true},
+		{Name: "active", Type: sdk.Boolean, String: "Active", DefaultVal: true},
 	}
 }
 
 func init() {
-	base.RegisterModel(base.RegisterModelInput{Model: &CrmLostReason{}, Module: "crm"})
+	sdk.RegisterModel(sdk.RegisterModelInput{Model: &CrmLostReason{}, Module: "crm"})
 }
