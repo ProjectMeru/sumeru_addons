@@ -21,6 +21,21 @@ sumeru_addons/
 
 Technical module names must match **`^[a-z][a-z0-9_]*$`** and equal the **folder name**.
 
+## Commercial flow (v1)
+
+| Module | Role |
+|--------|------|
+| `contacts` | Address book (`core.partner`) |
+| `product` | Product catalog |
+| `crm` | Leads / opportunities |
+| `sale` | Quotations / sales orders |
+| `sale_crm` | Opportunity → draft quotation (on Won) |
+| `account` | Invoices, bills, COA, post journal lines |
+| `purchase` | RFQ / PO → vendor bill |
+| `hr` | Employees, departments, jobs |
+
+Typical install order: `contacts, product, crm, sale, sale_crm, account, purchase, hr`.
+
 ## Custom extensions
 
 Put overrides and customer-specific modules under **`sumeru_custom_addons/addons/`**, list **`../sumeru_addons`** on **`addons_path`** before **`./addons`**, and blank-import **`sumeru_addons/...`** from your addon’s `init.go` when you need to register hooks or inherit models.

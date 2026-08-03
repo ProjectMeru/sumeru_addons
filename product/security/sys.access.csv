@@ -1,0 +1,5 @@
+id,name,model,group_id,perm_read,perm_write,perm_create,perm_unlink
+access_product_product_user,access_product_product_user,product.product,group_product_user,1,0,0,0
+access_product_product_manager,access_product_product_manager,product.product,group_product_manager,1,1,1,1
+access_product_category_user,access_product_category_user,product.category,group_product_user,1,0,0,0
+access_product_category_manager,access_product_category_manager,product.category,group_product_manager,1,1,1,1

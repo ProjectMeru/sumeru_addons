@@ -1,0 +1,17 @@
+{
+  "name": "account",
+  "display_name": "Invoicing",
+  "version": "1.0.0",
+  "summary": "Invoices, bills, and basic accounting",
+  "description": "Customer invoices, vendor bills, chart of accounts, and posted journal entries.",
+  "author": "Sumeru",
+  "depends": ["product", "contacts"],
+  "data": [
+    "security/security.xml",
+    "security/sys.access.csv",
+    "data/account_data.xml",
+    "views/account_views.xml",
+    "views/menus.xml"
+  ],
+  "application": true
+}

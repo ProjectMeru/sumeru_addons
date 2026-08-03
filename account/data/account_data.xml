@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data noupdate="1">
+        <record id="account_receivable" model="account.account">
+            <field name="code">121000</field>
+            <field name="name">Account Receivable</field>
+            <field name="account_type">asset_receivable</field>
+            <field name="reconcile" eval="True"/>
+        </record>
+        <record id="account_payable" model="account.account">
+            <field name="code">211000</field>
+            <field name="name">Account Payable</field>
+            <field name="account_type">liability_payable</field>
+            <field name="reconcile" eval="True"/>
+        </record>
+        <record id="account_income" model="account.account">
+            <field name="code">400000</field>
+            <field name="name">Product Sales</field>
+            <field name="account_type">income</field>
+        </record>
+        <record id="account_expense" model="account.account">
+            <field name="code">600000</field>
+            <field name="name">Expenses</field>
+            <field name="account_type">expense</field>
+        </record>
+        <record id="account_cash" model="account.account">
+            <field name="code">101000</field>
+            <field name="name">Cash</field>
+            <field name="account_type">asset_cash</field>
+        </record>
+        <record id="account_equity" model="account.account">
+            <field name="code">300000</field>
+            <field name="name">Equity</field>
+            <field name="account_type">equity</field>
+        </record>
+
+        <record id="journal_sale" model="account.journal">
+            <field name="name">Customer Invoices</field>
+            <field name="code">INV</field>
+            <field name="type">sale</field>
+            <field name="default_account_id" ref="account_income"/>
+        </record>
+        <record id="journal_purchase" model="account.journal">
+            <field name="name">Vendor Bills</field>
+            <field name="code">BILL</field>
+            <field name="type">purchase</field>
+            <field name="default_account_id" ref="account_expense"/>
+        </record>
+        <record id="journal_general" model="account.journal">
+            <field name="name">Miscellaneous</field>
+            <field name="code">MISC</field>
+            <field name="type">general</field>
+        </record>
+    </data>
+</sumeru>

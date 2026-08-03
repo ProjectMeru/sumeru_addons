@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data noupdate="1">
+        <record id="product_category_all" model="product.category">
+            <field name="name">All</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="product_category_services" model="product.category">
+            <field name="name">Services</field>
+            <field name="parent_id" ref="product_category_all"/>
+            <field name="sequence">10</field>
+        </record>
+        <record id="product_category_goods" model="product.category">
+            <field name="name">Goods</field>
+            <field name="parent_id" ref="product_category_all"/>
+            <field name="sequence">20</field>
+        </record>
+    </data>
+</sumeru>

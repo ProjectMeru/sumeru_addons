@@ -6,7 +6,8 @@
     "description": "Ported CRM module from erp_0 to Sumeru ERP framework.",
     "author": "Sumeru",
     "depends": [
-        "base"
+        "base",
+        "contacts"
     ],
     "data": [
         "security/security.xml",

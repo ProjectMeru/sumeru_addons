@@ -1,0 +1,16 @@
+{
+  "name": "sale",
+  "display_name": "Sales",
+  "version": "1.0.0",
+  "summary": "Quotations and sales orders",
+  "description": "Minimal sales flow: quotation → confirmed order.",
+  "author": "Sumeru",
+  "depends": ["product", "contacts", "crm"],
+  "data": [
+    "security/security.xml",
+    "security/sys.access.csv",
+    "views/sale_views.xml",
+    "views/menus.xml"
+  ],
+  "application": true
+}

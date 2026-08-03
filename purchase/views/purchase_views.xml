@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_purchase_order_tree" model="purchase.order" type="tree">
+            <field name="name"/>
+            <field name="partner_id"/>
+            <field name="date_order"/>
+            <field name="user_id"/>
+            <field name="amount_total"/>
+            <field name="state"/>
+        </view>
+        <view id="view_purchase_order_form" model="purchase.order" type="form">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="sum_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. PO001"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="date_order"/>
+                        </group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="company_id"/>
+                            <field name="amount_total"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <field name="order_line"/>
+                        </page>
+                        <page string="Other Info">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </view>
+
+        <view id="view_purchase_order_line_tree" model="purchase.order.line" type="tree">
+            <field name="order_id"/>
+            <field name="product_id"/>
+            <field name="name"/>
+            <field name="product_qty"/>
+            <field name="price_unit"/>
+            <field name="price_subtotal"/>
+        </view>
+        <view id="view_purchase_order_line_form" model="purchase.order.line" type="form">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="order_id"/>
+                        <field name="product_id"/>
+                        <field name="name"/>
+                        <field name="product_qty"/>
+                        <field name="price_unit"/>
+                        <field name="price_subtotal"/>
+                        <field name="sequence"/>
+                    </group>
+                </sheet>
+            </form>
+        </view>
+
+        <action id="action_purchase_rfq" type="window" model="purchase.order" name="Requests for Quotation" view_mode="tree,form">
+            <help>Create an RFQ, set Status to Purchase Order to confirm. A vendor bill is created automatically.</help>
+        </action>
+        <action id="action_purchase_orders" type="window" model="purchase.order" name="Purchase Orders" view_mode="tree,form"/>
+        <action id="action_purchase_order_lines" type="window" model="purchase.order.line" name="Order Lines" view_mode="tree,form"/>
+    </data>
+</sumeru>

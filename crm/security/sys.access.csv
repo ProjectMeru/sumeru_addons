@@ -1,1 +1,11 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+id,name,model,group_id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_lead_user,access_crm_lead_user,crm.lead,group_crm_user,1,1,1,0
+access_crm_lead_manager,access_crm_lead_manager,crm.lead,group_crm_manager,1,1,1,1
+access_crm_team_user,access_crm_team_user,crm.team,group_crm_user,1,0,0,0
+access_crm_team_manager,access_crm_team_manager,crm.team,group_crm_manager,1,1,1,1
+access_crm_stage_user,access_crm_stage_user,crm.stage,group_crm_user,1,0,0,0
+access_crm_stage_manager,access_crm_stage_manager,crm.stage,group_crm_manager,1,1,1,1
+access_crm_lost_reason_user,access_crm_lost_reason_user,crm.lost.reason,group_crm_user,1,0,0,0
+access_crm_lost_reason_manager,access_crm_lost_reason_manager,crm.lost.reason,group_crm_manager,1,1,1,1
+access_crm_recurring_plan_user,access_crm_recurring_plan_user,crm.recurring.plan,group_crm_user,1,0,0,0
+access_crm_recurring_plan_manager,access_crm_recurring_plan_manager,crm.recurring.plan,group_crm_manager,1,1,1,1

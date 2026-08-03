@@ -1,0 +1,9 @@
+id,name,model,group_id,perm_read,perm_write,perm_create,perm_unlink
+access_account_account_user,access_account_account_user,account.account,group_account_invoice,1,0,0,0
+access_account_account_manager,access_account_account_manager,account.account,group_account_manager,1,1,1,1
+access_account_journal_user,access_account_journal_user,account.journal,group_account_invoice,1,0,0,0
+access_account_journal_manager,access_account_journal_manager,account.journal,group_account_manager,1,1,1,1
+access_account_move_user,access_account_move_user,account.move,group_account_invoice,1,1,1,0
+access_account_move_manager,access_account_move_manager,account.move,group_account_manager,1,1,1,1
+access_account_move_line_user,access_account_move_line_user,account.move.line,group_account_invoice,1,1,1,0
+access_account_move_line_manager,access_account_move_line_manager,account.move.line,group_account_manager,1,1,1,1

@@ -1,0 +1,17 @@
+{
+  "name": "product",
+  "display_name": "Products",
+  "version": "1.0.0",
+  "summary": "Product catalog for sales and purchase",
+  "description": "Minimal product catalog shared by Sales, Purchase, and Accounting.",
+  "author": "Sumeru",
+  "depends": ["base"],
+  "data": [
+    "security/security.xml",
+    "security/sys.access.csv",
+    "data/product_category_data.xml",
+    "views/product_views.xml",
+    "views/menus.xml"
+  ],
+  "application": true
+}

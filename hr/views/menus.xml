@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <menuitem id="hr_menu_root" name="Employees" web_icon="users" sequence="55"/>
+        <menuitem id="hr_menu_employees" name="Employees" parent="hr_menu_root" sequence="10"/>
+        <menuitem id="menu_hr_employee" name="Employees" parent="hr_menu_employees" action="hr.action_hr_employee" sequence="1" web_icon="users"/>
+        <menuitem id="hr_menu_config" name="Configuration" parent="hr_menu_root" sequence="90" web_icon="settings"/>
+        <menuitem id="menu_hr_department" name="Departments" parent="hr_menu_config" action="hr.action_hr_department" sequence="1" web_icon="building"/>
+        <menuitem id="menu_hr_job" name="Job Positions" parent="hr_menu_config" action="hr.action_hr_job" sequence="2" web_icon="briefcase"/>
+    </data>
+</sumeru>

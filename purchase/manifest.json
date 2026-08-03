@@ -1,0 +1,16 @@
+{
+  "name": "purchase",
+  "display_name": "Purchase",
+  "version": "1.0.0",
+  "summary": "RFQs and purchase orders",
+  "description": "Minimal purchase flow: RFQ → confirmed PO → vendor bill.",
+  "author": "Sumeru",
+  "depends": ["account", "product"],
+  "data": [
+    "security/security.xml",
+    "security/sys.access.csv",
+    "views/purchase_views.xml",
+    "views/menus.xml"
+  ],
+  "application": true
+}

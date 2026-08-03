@@ -1,0 +1,16 @@
+{
+  "name": "hr",
+  "display_name": "Employees",
+  "version": "1.0.0",
+  "summary": "Basic employee directory",
+  "description": "Employees, departments, and job positions.",
+  "author": "Sumeru",
+  "depends": ["base", "contacts"],
+  "data": [
+    "security/security.xml",
+    "security/sys.access.csv",
+    "views/hr_views.xml",
+    "views/menus.xml"
+  ],
+  "application": true
+}
