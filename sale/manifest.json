@@ -6,9 +6,10 @@
   "description": "Minimal sales flow: quotation → confirmed order.",
   "author": "Sumeru",
   "depends": ["product", "contacts", "crm"],
-  "data": [
+    "data": [
     "security/security.xml",
     "security/sys.access.csv",
+    "security/sale_rules.xml",
     "views/sale_views.xml",
     "views/menus.xml"
   ],

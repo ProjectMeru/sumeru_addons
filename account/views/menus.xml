@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <menuitem id="account_menu_root" name="Invoicing" web_icon="file-text" sequence="45"/>
-        <menuitem id="account_menu_customers" name="Customers" parent="account_menu_root" sequence="10"/>
-        <menuitem id="menu_account_invoices" name="Invoices" parent="account_menu_customers" action="account.action_account_moves_out" sequence="1" web_icon="file-text"/>
-        <menuitem id="account_menu_vendors" name="Vendors" parent="account_menu_root" sequence="20"/>
-        <menuitem id="menu_account_bills" name="Bills" parent="account_menu_vendors" action="account.action_account_moves_in" sequence="1" web_icon="file-text"/>
-        <menuitem id="account_menu_accounting" name="Accounting" parent="account_menu_root" sequence="30"/>
-        <menuitem id="menu_account_moves" name="Journal Entries" parent="account_menu_accounting" action="account.action_account_moves" sequence="1" web_icon="book"/>
-        <menuitem id="menu_account_move_lines" name="Journal Items" parent="account_menu_accounting" action="account.action_account_move_lines" sequence="2" web_icon="list"/>
-        <menuitem id="account_menu_config" name="Configuration" parent="account_menu_root" sequence="90" web_icon="settings"/>
-        <menuitem id="menu_account_accounts" name="Chart of Accounts" parent="account_menu_config" action="account.action_account_accounts" sequence="1" web_icon="layers"/>
-        <menuitem id="menu_account_journals" name="Journals" parent="account_menu_config" action="account.action_account_journals" sequence="2" web_icon="book"/>
+        <menuitem id="account_menu_root" name="Invoicing" web_icon="file-text" sequence="45" groups="account.group_account_invoice"/>
+        <menuitem id="account_menu_customers" name="Customers" parent="account_menu_root" sequence="10" groups="account.group_account_invoice"/>
+        <menuitem id="menu_account_invoices" name="Invoices" parent="account_menu_customers" action="account.action_account_moves_out" sequence="1" web_icon="file-text" groups="account.group_account_invoice"/>
+        <menuitem id="account_menu_vendors" name="Vendors" parent="account_menu_root" sequence="20" groups="account.group_account_invoice"/>
+        <menuitem id="menu_account_bills" name="Bills" parent="account_menu_vendors" action="account.action_account_moves_in" sequence="1" web_icon="file-text" groups="account.group_account_invoice"/>
+        <menuitem id="account_menu_accounting" name="Accounting" parent="account_menu_root" sequence="30" groups="account.group_account_invoice"/>
+        <menuitem id="menu_account_moves" name="Journal Entries" parent="account_menu_accounting" action="account.action_account_moves" sequence="1" web_icon="book" groups="account.group_account_invoice"/>
+        <menuitem id="menu_account_move_lines" name="Journal Items" parent="account_menu_accounting" action="account.action_account_move_lines" sequence="2" web_icon="list" groups="account.group_account_invoice"/>
+        <menuitem id="account_menu_config" name="Configuration" parent="account_menu_root" sequence="90" web_icon="settings" groups="account.group_account_manager"/>
+        <menuitem id="menu_account_accounts" name="Chart of Accounts" parent="account_menu_config" action="account.action_account_accounts" sequence="1" web_icon="layers" groups="account.group_account_manager"/>
+        <menuitem id="menu_account_journals" name="Journals" parent="account_menu_config" action="account.action_account_journals" sequence="2" web_icon="book" groups="account.group_account_manager"/>
     </data>
 </sumeru>

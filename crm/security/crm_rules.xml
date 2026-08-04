@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="crm_lead_rule_user" model="sys.rule">
+            <field name="name">crm.lead: own documents</field>
+            <field name="model">crm.lead</field>
+            <field name="domain_force">[["user_id","=","$uid"]]</field>
+            <field name="active">true</field>
+            <field name="perm_read">true</field>
+            <field name="perm_write">true</field>
+            <field name="perm_create">true</field>
+            <field name="perm_unlink">true</field>
+            <field name="groups" eval="[(4, ref('group_crm_user'))]"/>
+        </record>
+        <record id="crm_lead_rule_manager" model="sys.rule">
+            <field name="name">crm.lead: all documents</field>
+            <field name="model">crm.lead</field>
+            <field name="domain_force">[]</field>
+            <field name="active">true</field>
+            <field name="perm_read">true</field>
+            <field name="perm_write">true</field>
+            <field name="perm_create">true</field>
+            <field name="perm_unlink">true</field>
+            <field name="groups" eval="[(4, ref('group_crm_manager'))]"/>
+        </record>
+    </data>
+</sumeru>
