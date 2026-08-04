@@ -4,7 +4,7 @@
         <menuitem id="sale_menu_root" name="Sales" web_icon="shopping-cart" sequence="25"/>
         <menuitem id="sale_menu_orders" name="Orders" parent="sale_menu_root" sequence="10"/>
         <menuitem id="menu_sale_quotations" name="Quotations" parent="sale_menu_orders" action="sale.action_sale_quotations" sequence="1" web_icon="file-text"/>
-        <menuitem id="menu_sale_orders" name="Orders" parent="sale_menu_orders" action="sale.action_sale_orders" sequence="2" web_icon="shopping-cart"/>
+        <menuitem id="menu_sale_orders" name="Sales Orders" parent="sale_menu_orders" action="sale.action_sale_orders" sequence="2" web_icon="shopping-cart"/>
         <menuitem id="menu_sale_order_lines" name="Order Lines" parent="sale_menu_orders" action="sale.action_sale_order_lines" sequence="3" web_icon="list"/>
     </data>
 </sumeru>

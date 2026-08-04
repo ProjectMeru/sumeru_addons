@@ -3,7 +3,7 @@
     <data>
         <menuitem id="menu_product_root" name="Products" web_icon="package" sequence="35"/>
         <menuitem id="menu_product_catalog" name="Catalog" parent="menu_product_root" sequence="10"/>
-        <menuitem id="menu_product_products" name="Products" parent="menu_product_catalog" action="product.action_product_product" sequence="1" web_icon="package"/>
+        <menuitem id="menu_product_products" name="All Products" parent="menu_product_catalog" action="product.action_product_product" sequence="1" web_icon="package"/>
         <menuitem id="menu_product_config" name="Configuration" parent="menu_product_root" sequence="90" web_icon="settings"/>
         <menuitem id="menu_product_categories" name="Categories" parent="menu_product_config" action="product.action_product_category" sequence="1" web_icon="layers"/>
     </data>

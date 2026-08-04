@@ -3,15 +3,16 @@
     <data>
         <!-- Tree View -->
         <view id="view_crm_lead_tree" model="crm.lead" type="tree">
-            <field name="name"/>
-            <field name="partner_id"/>
-            <field name="email_from"/>
-            <field name="phone"/>
-            <field name="user_id"/>
-            <field name="team_id"/>
-            <field name="stage_id"/>
-            <field name="expected_revenue"/>
-            <field name="probability"/>
+            <field name="name" string="Opportunity"/>
+            <field name="type" string="Type"/>
+            <field name="partner_id" string="Customer"/>
+            <field name="email_from" string="Email"/>
+            <field name="phone" string="Phone"/>
+            <field name="user_id" string="Salesperson"/>
+            <field name="team_id" string="Sales Team"/>
+            <field name="stage_id" string="Stage"/>
+            <field name="expected_revenue" string="Expected Revenue"/>
+            <field name="probability" string="Probability"/>
         </view>
 
         <!-- Form View -->

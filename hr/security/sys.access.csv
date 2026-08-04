@@ -1,7 +1,7 @@
 id,name,model,group_id,perm_read,perm_write,perm_create,perm_unlink
 access_hr_employee_user,access_hr_employee_user,hr.employee,group_hr_user,1,1,1,0
 access_hr_employee_manager,access_hr_employee_manager,hr.employee,group_hr_manager,1,1,1,1
-access_hr_department_user,access_hr_department_user,hr.department,group_hr_user,1,1,1,0
+access_hr_department_user,access_hr_department_user,hr.department,group_hr_user,1,0,0,0
 access_hr_department_manager,access_hr_department_manager,hr.department,group_hr_manager,1,1,1,1
-access_hr_job_user,access_hr_job_user,hr.job,group_hr_user,1,1,1,0
+access_hr_job_user,access_hr_job_user,hr.job,group_hr_user,1,0,0,0
 access_hr_job_manager,access_hr_job_manager,hr.job,group_hr_manager,1,1,1,1

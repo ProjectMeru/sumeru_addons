@@ -2,13 +2,13 @@
 <sumeru>
     <data>
         <view id="view_product_product_tree" model="product.product" type="tree">
-            <field name="default_code"/>
-            <field name="name"/>
-            <field name="type"/>
-            <field name="categ_id"/>
-            <field name="list_price"/>
-            <field name="standard_price"/>
-            <field name="active" widget="boolean_toggle"/>
+            <field name="default_code" string="Internal Reference"/>
+            <field name="name" string="Product"/>
+            <field name="type" string="Type"/>
+            <field name="categ_id" string="Category"/>
+            <field name="list_price" string="Sales Price"/>
+            <field name="standard_price" string="Cost"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_product_product_form" model="product.product" type="form">
             <form>
@@ -19,22 +19,22 @@
                         </h1>
                     </div>
                     <group>
-                        <group>
-                            <field name="default_code"/>
-                            <field name="type"/>
-                            <field name="categ_id"/>
+                        <group string="General">
+                            <field name="default_code" string="Internal Reference"/>
+                            <field name="type" string="Product Type"/>
+                            <field name="categ_id" string="Category"/>
+                            <field name="active" string="Active"/>
                         </group>
-                        <group>
-                            <field name="list_price"/>
-                            <field name="standard_price"/>
-                            <field name="sale_ok"/>
-                            <field name="purchase_ok"/>
-                            <field name="active"/>
+                        <group string="Pricing">
+                            <field name="list_price" string="Sales Price"/>
+                            <field name="standard_price" string="Cost"/>
+                            <field name="sale_ok" string="Can be Sold"/>
+                            <field name="purchase_ok" string="Can be Purchased"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Description">
-                            <field name="description"/>
+                            <field name="description" string="Description"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -42,19 +42,23 @@
         </view>
 
         <view id="view_product_category_tree" model="product.category" type="tree">
-            <field name="sequence" widget="handle"/>
-            <field name="name"/>
-            <field name="parent_id"/>
-            <field name="active" widget="boolean_toggle"/>
+            <field name="sequence" string="Sequence" widget="handle"/>
+            <field name="name" string="Category"/>
+            <field name="parent_id" string="Parent"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_product_category_form" model="product.category" type="form">
             <form>
                 <sheet>
+                    <div class="sum_title">
+                        <h1>
+                            <field name="name" placeholder="Category Name..."/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"/>
-                        <field name="parent_id"/>
-                        <field name="sequence"/>
-                        <field name="active"/>
+                        <field name="parent_id" string="Parent Category"/>
+                        <field name="sequence" string="Sequence"/>
+                        <field name="active" string="Active"/>
                     </group>
                 </sheet>
             </form>

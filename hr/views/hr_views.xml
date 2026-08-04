@@ -2,12 +2,12 @@
 <sumeru>
     <data>
         <view id="view_hr_employee_tree" model="hr.employee" type="tree">
-            <field name="name"/>
-            <field name="work_email"/>
-            <field name="department_id"/>
-            <field name="job_id"/>
-            <field name="user_id"/>
-            <field name="active" widget="boolean_toggle"/>
+            <field name="name" string="Employee"/>
+            <field name="work_email" string="Work Email"/>
+            <field name="department_id" string="Department"/>
+            <field name="job_id" string="Job Position"/>
+            <field name="user_id" string="User"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_hr_employee_form" model="hr.employee" type="form">
             <form>
@@ -18,23 +18,23 @@
                         </h1>
                     </div>
                     <group>
-                        <group>
-                            <field name="work_email"/>
-                            <field name="work_phone"/>
-                            <field name="department_id"/>
-                            <field name="job_id"/>
+                        <group string="Work">
+                            <field name="work_email" string="Work Email"/>
+                            <field name="work_phone" string="Work Phone"/>
+                            <field name="department_id" string="Department"/>
+                            <field name="job_id" string="Job Position"/>
                         </group>
-                        <group>
-                            <field name="parent_id"/>
-                            <field name="user_id"/>
-                            <field name="partner_id"/>
-                            <field name="company_id"/>
-                            <field name="active"/>
+                        <group string="Organization">
+                            <field name="parent_id" string="Manager"/>
+                            <field name="user_id" string="Related User"/>
+                            <field name="partner_id" string="Related Contact"/>
+                            <field name="company_id" string="Company"/>
+                            <field name="active" string="Active"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Notes">
-                            <field name="notes"/>
+                            <field name="notes" string="Notes"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -64,40 +64,48 @@
         </view>
 
         <view id="view_hr_department_tree" model="hr.department" type="tree">
-            <field name="name"/>
-            <field name="parent_id"/>
-            <field name="manager_id"/>
-            <field name="active" widget="boolean_toggle"/>
+            <field name="name" string="Department"/>
+            <field name="parent_id" string="Parent"/>
+            <field name="manager_id" string="Manager"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_hr_department_form" model="hr.department" type="form">
             <form>
                 <sheet>
+                    <div class="sum_title">
+                        <h1>
+                            <field name="name" placeholder="Department Name..."/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"/>
-                        <field name="parent_id"/>
-                        <field name="manager_id"/>
-                        <field name="active"/>
+                        <field name="parent_id" string="Parent Department"/>
+                        <field name="manager_id" string="Manager"/>
+                        <field name="active" string="Active"/>
                     </group>
                 </sheet>
             </form>
         </view>
 
         <view id="view_hr_job_tree" model="hr.job" type="tree">
-            <field name="name"/>
-            <field name="department_id"/>
-            <field name="active" widget="boolean_toggle"/>
+            <field name="name" string="Job Position"/>
+            <field name="department_id" string="Department"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_hr_job_form" model="hr.job" type="form">
             <form>
                 <sheet>
+                    <div class="sum_title">
+                        <h1>
+                            <field name="name" placeholder="Job Position..."/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"/>
-                        <field name="department_id"/>
-                        <field name="active"/>
+                        <field name="department_id" string="Department"/>
+                        <field name="active" string="Active"/>
                     </group>
                     <notebook>
                         <page string="Description">
-                            <field name="description"/>
+                            <field name="description" string="Job Description"/>
                         </page>
                     </notebook>
                 </sheet>

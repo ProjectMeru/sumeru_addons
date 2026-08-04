@@ -2,14 +2,14 @@
 <sumeru>
     <data>
         <view id="view_sale_order_tree" model="sale.order" type="tree">
-            <field name="name"/>
-            <field name="partner_id"/>
-            <field name="date_order"/>
-            <field name="user_id"/>
-            <field name="opportunity_id"/>
-            <field name="amount_total"/>
-            <field name="invoice_status"/>
-            <field name="state"/>
+            <field name="name" string="Number"/>
+            <field name="partner_id" string="Customer"/>
+            <field name="date_order" string="Order Date"/>
+            <field name="user_id" string="Salesperson"/>
+            <field name="opportunity_id" string="Opportunity"/>
+            <field name="amount_total" string="Total"/>
+            <field name="invoice_status" string="Invoice Status"/>
+            <field name="state" string="Status"/>
         </view>
         <view id="view_sale_order_form" model="sale.order" type="form">
             <form>
@@ -23,27 +23,25 @@
                         </h1>
                     </div>
                     <group>
-                        <group>
-                            <field name="partner_id"/>
-                            <field name="date_order"/>
-                            <field name="opportunity_id"/>
+                        <group string="Customer">
+                            <field name="partner_id" string="Customer"/>
+                            <field name="date_order" string="Order Date"/>
+                            <field name="opportunity_id" string="Opportunity"/>
                         </group>
-                        <group>
-                            <field name="user_id"/>
-                            <field name="invoice_status"/>
-                            <field name="company_id"/>
+                        <group string="Sales">
+                            <field name="user_id" string="Salesperson"/>
+                            <field name="invoice_status" string="Invoice Status"/>
+                            <field name="company_id" string="Company"/>
+                            <field name="amount_untaxed" string="Untaxed Amount"/>
+                            <field name="amount_total" string="Total"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Order Lines">
-                            <field name="order_line"/>
-                            <group>
-                                <field name="amount_untaxed"/>
-                                <field name="amount_total"/>
-                            </group>
+                            <field name="order_line" string="Order Lines"/>
                         </page>
                         <page string="Other Info">
-                            <field name="note"/>
+                            <field name="note" string="Terms and Conditions"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -51,24 +49,28 @@
         </view>
 
         <view id="view_sale_order_line_tree" model="sale.order.line" type="tree">
-            <field name="order_id"/>
-            <field name="product_id"/>
-            <field name="name"/>
-            <field name="product_uom_qty"/>
-            <field name="price_unit"/>
-            <field name="price_subtotal"/>
+            <field name="order_id" string="Order"/>
+            <field name="product_id" string="Product"/>
+            <field name="name" string="Description"/>
+            <field name="product_uom_qty" string="Quantity"/>
+            <field name="price_unit" string="Unit Price"/>
+            <field name="price_subtotal" string="Subtotal"/>
         </view>
         <view id="view_sale_order_line_form" model="sale.order.line" type="form">
             <form>
                 <sheet>
                     <group>
-                        <field name="order_id"/>
-                        <field name="product_id"/>
-                        <field name="name"/>
-                        <field name="product_uom_qty"/>
-                        <field name="price_unit"/>
-                        <field name="price_subtotal"/>
-                        <field name="sequence"/>
+                        <group string="Line">
+                            <field name="order_id" string="Order"/>
+                            <field name="product_id" string="Product"/>
+                            <field name="name" string="Description"/>
+                        </group>
+                        <group string="Prices">
+                            <field name="product_uom_qty" string="Quantity"/>
+                            <field name="price_unit" string="Unit Price"/>
+                            <field name="price_subtotal" string="Subtotal"/>
+                            <field name="sequence" string="Sequence"/>
+                        </group>
                     </group>
                 </sheet>
             </form>

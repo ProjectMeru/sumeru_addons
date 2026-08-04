@@ -7,7 +7,7 @@
         <menuitem id="menu_contacts_category" name="Contacts organization" parent="menu_contacts_root"
             sequence="100" />
 
-        <menuitem id="menu_contacts_action" name="Contacts" parent="menu_contacts_category"
+        <menuitem id="menu_contacts_action" name="All Contacts" parent="menu_contacts_category"
             action="action_contacts" sequence="10" />
     </data>
 </sumeru>
