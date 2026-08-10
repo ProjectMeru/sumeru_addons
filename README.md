@@ -110,7 +110,7 @@ Ensure `addons_path` includes this tree, for example:
 addons_path = ../sumeru/addons,../sumeru_addons,./addons
 ```
 
-Full workspace details: sibling **[`sumeru_custom_addons/README.md`](../sumeru_custom_addons/README.md)**.
+Full workspace details: sibling **[`sumeru_custom_addons/README.md`](https://github.com/ProjectMeru/sumeru_custom_addons/blob/main/README.md)**.
 
 ### Day-to-day updates
 
@@ -183,8 +183,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for PR expectations.
 | Resource | Contents |
 | -------- | -------- |
 | This README | Role, placement, modules, layout, extend vs contribute |
-| [`../sumeru/README.md`](../sumeru/README.md) | Core engine, config, CLI |
-| [`../sumeru_custom_addons/README.md`](../sumeru_custom_addons/README.md) | Workspace runner, `make generate`, custom addons |
+| [`sumeru/README.md`](https://github.com/ProjectMeru/sumeru/blob/main/README.md) | Core engine, config, CLI |
+| [`sumeru_custom_addons/README.md`](https://github.com/ProjectMeru/sumeru_custom_addons/blob/main/README.md) | Workspace runner, `make generate`, custom addons |
 
 ## Contributing
 
