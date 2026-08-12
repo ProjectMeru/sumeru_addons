@@ -1,4 +1,4 @@
-package account
+package services
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"sumeru/core/orm"
 )
 
-// PostPayment posts a draft payment: liquidity journal entry + invoice payment_state.
+// PostPayment posts a draft payment: liquidity journal entry + reconcile against invoice AR/AP.
 func PostPayment(ctx context.Context, paymentID int) error {
 	if paymentID <= 0 {
 		return fmt.Errorf("invalid payment id")
@@ -48,8 +48,8 @@ func PostPayment(ctx context.Context, paymentID int) error {
 	if liquidityID <= 0 {
 		liquidityID = accountIDByType(bypass, "asset_cash")
 	}
-	recvID := accountIDByType(bypass, "asset_receivable")
-	payID := accountIDByType(bypass, "liability_payable")
+	recvID := partnerAccountID(bypass, partnerID, true, accountIDByType(bypass, "asset_receivable"))
+	payAcctID := partnerAccountID(bypass, partnerID, false, accountIDByType(bypass, "liability_payable"))
 
 	name := orm.AsString(pay["name"])
 	if name == "" {
@@ -64,39 +64,49 @@ func PostPayment(ctx context.Context, paymentID int) error {
 	if date == "" {
 		date = time.Now().Format("2006-01-02")
 	}
+	date = normalizeDate(date)
 
 	moveModel, err := modelOrErr("account.move")
 	if err != nil {
 		return err
 	}
 	moveID, err := orm.Create(bypass, moveModel, map[string]interface{}{
-		"name":          name,
-		"move_type":     "entry",
-		"partner_id":    partnerID,
-		"journal_id":    journalID,
-		"date":          date,
-		"state":         "posted",
-		"amount_total":  amount,
-		"payment_state": "paid",
-		"narration":     memo,
-		"ref":           name,
+		"name":            name,
+		"move_type":       "entry",
+		"partner_id":      partnerID,
+		"journal_id":      journalID,
+		"date":            date,
+		"state":           "posted",
+		"amount_total":    amount,
+		"amount_residual": 0,
+		"payment_state":   "paid",
+		"narration":       memo,
+		"ref":             name,
 	})
 	if err != nil {
 		return err
 	}
 
-	var debitAcct, creditAcct int64
+	var payLineID int
 	switch paymentType {
 	case "outbound":
-		debitAcct, creditAcct = payID, liquidityID
-	default: // inbound
-		debitAcct, creditAcct = liquidityID, recvID
-	}
-	if err := createEntryLine(bypass, moveID, debitAcct, partnerID, memo, amount, 0); err != nil {
-		return err
-	}
-	if err := createEntryLine(bypass, moveID, creditAcct, partnerID, memo, 0, amount); err != nil {
-		return err
+		// DR payable, CR liquidity
+		payLineID, err = createEntryLineID(bypass, moveID, payAcctID, partnerID, memo, amount, 0, amount)
+		if err != nil {
+			return err
+		}
+		if err := createEntryLine(bypass, moveID, liquidityID, partnerID, memo, 0, amount, 0); err != nil {
+			return err
+		}
+	default:
+		// DR liquidity, CR receivable
+		if err := createEntryLine(bypass, moveID, liquidityID, partnerID, memo, amount, 0, 0); err != nil {
+			return err
+		}
+		payLineID, err = createEntryLineID(bypass, moveID, recvID, partnerID, memo, 0, amount, -amount)
+		if err != nil {
+			return err
+		}
 	}
 
 	_ = orm.UpdateRecordByID(bypass, "account.payment", paymentID, map[string]interface{}{
@@ -107,10 +117,35 @@ func PostPayment(ctx context.Context, paymentID int) error {
 	})
 
 	invoiceID, _ := orm.CoerceInt64(pay["invoice_id"])
-	if invoiceID > 0 {
-		_ = applyPaymentToInvoice(bypass, int(invoiceID), amount)
+	if invoiceID > 0 && payLineID > 0 {
+		if err := reconcilePaymentToInvoice(bypass, int(invoiceID), payLineID, amount); err != nil {
+			return err
+		}
 	}
 	return nil
+}
+
+func createEntryLineID(ctx context.Context, moveID int, accountID, partnerID int64, name string, debit, credit, residual float64) (int, error) {
+	if accountID <= 0 {
+		return 0, fmt.Errorf("missing chart account for posting")
+	}
+	lineModel, err := modelOrErr("account.move.line")
+	if err != nil {
+		return 0, err
+	}
+	id, err := orm.Create(ctx, lineModel, map[string]interface{}{
+		"move_id":         moveID,
+		"account_id":      accountID,
+		"partner_id":      partnerID,
+		"name":            name,
+		"display_type":    "entry",
+		"debit":           round2(debit),
+		"credit":          round2(credit),
+		"balance":         round2(debit - credit),
+		"amount_residual": round2(residual),
+		"reconciled":      false,
+	})
+	return id, err
 }
 
 func liquidityAccountID(ctx context.Context, journalID int64) int64 {
@@ -125,31 +160,4 @@ func liquidityAccountID(ctx context.Context, journalID int64) int64 {
 		return id
 	}
 	return 0
-}
-
-func applyPaymentToInvoice(ctx context.Context, invoiceID int, amount float64) error {
-	inv, err := orm.SearchOne(ctx, "account.move", map[string]interface{}{"id": invoiceID})
-	if err != nil {
-		return err
-	}
-	total := numericFloat(inv["amount_total"])
-	paid := amount
-	// Sum other posted payments on this invoice.
-	pays, _ := orm.Search(ctx, "account.payment", [][]interface{}{
-		{"invoice_id", "=", invoiceID},
-		{"state", "=", "posted"},
-	})
-	paid = 0
-	for _, p := range pays {
-		paid += numericFloat(p["amount"])
-	}
-	state := "partial"
-	if paid+0.0001 >= total && total > 0 {
-		state = "paid"
-	} else if paid <= 0 {
-		state = "not_paid"
-	}
-	return orm.UpdateRecordByID(ctx, "account.move", invoiceID, map[string]interface{}{
-		"payment_state": state,
-	})
 }

@@ -15,6 +15,8 @@ func (AccountMoveLine) Fields() []sdk.FieldDefinition {
 		{Name: "name", Type: sdk.Char, String: "Label"},
 		{Name: "partner_id", Type: sdk.Many2One, Relation: "core.partner", String: "Partner"},
 		{Name: "product_id", Type: sdk.Many2One, Relation: "product.product", String: "Product"},
+		{Name: "tax_id", Type: sdk.Many2One, Relation: "account.tax", String: "Tax"},
+		{Name: "tax_line_id", Type: sdk.Many2One, Relation: "account.tax", String: "Originator Tax"},
 		{Name: "quantity", Type: sdk.Numeric, String: "Quantity", DefaultVal: 1},
 		{Name: "price_unit", Type: sdk.Numeric, String: "Unit Price", DefaultVal: 0},
 		{Name: "price_subtotal", Type: sdk.Numeric, String: "Subtotal", DefaultVal: 0},
@@ -22,11 +24,14 @@ func (AccountMoveLine) Fields() []sdk.FieldDefinition {
 			{"product", "Product"},
 			{"line_section", "Section"},
 			{"line_note", "Note"},
+			{"tax", "Tax"},
 			{"entry", "Journal Item"},
 		}, DefaultVal: "product"},
 		{Name: "debit", Type: sdk.Numeric, String: "Debit", DefaultVal: 0},
 		{Name: "credit", Type: sdk.Numeric, String: "Credit", DefaultVal: 0},
 		{Name: "balance", Type: sdk.Numeric, String: "Balance", DefaultVal: 0},
+		{Name: "reconciled", Type: sdk.Boolean, String: "Reconciled", DefaultVal: false},
+		{Name: "amount_residual", Type: sdk.Numeric, String: "Residual", DefaultVal: 0},
 	}
 }
 

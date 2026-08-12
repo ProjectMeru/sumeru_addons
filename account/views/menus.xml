@@ -13,8 +13,12 @@
         <menuitem id="account_menu_accounting" name="Accounting" parent="account_menu_root" sequence="30" groups="account.group_account_invoice"/>
         <menuitem id="menu_account_moves" name="Journal Entries" parent="account_menu_accounting" action="account.action_account_moves" sequence="1" web_icon="book" groups="account.group_account_invoice"/>
         <menuitem id="menu_account_move_lines" name="Journal Items" parent="account_menu_accounting" action="account.action_account_move_lines" sequence="2" web_icon="list" groups="account.group_account_invoice"/>
+        <menuitem id="account_menu_reporting" name="Reporting" parent="account_menu_root" sequence="40" groups="account.group_account_invoice"/>
+        <menuitem id="menu_account_invoice_report" name="Invoice Analysis" parent="account_menu_reporting" action="account.action_account_invoice_report" sequence="1" web_icon="bar-chart-2" groups="account.group_account_invoice"/>
         <menuitem id="account_menu_config" name="Configuration" parent="account_menu_root" sequence="90" web_icon="settings" groups="account.group_account_manager"/>
         <menuitem id="menu_account_accounts" name="Chart of Accounts" parent="account_menu_config" action="account.action_account_accounts" sequence="1" web_icon="layers" groups="account.group_account_manager"/>
         <menuitem id="menu_account_journals" name="Journals" parent="account_menu_config" action="account.action_account_journals" sequence="2" web_icon="book" groups="account.group_account_manager"/>
+        <menuitem id="menu_account_taxes" name="Taxes" parent="account_menu_config" action="account.action_account_taxes" sequence="3" web_icon="percent" groups="account.group_account_manager"/>
+        <menuitem id="menu_account_payment_terms" name="Payment Terms" parent="account_menu_config" action="account.action_account_payment_terms" sequence="4" web_icon="calendar" groups="account.group_account_manager"/>
     </data>
 </sumeru>

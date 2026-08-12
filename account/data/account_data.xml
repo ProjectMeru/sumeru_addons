@@ -43,6 +43,11 @@
             <field name="name">Tax Payable</field>
             <field name="account_type">liability_current</field>
         </record>
+        <record id="account_tax_receivable" model="account.account">
+            <field name="code">131000</field>
+            <field name="name">Tax Receivable</field>
+            <field name="account_type">asset_current</field>
+        </record>
 
         <record id="journal_sale" model="account.journal">
             <field name="name">Customer Invoices</field>
@@ -74,6 +79,37 @@
             <field name="default_account_id" ref="account_cash"/>
         </record>
 
+        <record id="tax_sale_18" model="account.tax">
+            <field name="name">Sales Tax 18%</field>
+            <field name="amount" eval="18"/>
+            <field name="type_tax_use">sale</field>
+            <field name="account_id" ref="account_tax_payable"/>
+            <field name="active" eval="True"/>
+        </record>
+        <record id="tax_purchase_18" model="account.tax">
+            <field name="name">Purchase Tax 18%</field>
+            <field name="amount" eval="18"/>
+            <field name="type_tax_use">purchase</field>
+            <field name="account_id" ref="account_tax_receivable"/>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="payment_term_immediate" model="account.payment.term">
+            <field name="name">Immediate Payment</field>
+            <field name="days" eval="0"/>
+            <field name="note">Payment due immediately</field>
+        </record>
+        <record id="payment_term_15days" model="account.payment.term">
+            <field name="name">15 Days</field>
+            <field name="days" eval="15"/>
+            <field name="note">Payment due in 15 days</field>
+        </record>
+        <record id="payment_term_30days" model="account.payment.term">
+            <field name="name">30 Days</field>
+            <field name="days" eval="30"/>
+            <field name="note">Payment due in 30 days</field>
+        </record>
+
         <record id="seq_account_out_invoice" model="sys.sequence">
             <field name="name">Customer Invoices</field>
             <field name="code">account.move.out_invoice</field>
@@ -85,6 +121,20 @@
             <field name="name">Vendor Bills</field>
             <field name="code">account.move.in_invoice</field>
             <field name="prefix">BILL/</field>
+            <field name="padding" eval="5"/>
+            <field name="number_next" eval="1"/>
+        </record>
+        <record id="seq_account_out_refund" model="sys.sequence">
+            <field name="name">Customer Credit Notes</field>
+            <field name="code">account.move.out_refund</field>
+            <field name="prefix">RINV/</field>
+            <field name="padding" eval="5"/>
+            <field name="number_next" eval="1"/>
+        </record>
+        <record id="seq_account_in_refund" model="sys.sequence">
+            <field name="name">Vendor Refunds</field>
+            <field name="code">account.move.in_refund</field>
+            <field name="prefix">RBILL/</field>
             <field name="padding" eval="5"/>
             <field name="number_next" eval="1"/>
         </record>

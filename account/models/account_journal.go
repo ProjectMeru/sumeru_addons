@@ -11,7 +11,7 @@ func (AccountJournal) ModelName() string { return "account.journal" }
 func (AccountJournal) Fields() []sdk.FieldDefinition {
 	return []sdk.FieldDefinition{
 		{Name: "name", Type: sdk.Char, String: "Journal Name", Required: true},
-		{Name: "code", Type: sdk.Char, String: "Short Code", Required: true},
+		{Name: "code", Type: sdk.Char, String: "Short Code", Required: true, Unique: true},
 		{Name: "type", Type: sdk.Selection, String: "Type", Selection: [][]string{
 			{"sale", "Sales"},
 			{"purchase", "Purchase"},
