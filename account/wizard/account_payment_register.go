@@ -2,7 +2,6 @@ package wizard
 
 import "sumeru/core/sdk"
 
-// AccountPaymentRegister is a transient wizard to register a payment on an invoice.
 type AccountPaymentRegister struct {
 	sdk.BaseModel
 }

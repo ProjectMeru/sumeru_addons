@@ -8,10 +8,9 @@ import (
 	"sumeru/core/orm"
 )
 
-// PostPayment posts a draft payment: liquidity journal entry + reconcile against invoice AR/AP.
 func PostPayment(ctx context.Context, paymentID int) error {
 	if paymentID <= 0 {
-		return fmt.Errorf("invalid payment id")
+		return fmt.Errorf("bad payment id")
 	}
 	bypass := orm.ContextWithBypass(ctx, true)
 	pay, err := orm.SearchOne(bypass, "account.payment", map[string]interface{}{"id": paymentID})
@@ -22,11 +21,11 @@ func PostPayment(ctx context.Context, paymentID int) error {
 		return nil
 	}
 	if orm.AsString(pay["state"]) == "cancelled" {
-		return fmt.Errorf("cannot post cancelled payment")
+		return fmt.Errorf("payment cancelled")
 	}
 	amount := numericFloat(pay["amount"])
 	if amount <= 0 {
-		return fmt.Errorf("payment amount must be positive")
+		return fmt.Errorf("amount zero")
 	}
 	partnerID, _ := orm.CoerceInt64(pay["partner_id"])
 	paymentType := orm.AsString(pay["payment_type"])
@@ -54,7 +53,9 @@ func PostPayment(ctx context.Context, paymentID int) error {
 	name := orm.AsString(pay["name"])
 	if name == "" {
 		name = nextDocName(bypass, "account.payment", "PAY")
-		_ = orm.UpdateRecordByID(bypass, "account.payment", paymentID, map[string]interface{}{"name": name})
+		if err := orm.UpdateRecordByID(bypass, "account.payment", paymentID, map[string]interface{}{"name": name}); err != nil {
+			return err
+		}
 	}
 	memo := orm.AsString(pay["memo"])
 	if memo == "" {
@@ -90,7 +91,6 @@ func PostPayment(ctx context.Context, paymentID int) error {
 	var payLineID int
 	switch paymentType {
 	case "outbound":
-		// DR payable, CR liquidity
 		payLineID, err = createEntryLineID(bypass, moveID, payAcctID, partnerID, memo, amount, 0, amount)
 		if err != nil {
 			return err
@@ -99,7 +99,6 @@ func PostPayment(ctx context.Context, paymentID int) error {
 			return err
 		}
 	default:
-		// DR liquidity, CR receivable
 		if err := createEntryLine(bypass, moveID, liquidityID, partnerID, memo, amount, 0, 0); err != nil {
 			return err
 		}
@@ -109,13 +108,14 @@ func PostPayment(ctx context.Context, paymentID int) error {
 		}
 	}
 
-	_ = orm.UpdateRecordByID(bypass, "account.payment", paymentID, map[string]interface{}{
+	if err := orm.UpdateRecordByID(bypass, "account.payment", paymentID, map[string]interface{}{
 		"state":      "posted",
 		"move_id":    moveID,
 		"journal_id": journalID,
 		"date":       date,
-	})
-
+	}); err != nil {
+		return err
+	}
 	invoiceID, _ := orm.CoerceInt64(pay["invoice_id"])
 	if invoiceID > 0 && payLineID > 0 {
 		if err := reconcilePaymentToInvoice(bypass, int(invoiceID), payLineID, amount); err != nil {
@@ -127,7 +127,7 @@ func PostPayment(ctx context.Context, paymentID int) error {
 
 func createEntryLineID(ctx context.Context, moveID int, accountID, partnerID int64, name string, debit, credit, residual float64) (int, error) {
 	if accountID <= 0 {
-		return 0, fmt.Errorf("missing chart account for posting")
+		return 0, fmt.Errorf("missing account")
 	}
 	lineModel, err := modelOrErr("account.move.line")
 	if err != nil {

@@ -100,7 +100,9 @@ func onMovePost(ctx context.Context, ev event.Event) error {
 	}
 	if err := PostMove(ctx, id); err != nil {
 		log.Printf("account: post move %d: %v", id, err)
-		_ = orm.UpdateRecordByID(bypass, "account.move", id, map[string]interface{}{"state": "draft"})
+		if err2 := orm.UpdateRecordByID(bypass, "account.move", id, map[string]interface{}{"state": "draft"}); err2 != nil {
+			log.Printf("account: rollback move %d: %v", id, err2)
+		}
 	}
 	return nil
 }
@@ -125,10 +127,15 @@ func onPaymentPost(ctx context.Context, ev event.Event) error {
 	if mid, ok := orm.CoerceInt64(pay["move_id"]); ok && mid > 0 {
 		return nil
 	}
-	_ = orm.UpdateRecordByID(bypass, "account.payment", id, map[string]interface{}{"state": "draft"})
+	if err := orm.UpdateRecordByID(bypass, "account.payment", id, map[string]interface{}{"state": "draft"}); err != nil {
+		log.Printf("account: draft payment %d: %v", id, err)
+		return nil
+	}
 	if err := PostPayment(ctx, id); err != nil {
 		log.Printf("account: post payment %d: %v", id, err)
-		_ = orm.UpdateRecordByID(bypass, "account.payment", id, map[string]interface{}{"state": "draft"})
+		if err2 := orm.UpdateRecordByID(bypass, "account.payment", id, map[string]interface{}{"state": "draft"}); err2 != nil {
+			log.Printf("account: rollback payment %d: %v", id, err2)
+		}
 	}
 	return nil
 }

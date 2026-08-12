@@ -3,7 +3,9 @@ package services
 import (
 	"context"
 	"fmt"
+	"log"
 	"math"
+	"strconv"
 	"strings"
 	"time"
 
@@ -12,10 +14,40 @@ import (
 
 const balanceEpsilon = 0.005
 
+type orderBillSpec struct {
+	orderModel      string
+	orderID         int
+	confirmedState  string
+	lineModel       string
+	qtyField        string
+	moveType        string
+	seqCode         string
+	docPrefix       string
+	journalType     string
+	incomeSide      bool
+	taxUse          string
+	narrationPrefix string
+	afterCreate     func(context.Context, int) error
+}
+
+type invoicePosting struct {
+	partnerPayable bool
+	partnerDR      bool
+	productDR      bool
+	taxDR          bool
+}
+
+var postingByMoveType = map[string]invoicePosting{
+	"out_invoice": {partnerDR: true},
+	"out_refund":  {productDR: true, taxDR: true},
+	"in_invoice":  {partnerPayable: true, productDR: true, taxDR: true},
+	"in_refund":   {partnerPayable: true, partnerDR: true},
+}
+
 func modelOrErr(name string) (orm.Model, error) {
 	m, ok := orm.Registry[name]
 	if !ok {
-		return nil, fmt.Errorf("model %s not registered", name)
+		return nil, fmt.Errorf("model %s missing", name)
 	}
 	return m, nil
 }
@@ -27,159 +59,93 @@ func nextDocName(ctx context.Context, code, fallbackPrefix string) string {
 	return fmt.Sprintf("%s/%s/%05d", fallbackPrefix, time.Now().Format("2006"), time.Now().Unix()%100000)
 }
 
-// CreateCustomerInvoiceFromSale creates a draft out_invoice from a confirmed sale.order with product lines.
 func CreateCustomerInvoiceFromSale(ctx context.Context, orderID int) (int, error) {
-	if orderID <= 0 {
-		return 0, fmt.Errorf("invalid sale order id")
+	return createBillFromOrder(ctx, orderBillSpec{
+		orderModel:      "sale.order",
+		orderID:         orderID,
+		confirmedState:  "sale",
+		lineModel:       "sale.order.line",
+		qtyField:        "product_uom_qty",
+		moveType:        "out_invoice",
+		seqCode:         "account.move.out_invoice",
+		docPrefix:       "INV",
+		journalType:     "sale",
+		incomeSide:      true,
+		taxUse:          "sale",
+		narrationPrefix: "Invoice for",
+		afterCreate: func(ctx context.Context, id int) error {
+			return orm.UpdateRecordByID(ctx, "sale.order", id, map[string]interface{}{
+				"invoice_status": "invoiced",
+			})
+		},
+	})
+}
+
+func CreateVendorBillFromPurchase(ctx context.Context, poID int) (int, error) {
+	return createBillFromOrder(ctx, orderBillSpec{
+		orderModel:      "purchase.order",
+		orderID:         poID,
+		confirmedState:  "purchase",
+		lineModel:       "purchase.order.line",
+		qtyField:        "product_qty",
+		moveType:        "in_invoice",
+		seqCode:         "account.move.in_invoice",
+		docPrefix:       "BILL",
+		journalType:     "purchase",
+		incomeSide:      false,
+		taxUse:          "purchase",
+		narrationPrefix: "Bill for",
+	})
+}
+
+func createBillFromOrder(ctx context.Context, spec orderBillSpec) (int, error) {
+	if spec.orderID <= 0 {
+		return 0, fmt.Errorf("invalid order id")
 	}
 	bypass := orm.ContextWithBypass(ctx, true)
-	order, err := orm.SearchOne(bypass, "sale.order", map[string]interface{}{"id": orderID})
+	order, err := orm.SearchOne(bypass, spec.orderModel, map[string]interface{}{"id": spec.orderID})
 	if err != nil {
 		return 0, err
 	}
-	if orm.AsString(order["state"]) != "sale" {
-		return 0, fmt.Errorf("sale order must be confirmed")
+	if orm.AsString(order["state"]) != spec.confirmedState {
+		return 0, fmt.Errorf("order not confirmed")
 	}
 	origin := orm.AsString(order["name"])
 	if origin != "" {
-		existing, _ := orm.Search(bypass, "account.move", [][]interface{}{
+		existing, err := orm.Search(bypass, "account.move", [][]interface{}{
 			{"invoice_origin", "=", origin},
-			{"move_type", "=", "out_invoice"},
+			{"move_type", "=", spec.moveType},
 		})
+		if err != nil {
+			return 0, err
+		}
 		if len(existing) > 0 {
 			id, _ := orm.CoerceInt64(existing[0]["id"])
 			return int(id), nil
 		}
 	}
-	partnerID, _ := orm.CoerceInt64(order["partner_id"])
-	soLines, _ := orm.Search(bypass, "sale.order.line", [][]interface{}{
-		{"order_id", "=", orderID},
+	orderLines, err := orm.Search(bypass, spec.lineModel, [][]interface{}{
+		{"order_id", "=", spec.orderID},
 	})
+	if err != nil {
+		return 0, err
+	}
 	untaxed := 0.0
-	for _, ln := range soLines {
-		sub := numericFloat(ln["price_subtotal"])
-		if sub <= 0 {
-			sub = numericFloat(ln["product_uom_qty"]) * numericFloat(ln["price_unit"])
-		}
+	for _, ln := range orderLines {
+		_, _, sub := lineAmounts(ln, spec.qtyField)
 		untaxed += sub
 	}
 	if untaxed <= 0 {
 		untaxed = numericFloat(order["amount_total"])
 	}
-	journalID := journalIDByType(bypass, "sale")
-	incomeID := accountIDByType(bypass, "income")
-	defaultTax := defaultTaxID(bypass, "sale")
-	name := nextDocName(bypass, "account.move.out_invoice", "INV")
-	today := time.Now().Format("2006-01-02")
-	moveModel, err := modelOrErr("account.move")
-	if err != nil {
-		return 0, err
+	partnerID, _ := orm.CoerceInt64(order["partner_id"])
+	journalID := journalIDByType(bypass, spec.journalType)
+	fallbackAcct := accountIDByType(bypass, "expense")
+	if spec.incomeSide {
+		fallbackAcct = accountIDByType(bypass, "income")
 	}
-	moveID, err := orm.Create(bypass, moveModel, map[string]interface{}{
-		"name":             name,
-		"move_type":        "out_invoice",
-		"partner_id":       partnerID,
-		"journal_id":       journalID,
-		"date":             today,
-		"invoice_date":     today,
-		"state":            "draft",
-		"invoice_origin":   origin,
-		"amount_untaxed":   untaxed,
-		"amount_tax":       0,
-		"amount_total":     untaxed,
-		"amount_residual":  untaxed,
-		"payment_state":    "not_paid",
-		"narration":        fmt.Sprintf("Invoice for %s", origin),
-	})
-	if err != nil {
-		return 0, err
-	}
-	lineModel, err := modelOrErr("account.move.line")
-	if err != nil {
-		return 0, err
-	}
-	for _, ln := range soLines {
-		qty := numericFloat(ln["product_uom_qty"])
-		if qty <= 0 {
-			qty = 1
-		}
-		price := numericFloat(ln["price_unit"])
-		sub := numericFloat(ln["price_subtotal"])
-		if sub <= 0 {
-			sub = qty * price
-		}
-		productID, _ := orm.CoerceInt64(ln["product_id"])
-		label := orm.AsString(ln["name"])
-		acct := productAccountID(bypass, productID, true, incomeID)
-		vals := map[string]interface{}{
-			"move_id":        moveID,
-			"account_id":     acct,
-			"product_id":     productID,
-			"name":           label,
-			"partner_id":     partnerID,
-			"quantity":       qty,
-			"price_unit":     price,
-			"price_subtotal": sub,
-			"display_type":   "product",
-			"debit":          0,
-			"credit":         0,
-			"balance":        0,
-		}
-		if defaultTax > 0 {
-			vals["tax_id"] = defaultTax
-		}
-		_, _ = orm.Create(bypass, lineModel, vals)
-	}
-	_ = recomputeMoveAmounts(bypass, moveID)
-	_ = orm.UpdateRecordByID(bypass, "sale.order", orderID, map[string]interface{}{
-		"invoice_status": "invoiced",
-	})
-	return moveID, nil
-}
-
-// CreateVendorBillFromPurchase creates a draft in_invoice from a confirmed purchase.order.
-func CreateVendorBillFromPurchase(ctx context.Context, poID int) (int, error) {
-	if poID <= 0 {
-		return 0, fmt.Errorf("invalid purchase order id")
-	}
-	bypass := orm.ContextWithBypass(ctx, true)
-	po, err := orm.SearchOne(bypass, "purchase.order", map[string]interface{}{"id": poID})
-	if err != nil {
-		return 0, err
-	}
-	if orm.AsString(po["state"]) != "purchase" {
-		return 0, fmt.Errorf("purchase order must be confirmed")
-	}
-	origin := orm.AsString(po["name"])
-	if origin != "" {
-		existing, _ := orm.Search(bypass, "account.move", [][]interface{}{
-			{"invoice_origin", "=", origin},
-			{"move_type", "=", "in_invoice"},
-		})
-		if len(existing) > 0 {
-			id, _ := orm.CoerceInt64(existing[0]["id"])
-			return int(id), nil
-		}
-	}
-	partnerID, _ := orm.CoerceInt64(po["partner_id"])
-	poLines, _ := orm.Search(bypass, "purchase.order.line", [][]interface{}{
-		{"order_id", "=", poID},
-	})
-	untaxed := 0.0
-	for _, ln := range poLines {
-		sub := numericFloat(ln["price_subtotal"])
-		if sub <= 0 {
-			sub = numericFloat(ln["product_qty"]) * numericFloat(ln["price_unit"])
-		}
-		untaxed += sub
-	}
-	if untaxed <= 0 {
-		untaxed = numericFloat(po["amount_total"])
-	}
-	journalID := journalIDByType(bypass, "purchase")
-	expenseID := accountIDByType(bypass, "expense")
-	defaultTax := defaultTaxID(bypass, "purchase")
-	name := nextDocName(bypass, "account.move.in_invoice", "BILL")
+	defaultTax := defaultTaxID(bypass, spec.taxUse)
+	name := nextDocName(bypass, spec.seqCode, spec.docPrefix)
 	today := time.Now().Format("2006-01-02")
 	moveModel, err := modelOrErr("account.move")
 	if err != nil {
@@ -187,7 +153,7 @@ func CreateVendorBillFromPurchase(ctx context.Context, poID int) (int, error) {
 	}
 	moveID, err := orm.Create(bypass, moveModel, map[string]interface{}{
 		"name":            name,
-		"move_type":       "in_invoice",
+		"move_type":       spec.moveType,
 		"partner_id":      partnerID,
 		"journal_id":      journalID,
 		"date":            today,
@@ -199,7 +165,7 @@ func CreateVendorBillFromPurchase(ctx context.Context, poID int) (int, error) {
 		"amount_total":    untaxed,
 		"amount_residual": untaxed,
 		"payment_state":   "not_paid",
-		"narration":       fmt.Sprintf("Bill for %s", origin),
+		"narration":       fmt.Sprintf("%s %s", spec.narrationPrefix, origin),
 	})
 	if err != nil {
 		return 0, err
@@ -208,24 +174,15 @@ func CreateVendorBillFromPurchase(ctx context.Context, poID int) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	for _, ln := range poLines {
-		qty := numericFloat(ln["product_qty"])
-		if qty <= 0 {
-			qty = 1
-		}
-		price := numericFloat(ln["price_unit"])
-		sub := numericFloat(ln["price_subtotal"])
-		if sub <= 0 {
-			sub = qty * price
-		}
+	for _, ln := range orderLines {
+		qty, price, sub := lineAmounts(ln, spec.qtyField)
 		productID, _ := orm.CoerceInt64(ln["product_id"])
-		label := orm.AsString(ln["name"])
-		acct := productAccountID(bypass, productID, false, expenseID)
+		acct := productAccountID(bypass, productID, spec.incomeSide, fallbackAcct)
 		vals := map[string]interface{}{
 			"move_id":        moveID,
 			"account_id":     acct,
 			"product_id":     productID,
-			"name":           label,
+			"name":           orm.AsString(ln["name"]),
 			"partner_id":     partnerID,
 			"quantity":       qty,
 			"price_unit":     price,
@@ -238,10 +195,32 @@ func CreateVendorBillFromPurchase(ctx context.Context, poID int) (int, error) {
 		if defaultTax > 0 {
 			vals["tax_id"] = defaultTax
 		}
-		_, _ = orm.Create(bypass, lineModel, vals)
+		if _, err := orm.Create(bypass, lineModel, vals); err != nil {
+			return 0, err
+		}
 	}
-	_ = recomputeMoveAmounts(bypass, moveID)
+	if err := recomputeMoveAmounts(bypass, moveID); err != nil {
+		return 0, err
+	}
+	if spec.afterCreate != nil {
+		if err := spec.afterCreate(bypass, spec.orderID); err != nil {
+			return 0, err
+		}
+	}
 	return moveID, nil
+}
+
+func lineAmounts(ln map[string]interface{}, qtyField string) (qty, price, sub float64) {
+	qty = numericFloat(ln[qtyField])
+	if qty <= 0 {
+		qty = 1
+	}
+	price = numericFloat(ln["price_unit"])
+	sub = numericFloat(ln["price_subtotal"])
+	if sub <= 0 {
+		sub = qty * price
+	}
+	return qty, price, sub
 }
 
 func productAccountID(ctx context.Context, productID int64, income bool, fallback int64) int64 {
@@ -309,8 +288,12 @@ func deleteAccountingLines(ctx context.Context, lines []map[string]interface{}) 
 		if dt != "entry" && dt != "tax" {
 			continue
 		}
-		if lid, ok := orm.CoerceInt64(ln["id"]); ok {
-			_ = orm.Unlink(ctx, "account.move.line", int(lid))
+		lid, ok := orm.CoerceInt64(ln["id"])
+		if !ok {
+			continue
+		}
+		if err := orm.Unlink(ctx, "account.move.line", int(lid)); err != nil {
+			log.Printf("account: unlink line %d: %v", lid, err)
 		}
 	}
 }
@@ -331,14 +314,14 @@ func taxAmountPercent(ctx context.Context, taxID int64) (float64, int64) {
 }
 
 func recomputeMoveAmounts(ctx context.Context, moveID int) error {
-	lines, _ := orm.Search(ctx, "account.move.line", [][]interface{}{{"move_id", "=", moveID}})
+	lines, err := orm.Search(ctx, "account.move.line", [][]interface{}{{"move_id", "=", moveID}})
+	if err != nil {
+		return err
+	}
 	untaxed := 0.0
 	taxTotal := 0.0
 	for _, ln := range productLines(lines) {
-		sub := numericFloat(ln["price_subtotal"])
-		if sub <= 0 {
-			sub = numericFloat(ln["quantity"]) * numericFloat(ln["price_unit"])
-		}
+		_, _, sub := lineAmounts(ln, "quantity")
 		untaxed += sub
 		taxID, _ := orm.CoerceInt64(ln["tax_id"])
 		pct, _ := taxAmountPercent(ctx, taxID)
@@ -376,13 +359,14 @@ func applyPaymentTermDue(ctx context.Context, move map[string]interface{}, moveI
 		t = time.Now()
 	}
 	due := t.AddDate(0, 0, days).Format("2006-01-02")
-	_ = orm.UpdateRecordByID(ctx, "account.move", moveID, map[string]interface{}{
+	if err := orm.UpdateRecordByID(ctx, "account.move", moveID, map[string]interface{}{
 		"invoice_date":     invDate,
 		"invoice_date_due": due,
-	})
+	}); err != nil {
+		log.Printf("account: payment term due date move %d: %v", moveID, err)
+	}
 }
 
-// PostMove writes balanced journal entry lines (AR/AP + income/expense + tax) and marks posted.
 func PostMove(ctx context.Context, moveID int) error {
 	if moveID <= 0 {
 		return fmt.Errorf("invalid move id")
@@ -393,31 +377,33 @@ func PostMove(ctx context.Context, moveID int) error {
 		return err
 	}
 	if orm.AsString(move["state"]) == "cancel" {
-		return fmt.Errorf("cannot post cancelled move")
+		return fmt.Errorf("move cancelled")
 	}
-	allLines, _ := orm.Search(bypass, "account.move.line", [][]interface{}{
+	allLines, err := orm.Search(bypass, "account.move.line", [][]interface{}{
 		{"move_id", "=", moveID},
 	})
+	if err != nil {
+		return err
+	}
 	moveType := orm.AsString(move["move_type"])
-
 	if moveType == "entry" {
 		return postManualEntry(bypass, moveID, move, allLines)
 	}
-
-	_ = recomputeMoveAmounts(bypass, moveID)
-	move, _ = orm.SearchOne(bypass, "account.move", map[string]interface{}{"id": moveID})
+	if err := recomputeMoveAmounts(bypass, moveID); err != nil {
+		return err
+	}
+	move, err = orm.SearchOne(bypass, "account.move", map[string]interface{}{"id": moveID})
+	if err != nil {
+		return err
+	}
 	applyPaymentTermDue(bypass, move, moveID)
 
 	prods := productLines(allLines)
 	untaxed := 0.0
-	taxByAcct := map[int64]float64{}
 	taxByTaxID := map[int64]float64{}
 	incomeExpenseByAcct := map[int64]float64{}
 	for _, ln := range prods {
-		sub := numericFloat(ln["price_subtotal"])
-		if sub <= 0 {
-			sub = numericFloat(ln["quantity"]) * numericFloat(ln["price_unit"])
-		}
+		_, _, sub := lineAmounts(ln, "quantity")
 		untaxed += sub
 		acct, _ := orm.CoerceInt64(ln["account_id"])
 		if acct <= 0 {
@@ -431,14 +417,12 @@ func PostMove(ctx context.Context, moveID int) error {
 		taxID, _ := orm.CoerceInt64(ln["tax_id"])
 		pct, taxAcct := taxAmountPercent(bypass, taxID)
 		if pct != 0 && taxAcct > 0 {
-			amt := sub * pct / 100.0
-			taxByAcct[taxAcct] += amt
-			taxByTaxID[taxID] += amt
+			taxByTaxID[taxID] += sub * pct / 100.0
 		}
 	}
 	taxTotal := 0.0
-	for _, a := range taxByAcct {
-		taxTotal += a
+	for _, amt := range taxByTaxID {
+		taxTotal += amt
 	}
 	total := untaxed + taxTotal
 	if total <= 0 {
@@ -446,88 +430,29 @@ func PostMove(ctx context.Context, moveID int) error {
 		untaxed = total
 	}
 	if total <= 0 {
-		return fmt.Errorf("amount_total must be positive to post")
+		return fmt.Errorf("amount_total zero")
 	}
 
 	partnerID, _ := orm.CoerceInt64(move["partner_id"])
 	label := orm.AsString(move["name"])
 	deleteAccountingLines(bypass, allLines)
 
-	recvFallback := accountIDByType(bypass, "asset_receivable")
-	payFallback := accountIDByType(bypass, "liability_payable")
-	recvID := partnerAccountID(bypass, partnerID, true, recvFallback)
-	payID := partnerAccountID(bypass, partnerID, false, payFallback)
-
-	switch moveType {
-	case "out_invoice":
-		if err := createEntryLine(bypass, moveID, recvID, partnerID, label, total, 0, total); err != nil {
-			return err
-		}
-		for acct, amt := range incomeExpenseByAcct {
-			if err := createEntryLine(bypass, moveID, acct, partnerID, label, 0, amt, 0); err != nil {
-				return err
-			}
-		}
-		for taxID, amt := range taxByTaxID {
-			_, taxAcct := taxAmountPercent(bypass, taxID)
-			if err := createTaxLine(bypass, moveID, taxAcct, partnerID, taxID, label+" Tax", 0, amt); err != nil {
-				return err
-			}
-		}
-	case "out_refund":
-		if err := createEntryLine(bypass, moveID, recvID, partnerID, label, 0, total, -total); err != nil {
-			return err
-		}
-		for acct, amt := range incomeExpenseByAcct {
-			if err := createEntryLine(bypass, moveID, acct, partnerID, label, amt, 0, 0); err != nil {
-				return err
-			}
-		}
-		for taxID, amt := range taxByTaxID {
-			_, taxAcct := taxAmountPercent(bypass, taxID)
-			if err := createTaxLine(bypass, moveID, taxAcct, partnerID, taxID, label+" Tax", amt, 0); err != nil {
-				return err
-			}
-		}
-	case "in_invoice":
-		if err := createEntryLine(bypass, moveID, payID, partnerID, label, 0, total, -total); err != nil {
-			return err
-		}
-		for acct, amt := range incomeExpenseByAcct {
-			if err := createEntryLine(bypass, moveID, acct, partnerID, label, amt, 0, 0); err != nil {
-				return err
-			}
-		}
-		for taxID, amt := range taxByTaxID {
-			_, taxAcct := taxAmountPercent(bypass, taxID)
-			if err := createTaxLine(bypass, moveID, taxAcct, partnerID, taxID, label+" Tax", amt, 0); err != nil {
-				return err
-			}
-		}
-	case "in_refund":
-		if err := createEntryLine(bypass, moveID, payID, partnerID, label, total, 0, total); err != nil {
-			return err
-		}
-		for acct, amt := range incomeExpenseByAcct {
-			if err := createEntryLine(bypass, moveID, acct, partnerID, label, 0, amt, 0); err != nil {
-				return err
-			}
-		}
-		for taxID, amt := range taxByTaxID {
-			_, taxAcct := taxAmountPercent(bypass, taxID)
-			if err := createTaxLine(bypass, moveID, taxAcct, partnerID, taxID, label+" Tax", 0, amt); err != nil {
-				return err
-			}
-		}
-	default:
-		return fmt.Errorf("posting move_type %q not supported", moveType)
+	recvID := partnerAccountID(bypass, partnerID, true, accountIDByType(bypass, "asset_receivable"))
+	payID := partnerAccountID(bypass, partnerID, false, accountIDByType(bypass, "liability_payable"))
+	if err := postInvoiceMove(bypass, moveID, moveType, recvID, payID, partnerID, label, total, incomeExpenseByAcct, taxByTaxID); err != nil {
+		return err
 	}
 
-	postedLines, _ := orm.Search(bypass, "account.move.line", [][]interface{}{{"move_id", "=", moveID}})
+	postedLines, err := orm.Search(bypass, "account.move.line", [][]interface{}{{"move_id", "=", moveID}})
+	if err != nil {
+		return err
+	}
 	if err := assertBalanced(postedLines); err != nil {
 		return err
 	}
-	_ = upsertInvoiceReport(bypass, moveID)
+	if err := upsertInvoiceReport(bypass, moveID); err != nil {
+		log.Printf("account: invoice report move %d: %v", moveID, err)
+	}
 	return orm.UpdateRecordByID(bypass, "account.move", moveID, map[string]interface{}{
 		"state":           "posted",
 		"amount_untaxed":  round2(untaxed),
@@ -538,9 +463,53 @@ func PostMove(ctx context.Context, moveID int) error {
 	})
 }
 
+func postInvoiceMove(ctx context.Context, moveID int, moveType string, recvID, payID, partnerID int64, label string, total float64, byAcct map[int64]float64, taxByTaxID map[int64]float64) error {
+	cfg, ok := postingByMoveType[moveType]
+	if !ok {
+		return fmt.Errorf("unsupported move_type %q", moveType)
+	}
+	partnerAcct := recvID
+	if cfg.partnerPayable {
+		partnerAcct = payID
+	}
+	var pDebit, pCredit, pRes float64
+	if cfg.partnerDR {
+		pDebit, pCredit, pRes = total, 0, total
+	} else {
+		pDebit, pCredit, pRes = 0, total, -total
+	}
+	if err := createEntryLine(ctx, moveID, partnerAcct, partnerID, label, pDebit, pCredit, pRes); err != nil {
+		return err
+	}
+	for acct, amt := range byAcct {
+		var debit, credit float64
+		if cfg.productDR {
+			debit, credit = amt, 0
+		} else {
+			debit, credit = 0, amt
+		}
+		if err := createEntryLine(ctx, moveID, acct, partnerID, label, debit, credit, 0); err != nil {
+			return err
+		}
+	}
+	for taxID, amt := range taxByTaxID {
+		_, taxAcct := taxAmountPercent(ctx, taxID)
+		var debit, credit float64
+		if cfg.taxDR {
+			debit, credit = amt, 0
+		} else {
+			debit, credit = 0, amt
+		}
+		if err := createTaxLine(ctx, moveID, taxAcct, partnerID, taxID, label+" Tax", debit, credit); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func postManualEntry(ctx context.Context, moveID int, move map[string]interface{}, lines []map[string]interface{}) error {
 	if len(lines) == 0 {
-		return fmt.Errorf("manual entry requires journal items")
+		return fmt.Errorf("missing journal items")
 	}
 	if err := assertBalanced(lines); err != nil {
 		return err
@@ -575,7 +544,7 @@ func assertBalanced(lines []map[string]interface{}) error {
 
 func createEntryLine(ctx context.Context, moveID int, accountID, partnerID int64, name string, debit, credit, residual float64) error {
 	if accountID <= 0 {
-		return fmt.Errorf("missing chart account for posting")
+		return fmt.Errorf("missing account")
 	}
 	lineModel, err := modelOrErr("account.move.line")
 	if err != nil {
@@ -598,7 +567,7 @@ func createEntryLine(ctx context.Context, moveID int, accountID, partnerID int64
 
 func createTaxLine(ctx context.Context, moveID int, accountID, partnerID, taxID int64, name string, debit, credit float64) error {
 	if accountID <= 0 {
-		return fmt.Errorf("missing tax account for posting")
+		return fmt.Errorf("missing tax account")
 	}
 	lineModel, err := modelOrErr("account.move.line")
 	if err != nil {
@@ -648,27 +617,21 @@ func numericFloat(v interface{}) float64 {
 		return t
 	case float32:
 		return float64(t)
-	case int64:
-		return float64(t)
 	case int:
+		return float64(t)
+	case int64:
 		return float64(t)
 	case int32:
 		return float64(t)
-	case string:
-		var f float64
-		_, _ = fmt.Sscanf(t, "%f", &f)
-		return f
-	case []byte:
-		var f float64
-		_, _ = fmt.Sscanf(string(t), "%f", &f)
-		return f
 	default:
-		s := strings.TrimSpace(fmt.Sprint(v))
-		if s == "" || s == "<nil>" {
+		s := strings.TrimSpace(orm.AsString(v))
+		if s == "" {
 			return 0
 		}
-		var f float64
-		_, _ = fmt.Sscanf(s, "%f", &f)
+		f, err := strconv.ParseFloat(s, 64)
+		if err != nil {
+			return 0
+		}
 		return f
 	}
 }

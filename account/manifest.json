@@ -3,7 +3,7 @@
   "display_name": "Invoicing",
   "version": "2.0.0",
   "summary": "Invoices, bills, taxes, payments, and double-entry accounting",
-  "description": "Odoo-shaped invoicing: chart of accounts, journals, taxes, payment terms, payment register and credit-note wizards, invoice print and analysis.",
+  "description": "Invoices, bills, taxes, payments, and COA.",
   "author": "Sumeru",
   "depends": ["product", "contacts"],
   "data": [

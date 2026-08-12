@@ -62,7 +62,7 @@ func actionRegisterPayment(ctx context.Context, model string, id int, vals map[s
 		return "", err
 	}
 	if orm.AsString(move["state"]) != "posted" {
-		return "", fmt.Errorf("invoice must be posted to register payment")
+		return "", fmt.Errorf("invoice not posted")
 	}
 	mt := orm.AsString(move["move_type"])
 	paymentType := "inbound"
@@ -108,7 +108,7 @@ func actionReverseWizard(ctx context.Context, model string, id int, vals map[str
 		return "", err
 	}
 	if orm.AsString(move["state"]) != "posted" {
-		return "", fmt.Errorf("only posted moves can be reversed")
+		return "", fmt.Errorf("move not posted")
 	}
 	wizModel, err := modelOrErr("account.move.reversal")
 	if err != nil {
@@ -146,7 +146,9 @@ func actionCreatePayments(ctx context.Context, model string, id int, vals map[st
 		upd["payment_type"] = v
 	}
 	if len(upd) > 0 {
-		_ = orm.UpdateRecordByID(bypass, "account.payment.register", id, upd)
+		if err := orm.UpdateRecordByID(bypass, "account.payment.register", id, upd); err != nil {
+			return "", err
+		}
 	}
 	wiz, err := orm.SearchOne(bypass, "account.payment.register", map[string]interface{}{"id": id})
 	if err != nil {
@@ -155,7 +157,7 @@ func actionCreatePayments(ctx context.Context, model string, id int, vals map[st
 	invoiceID, _ := orm.CoerceInt64(wiz["invoice_id"])
 	amount := numericFloat(wiz["amount"])
 	if invoiceID <= 0 || amount <= 0 {
-		return "", fmt.Errorf("invoice and amount are required")
+		return "", fmt.Errorf("missing fields")
 	}
 	partnerID, _ := orm.CoerceInt64(wiz["partner_id"])
 	journalID, _ := orm.CoerceInt64(wiz["journal_id"])
@@ -206,7 +208,7 @@ func actionReverseMoves(ctx context.Context, model string, id int, vals map[stri
 	}
 	moveID, _ := orm.CoerceInt64(wiz["move_id"])
 	if moveID <= 0 {
-		return "", fmt.Errorf("move is required")
+		return "", fmt.Errorf("missing move")
 	}
 	src, err := orm.SearchOne(bypass, "account.move", map[string]interface{}{"id": moveID})
 	if err != nil {
@@ -221,7 +223,7 @@ func actionReverseMoves(ctx context.Context, model string, id int, vals map[stri
 		"entry":       "entry",
 	}[srcType]
 	if revType == "" {
-		return "", fmt.Errorf("cannot reverse move type %s", srcType)
+		return "", fmt.Errorf("unsupported move_type %s", srcType)
 	}
 	date := orm.AsString(wiz["date"])
 	if date == "" {
@@ -278,7 +280,7 @@ func actionReverseMoves(ctx context.Context, model string, id int, vals map[stri
 		return "", err
 	}
 	for _, ln := range srcLines {
-		_, _ = orm.Create(bypass, lineModel, map[string]interface{}{
+		if _, err := orm.Create(bypass, lineModel, map[string]interface{}{
 			"move_id":        newID,
 			"account_id":     ln["account_id"],
 			"product_id":     ln["product_id"],
@@ -289,7 +291,9 @@ func actionReverseMoves(ctx context.Context, model string, id int, vals map[stri
 			"price_unit":     ln["price_unit"],
 			"price_subtotal": ln["price_subtotal"],
 			"display_type":   "product",
-		})
+		}); err != nil {
+			return "", err
+		}
 	}
 	if err := PostMove(ctx, newID); err != nil {
 		return "", err

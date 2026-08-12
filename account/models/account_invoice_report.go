@@ -2,7 +2,6 @@ package models
 
 import "sumeru/core/sdk"
 
-// AccountInvoiceReport is a stored analysis row (demo/reporting sample).
 type AccountInvoiceReport struct {
 	sdk.BaseModel
 }

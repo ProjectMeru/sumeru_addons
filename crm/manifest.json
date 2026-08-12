@@ -3,7 +3,7 @@
     "display_name": "CRM",
     "version": "1.0.0",
     "summary": "Manage your leads and opportunities",
-    "description": "Ported CRM module from erp_0 to Sumeru ERP framework.",
+    "description": "Leads, pipelines, teams, and opportunities.",
     "author": "Sumeru",
     "depends": [
         "base",
