@@ -10,11 +10,10 @@ import (
 )
 
 func init() {
-	log.Println("Sale CRM Bridge Loaded")
+	log.Println("Sale CRM Addon Loaded")
 	event.Subscribe("record.updated", onLeadWonCreateQuotation)
 }
 
-// CreateQuotationFromLead creates a draft sale.order linked to the opportunity.
 func CreateQuotationFromLead(ctx context.Context, leadID int) (int, error) {
 	if leadID <= 0 {
 		return 0, fmt.Errorf("invalid lead id")
@@ -38,11 +37,11 @@ func CreateQuotationFromLead(ctx context.Context, leadID int) (int, error) {
 		name = fmt.Sprintf("Opportunity %d", leadID)
 	}
 	if partnerID <= 0 {
-		return 0, fmt.Errorf("opportunity %d has no customer", leadID)
+		return 0, fmt.Errorf("no customer")
 	}
 	orderModel, ok := orm.Registry["sale.order"]
 	if !ok {
-		return 0, fmt.Errorf("sale.order not registered")
+		return 0, fmt.Errorf("sale.order missing")
 	}
 	vals := map[string]interface{}{
 		"name":           fmt.Sprintf("Q-CRM-%d", leadID),

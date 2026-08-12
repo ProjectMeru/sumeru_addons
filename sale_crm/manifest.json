@@ -3,7 +3,7 @@
   "display_name": "Sales CRM Bridge",
   "version": "1.0.0",
   "summary": "Create quotations from CRM opportunities",
-  "description": "Bridges CRM opportunities to Sales quotations. Winning an opportunity creates a draft quotation when a customer is set.",
+  "description": "Won opportunity creates a draft quotation.",
   "author": "Sumeru",
   "depends": ["sale", "crm"],
   "data": [],

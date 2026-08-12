@@ -2,7 +2,6 @@ package models
 
 import "sumeru/core/sdk"
 
-// ProductProduct is the sellable/purchasable product (v1: no separate template).
 type ProductProduct struct {
 	sdk.BaseModel
 }
