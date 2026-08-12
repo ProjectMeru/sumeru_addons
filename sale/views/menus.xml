@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <menuitem id="sale_menu_root" name="Sales" web_icon="shopping-cart" sequence="25" groups="sale.group_sale_user"/>
+        <menuitem id="sale_menu_root" name="Sales" web_icon="shopping-cart" sequence="35" groups="sale.group_sale_user"/>
         <menuitem id="sale_menu_orders" name="Orders" parent="sale_menu_root" sequence="10" groups="sale.group_sale_user"/>
         <menuitem id="menu_sale_quotations" name="Quotations" parent="sale_menu_orders" action="sale.action_sale_quotations" sequence="1" web_icon="file-text" groups="sale.group_sale_user"/>
         <menuitem id="menu_sale_orders" name="Sales Orders" parent="sale_menu_orders" action="sale.action_sale_orders" sequence="2" web_icon="shopping-cart" groups="sale.group_sale_user"/>

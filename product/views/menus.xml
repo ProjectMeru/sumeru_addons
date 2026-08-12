@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <menuitem id="menu_product_root" name="Products" web_icon="package" sequence="35" groups="product.group_product_user"/>
+        <menuitem id="menu_product_root" name="Products" web_icon="package" sequence="25" groups="product.group_product_user"/>
         <menuitem id="menu_product_catalog" name="Catalog" parent="menu_product_root" sequence="10" groups="product.group_product_user"/>
         <menuitem id="menu_product_products" name="All Products" parent="menu_product_catalog" action="product.action_product_product" sequence="1" web_icon="package" groups="product.group_product_user"/>
         <menuitem id="menu_product_config" name="Configuration" parent="menu_product_root" sequence="90" web_icon="settings" groups="product.group_product_user"/>

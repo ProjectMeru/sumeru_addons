@@ -10,37 +10,35 @@
             <field name="state" string="Status"/>
         </view>
         <view id="view_purchase_order_form" model="purchase.order" type="form">
-            <form>
-                <header>
-                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
-                </header>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="e.g. PO001"/>
-                        </h1>
-                    </div>
-                    <group>
-                        <group string="Vendor">
-                            <field name="partner_id" string="Vendor"/>
-                            <field name="date_order" string="Order Deadline"/>
-                        </group>
-                        <group string="Purchase">
-                            <field name="user_id" string="Buyer"/>
-                            <field name="company_id" string="Company"/>
-                            <field name="amount_total" string="Total"/>
-                        </group>
+            <header>
+                <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="e.g. PO001"/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Vendor">
+                        <field name="partner_id" string="Vendor"/>
+                        <field name="date_order" string="Order Deadline"/>
                     </group>
-                    <notebook>
-                        <page string="Products">
-                            <field name="order_line" string="Order Lines"/>
-                        </page>
-                        <page string="Other Info">
-                            <field name="notes" string="Terms and Conditions"/>
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
+                    <group string="Purchase">
+                        <field name="user_id" string="Buyer"/>
+                        <field name="company_id" string="Company"/>
+                        <field name="amount_total" string="Total"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Products">
+                        <field name="order_line" string="Order Lines"/>
+                    </page>
+                    <page string="Other Info">
+                        <field name="notes" string="Terms and Conditions"/>
+                    </page>
+                </notebook>
+            </sheet>
         </view>
 
         <view id="view_purchase_order_line_tree" model="purchase.order.line" type="tree">
@@ -52,23 +50,21 @@
             <field name="price_subtotal" string="Subtotal"/>
         </view>
         <view id="view_purchase_order_line_form" model="purchase.order.line" type="form">
-            <form>
-                <sheet>
-                    <group>
-                        <group string="Line">
-                            <field name="order_id" string="Order"/>
-                            <field name="product_id" string="Product"/>
-                            <field name="name" string="Description"/>
-                        </group>
-                        <group string="Prices">
-                            <field name="product_qty" string="Quantity"/>
-                            <field name="price_unit" string="Unit Price"/>
-                            <field name="price_subtotal" string="Subtotal"/>
-                            <field name="sequence" string="Sequence"/>
-                        </group>
+            <sheet>
+                <group>
+                    <group string="Line">
+                        <field name="order_id" string="Order"/>
+                        <field name="product_id" string="Product"/>
+                        <field name="name" string="Description"/>
                     </group>
-                </sheet>
-            </form>
+                    <group string="Prices">
+                        <field name="product_qty" string="Quantity"/>
+                        <field name="price_unit" string="Unit Price"/>
+                        <field name="price_subtotal" string="Subtotal"/>
+                        <field name="sequence" string="Sequence"/>
+                    </group>
+                </group>
+            </sheet>
         </view>
 
         <action id="action_purchase_rfq" type="window" model="purchase.order" name="Requests for Quotation" view_mode="tree,form">

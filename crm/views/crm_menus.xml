@@ -7,14 +7,12 @@
             <field name="active" widget="boolean_toggle"/>
         </view>
         <view id="view_crm_lost_reason_form" model="crm.lost.reason" type="form">
-            <form>
-                <sheet>
-                    <group>
-                        <field name="name"/>
-                        <field name="active"/>
-                    </group>
-                </sheet>
-            </form>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="active"/>
+                </group>
+            </sheet>
         </view>
 
         <!-- Recurring Plan Views -->
@@ -25,24 +23,22 @@
             <field name="active" widget="boolean_toggle"/>
         </view>
         <view id="view_crm_recurring_plan_form" model="crm.recurring.plan" type="form">
-            <form>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="Recurring Plan Name..."/>
-                        </h1>
-                    </div>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Recurring Plan Name..."/>
+                    </h1>
+                </div>
+                <group>
                     <group>
-                        <group>
-                            <field name="number_of_months"/>
-                            <field name="sequence"/>
-                        </group>
-                        <group>
-                            <field name="active"/>
-                        </group>
+                        <field name="number_of_months"/>
+                        <field name="sequence"/>
                     </group>
-                </sheet>
-            </form>
+                    <group>
+                        <field name="active"/>
+                    </group>
+                </group>
+            </sheet>
         </view>
 
         <!-- Top Menu Item -->

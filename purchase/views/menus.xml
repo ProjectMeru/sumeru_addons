@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <menuitem id="purchase_menu_root" name="Purchase" web_icon="shopping-bag" sequence="40" groups="purchase.group_purchase_user"/>
+        <menuitem id="purchase_menu_root" name="Purchase" web_icon="shopping-bag" sequence="45" groups="purchase.group_purchase_user"/>
         <menuitem id="purchase_menu_orders" name="Orders" parent="purchase_menu_root" sequence="10" groups="purchase.group_purchase_user"/>
         <menuitem id="menu_purchase_rfq" name="Requests for Quotation" parent="purchase_menu_orders" action="purchase.action_purchase_rfq" sequence="1" web_icon="file-text" groups="purchase.group_purchase_user"/>
         <menuitem id="menu_purchase_orders" name="Purchase Orders" parent="purchase_menu_orders" action="purchase.action_purchase_orders" sequence="2" web_icon="shopping-bag" groups="purchase.group_purchase_user"/>

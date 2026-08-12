@@ -8,21 +8,19 @@
         </view>
 
         <view id="view_crm_stage_form" model="crm.stage" type="form">
-            <form>
-                <sheet>
+            <sheet>
+                <group>
                     <group>
-                        <group>
-                            <field name="name"/>
-                            <field name="sequence"/>
-                        </group>
-                        <group>
-                            <field name="is_won"/>
-                        </group>
+                        <field name="name"/>
+                        <field name="sequence"/>
                     </group>
-                    <separator string="Requirements"/>
-                    <field name="requirements" placeholder="Give your team some guidelines to help them move opportunities to this stage."/>
-                </sheet>
-            </form>
+                    <group>
+                        <field name="is_won"/>
+                    </group>
+                </group>
+                <separator string="Requirements"/>
+                <field name="requirements" placeholder="Give your team some guidelines to help them move opportunities to this stage."/>
+            </sheet>
         </view>
     </data>
 </sumeru>

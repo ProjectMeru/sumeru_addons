@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <menuitem id="account_menu_root" name="Invoicing" web_icon="file-text" sequence="45" groups="account.group_account_invoice"/>
+        <menuitem id="account_menu_root" name="Invoicing" web_icon="file-text" sequence="40" groups="account.group_account_invoice"/>
         <menuitem id="account_menu_customers" name="Customers" parent="account_menu_root" sequence="10" groups="account.group_account_invoice"/>
         <menuitem id="menu_account_invoices" name="Invoices" parent="account_menu_customers" action="account.action_account_moves_out" sequence="1" web_icon="file-text" groups="account.group_account_invoice"/>
         <menuitem id="account_menu_vendors" name="Vendors" parent="account_menu_root" sequence="20" groups="account.group_account_invoice"/>

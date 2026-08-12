@@ -11,40 +11,38 @@
             <field name="state" string="Status"/>
         </view>
         <view id="view_account_move_form" model="account.move" type="form">
-            <form>
-                <header>
-                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
-                </header>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="INV/001"/>
-                        </h1>
-                    </div>
-                    <group>
-                        <group string="Invoice">
-                            <field name="move_type" string="Type"/>
-                            <field name="partner_id" string="Partner"/>
-                            <field name="journal_id" string="Journal"/>
-                            <field name="date" string="Date"/>
-                        </group>
-                        <group string="Amounts">
-                            <field name="invoice_origin" string="Source Document"/>
-                            <field name="ref" string="Reference"/>
-                            <field name="amount_total" string="Total"/>
-                            <field name="payment_state" string="Payment Status"/>
-                        </group>
+            <header>
+                <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="INV/001"/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Invoice">
+                        <field name="move_type" string="Type"/>
+                        <field name="partner_id" string="Partner"/>
+                        <field name="journal_id" string="Journal"/>
+                        <field name="date" string="Date"/>
                     </group>
-                    <notebook>
-                        <page string="Journal Items">
-                            <field name="line_ids" string="Journal Items"/>
-                        </page>
-                        <page string="Notes">
-                            <field name="narration" string="Notes"/>
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
+                    <group string="Amounts">
+                        <field name="invoice_origin" string="Source Document"/>
+                        <field name="ref" string="Reference"/>
+                        <field name="amount_total" string="Total"/>
+                        <field name="payment_state" string="Payment Status"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Journal Items">
+                        <field name="line_ids" string="Journal Items"/>
+                    </page>
+                    <page string="Notes">
+                        <field name="narration" string="Notes"/>
+                    </page>
+                </notebook>
+            </sheet>
         </view>
 
         <view id="view_account_move_line_tree" model="account.move.line" type="tree">
@@ -56,23 +54,21 @@
             <field name="credit" string="Credit"/>
         </view>
         <view id="view_account_move_line_form" model="account.move.line" type="form">
-            <form>
-                <sheet>
-                    <group>
-                        <group string="Item">
-                            <field name="move_id" string="Journal Entry"/>
-                            <field name="account_id" string="Account"/>
-                            <field name="name" string="Label"/>
-                            <field name="partner_id" string="Partner"/>
-                        </group>
-                        <group string="Amounts">
-                            <field name="debit" string="Debit"/>
-                            <field name="credit" string="Credit"/>
-                            <field name="balance" string="Balance"/>
-                        </group>
+            <sheet>
+                <group>
+                    <group string="Item">
+                        <field name="move_id" string="Journal Entry"/>
+                        <field name="account_id" string="Account"/>
+                        <field name="name" string="Label"/>
+                        <field name="partner_id" string="Partner"/>
                     </group>
-                </sheet>
-            </form>
+                    <group string="Amounts">
+                        <field name="debit" string="Debit"/>
+                        <field name="credit" string="Credit"/>
+                        <field name="balance" string="Balance"/>
+                    </group>
+                </group>
+            </sheet>
         </view>
 
         <view id="view_account_account_tree" model="account.account" type="tree">
@@ -83,21 +79,19 @@
             <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_account_account_form" model="account.account" type="form">
-            <form>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="Account Name..."/>
-                        </h1>
-                    </div>
-                    <group>
-                        <field name="code" string="Code"/>
-                        <field name="account_type" string="Type"/>
-                        <field name="reconcile" string="Allow Reconciliation"/>
-                        <field name="active" string="Active"/>
-                    </group>
-                </sheet>
-            </form>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Account Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="code" string="Code"/>
+                    <field name="account_type" string="Type"/>
+                    <field name="reconcile" string="Allow Reconciliation"/>
+                    <field name="active" string="Active"/>
+                </group>
+            </sheet>
         </view>
 
         <view id="view_account_journal_tree" model="account.journal" type="tree">
@@ -108,21 +102,19 @@
             <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_account_journal_form" model="account.journal" type="form">
-            <form>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="Journal Name..."/>
-                        </h1>
-                    </div>
-                    <group>
-                        <field name="code" string="Short Code"/>
-                        <field name="type" string="Type"/>
-                        <field name="default_account_id" string="Default Account"/>
-                        <field name="active" string="Active"/>
-                    </group>
-                </sheet>
-            </form>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Journal Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="code" string="Short Code"/>
+                    <field name="type" string="Type"/>
+                    <field name="default_account_id" string="Default Account"/>
+                    <field name="active" string="Active"/>
+                </group>
+            </sheet>
         </view>
 
         <action id="action_account_moves_out" type="window" model="account.move" name="Customer Invoices" view_mode="tree,form">
