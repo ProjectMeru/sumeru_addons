@@ -2,6 +2,18 @@
 
 [![Go](https://img.shields.io/badge/Go-1.26.2+-00ADD8?logo=go&logoColor=white)](https://go.dev/dl/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Pre-Alpha](https://img.shields.io/badge/Status-Pre--Alpha-critical?style=for-the-badge)](https://github.com/ProjectMeru/sumeru)
+
+> [!CAUTION]
+> ### 🚧 Pre-Alpha Software
+>
+> Sumeru and its standard addons are **pre-alpha software**. They are under active development and are **not ready for production or commercial use**.
+>
+> - **No production use.** Do not deploy to production or run live business workloads. Stability, security, and data integrity are not guaranteed.
+> - **Not for sale.** Do not offer, resell, license, or deploy Sumeru to customers. This is not a commercial product.
+> - **Evaluation only.** Use for local development, testing, and feedback at your own risk.
+>
+> APIs, data models, and behavior may change without notice. There is no migration guarantee and no production support.
 
 Standard **business addons** for [Sumeru](https://github.com/ProjectMeru/sumeru) (Go module: `module sumeru_addons`).
 
@@ -13,7 +25,7 @@ This repository is **Tier 2** of the Sumeru stack: shared CRM, Sales, Accounting
 
 - Pull updates and install the modules you need.
 - Put overrides, branding, and client-specific modules under **[`sumeru_custom_addons/addons/`](../sumeru_custom_addons/)**.
-- Do **not** edit files here to customize a deployment — that creates merge conflicts and blocks clean upstream pulls.
+- Do **not** edit files here to customize a deployment. That creates merge conflicts and blocks clean upstream pulls.
 
 Shared improvements that belong in the standard suite should land via a pull request to this repo, not by forking and diverging locally.
 
@@ -25,9 +37,9 @@ Sumeru is split into three sibling repositories so you can pull the engine and s
 
 ```text
 parent/
-  sumeru/                 # Tier 1 — engine + kernel addons (pull-only)
-  sumeru_addons/          # Tier 2 — this repo (pull-only for businesses)
-  sumeru_custom_addons/   # Tier 3 — run the server + custom addons
+  sumeru/                 # Tier 1: engine + kernel addons (pull-only)
+  sumeru_addons/          # Tier 2: this repo (pull-only for businesses)
+  sumeru_custom_addons/   # Tier 3: run the server + custom addons
 ```
 
 ```text
@@ -194,7 +206,7 @@ Please follow the **[Code of Conduct](CODE_OF_CONDUCT.md)**.
 
 ## Security
 
-Report vulnerabilities privately — see **[SECURITY.md](SECURITY.md)**. Do not open public issues for undisclosed security problems.
+Report vulnerabilities privately. See **[SECURITY.md](SECURITY.md)**. Do not open public issues for undisclosed security problems.
 
 ## License
 
