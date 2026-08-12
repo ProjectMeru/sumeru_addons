@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"fmt"
+	"bytes"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -15,11 +15,47 @@ func init() {
 	router.Register(http.MethodGet, "/account/invoice/print", router.AuthSession, InvoicePrintHandler)
 }
 
-// InvoicePrintHandler GET /account/invoice/print?id=… — HTML invoice for printing.
+var invoicePrintTmpl = template.Must(template.New("invoice").Parse(`<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>{{.Name}}</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:2rem;color:#111}
+h1{font-size:1.5rem;margin:0 0 .25rem}
+.meta{color:#555;margin-bottom:1.5rem}
+table{width:100%;border-collapse:collapse;margin-top:1rem}
+th,td{border-bottom:1px solid #ddd;padding:.5rem;text-align:left}
+th{font-size:.75rem;text-transform:uppercase;color:#666}
+.num{text-align:right}
+.totals{margin-top:1.5rem;max-width:16rem;margin-left:auto}
+.totals div{display:flex;justify-content:space-between;padding:.25rem 0}
+.totals .grand{font-weight:700;border-top:1px solid #333;margin-top:.5rem;padding-top:.5rem}
+@media print{button{display:none}}
+</style></head><body>
+<button onclick="window.print()">Print</button>
+<h1>{{.Name}}</h1>
+<div class="meta">{{.MoveType}} · {{.Partner}} · {{.InvoiceDate}}</div>
+<table><thead><tr><th>Description</th><th class="num">Qty</th><th class="num">Unit</th><th class="num">Subtotal</th></tr></thead><tbody>
+{{range .Lines}}<tr><td>{{.Desc}}</td><td class="num">{{.Qty}}</td><td class="num">{{.Unit}}</td><td class="num">{{.Subtotal}}</td></tr>
+{{end}}</tbody></table>
+<div class="totals">
+<div><span>Untaxed</span><span>{{.Untaxed}}</span></div>
+<div><span>Tax</span><span>{{.Tax}}</span></div>
+<div class="grand"><span>Total</span><span>{{.Total}}</span></div>
+<div><span>Amount Due</span><span>{{.Due}}</span></div>
+</div></body></html>`))
+
+type invoicePrintLine struct {
+	Desc, Qty, Unit, Subtotal string
+}
+
+type invoicePrintData struct {
+	Name, MoveType, Partner, InvoiceDate string
+	Untaxed, Tax, Total, Due             string
+	Lines                                []invoicePrintLine
+}
+
 func InvoicePrintHandler(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(strings.TrimSpace(r.URL.Query().Get("id")))
 	if id <= 0 {
-		// Also accept /account/invoice/<id>/print via path suffix if routed that way.
 		path := strings.TrimPrefix(r.URL.Path, "/account/invoice/")
 		path = strings.TrimSuffix(path, "/print")
 		id, _ = strconv.Atoi(strings.TrimSpace(path))
@@ -44,45 +80,38 @@ func InvoicePrintHandler(w http.ResponseWriter, r *http.Request) {
 		{"move_id", "=", id},
 		{"display_type", "=", "product"},
 	})
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	var b strings.Builder
-	b.WriteString(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>`)
-	b.WriteString(template.HTMLEscapeString(orm.AsString(move["name"])))
-	b.WriteString(`</title><style>
-body{font-family:system-ui,sans-serif;margin:2rem;color:#111}
-h1{font-size:1.5rem;margin:0 0 .25rem}
-.meta{color:#555;margin-bottom:1.5rem}
-table{width:100%;border-collapse:collapse;margin-top:1rem}
-th,td{border-bottom:1px solid #ddd;padding:.5rem;text-align:left}
-th{font-size:.75rem;text-transform:uppercase;color:#666}
-.num{text-align:right}
-.totals{margin-top:1.5rem;max-width:16rem;margin-left:auto}
-.totals div{display:flex;justify-content:space-between;padding:.25rem 0}
-.totals .grand{font-weight:700;border-top:1px solid #333;margin-top:.5rem;padding-top:.5rem}
-@media print{button{display:none}}
-</style></head><body>`)
-	b.WriteString(`<button onclick="window.print()">Print</button>`)
-	b.WriteString(`<h1>` + template.HTMLEscapeString(orm.AsString(move["name"])) + `</h1>`)
-	b.WriteString(`<div class="meta">`)
-	b.WriteString(template.HTMLEscapeString(orm.AsString(move["move_type"])))
-	b.WriteString(` · `)
-	b.WriteString(template.HTMLEscapeString(partnerName))
-	b.WriteString(` · `)
-	b.WriteString(template.HTMLEscapeString(orm.AsString(move["invoice_date"])))
-	b.WriteString(`</div>`)
-	b.WriteString(`<table><thead><tr><th>Description</th><th class="num">Qty</th><th class="num">Unit</th><th class="num">Subtotal</th></tr></thead><tbody>`)
+	printLines := make([]invoicePrintLine, 0, len(lines))
 	for _, ln := range lines {
-		b.WriteString(`<tr><td>` + template.HTMLEscapeString(orm.AsString(ln["name"])) + `</td>`)
-		b.WriteString(fmt.Sprintf(`<td class="num">%v</td>`, ln["quantity"]))
-		b.WriteString(fmt.Sprintf(`<td class="num">%v</td>`, ln["price_unit"]))
-		b.WriteString(fmt.Sprintf(`<td class="num">%v</td></tr>`, ln["price_subtotal"]))
+		printLines = append(printLines, invoicePrintLine{
+			Desc:     orm.AsString(ln["name"]),
+			Qty:      fmtAny(ln["quantity"]),
+			Unit:     fmtAny(ln["price_unit"]),
+			Subtotal: fmtAny(ln["price_subtotal"]),
+		})
 	}
-	b.WriteString(`</tbody></table><div class="totals">`)
-	b.WriteString(fmt.Sprintf(`<div><span>Untaxed</span><span>%v</span></div>`, move["amount_untaxed"]))
-	b.WriteString(fmt.Sprintf(`<div><span>Tax</span><span>%v</span></div>`, move["amount_tax"]))
-	b.WriteString(fmt.Sprintf(`<div class="grand"><span>Total</span><span>%v</span></div>`, move["amount_total"]))
-	b.WriteString(fmt.Sprintf(`<div><span>Amount Due</span><span>%v</span></div>`, move["amount_residual"]))
-	b.WriteString(`</div></body></html>`)
-	_, _ = w.Write([]byte(b.String()))
+	data := invoicePrintData{
+		Name:        orm.AsString(move["name"]),
+		MoveType:    orm.AsString(move["move_type"]),
+		Partner:     partnerName,
+		InvoiceDate: orm.AsString(move["invoice_date"]),
+		Untaxed:     fmtAny(move["amount_untaxed"]),
+		Tax:         fmtAny(move["amount_tax"]),
+		Total:       fmtAny(move["amount_total"]),
+		Due:         fmtAny(move["amount_residual"]),
+		Lines:       printLines,
+	}
+	var buf bytes.Buffer
+	if err := invoicePrintTmpl.Execute(&buf, data); err != nil {
+		http.Error(w, "template error", http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	_, _ = w.Write(buf.Bytes())
+}
+
+func fmtAny(v interface{}) string {
+	if v == nil {
+		return ""
+	}
+	return strings.TrimSpace(orm.AsString(v))
 }

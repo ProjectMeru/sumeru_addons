@@ -2,7 +2,6 @@ package wizard
 
 import "sumeru/core/sdk"
 
-// AccountMoveReversal creates a credit note / reverse move from an invoice.
 type AccountMoveReversal struct {
 	sdk.BaseModel
 }

@@ -2,7 +2,6 @@ package models
 
 import "sumeru/core/sdk"
 
-// AccountPayment records inbound/outbound payments against invoices or bills.
 type AccountPayment struct {
 	sdk.BaseModel
 }
