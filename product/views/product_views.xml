@@ -10,6 +10,12 @@
             <field name="standard_price" string="Cost"/>
             <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
+        <view id="view_product_product_kanban" model="product.product" type="kanban">
+            <field name="image"/>
+            <field name="name"/>
+            <field name="default_code"/>
+            <field name="list_price"/>
+        </view>
         <view id="view_product_product_form" model="product.product" type="form">
             <sheet>
                 <div class="sum_title">
@@ -34,6 +40,12 @@
                 <notebook>
                     <page string="Description">
                         <field name="description" string="Description"/>
+                    </page>
+                    <page string="Accounting">
+                        <group>
+                            <field name="property_account_income_id" string="Income Account"/>
+                            <field name="property_account_expense_id" string="Expense Account"/>
+                        </group>
                     </page>
                 </notebook>
             </sheet>
@@ -60,7 +72,7 @@
             </sheet>
         </view>
 
-        <action id="action_product_product" type="window" model="product.product" name="Products" view_mode="tree,form">
+        <action id="action_product_product" type="window" model="product.product" name="Products" view_mode="kanban,tree,form">
             <help>Create products that can be sold or purchased.</help>
         </action>
         <action id="action_product_category" type="window" model="product.category" name="Product Categories" view_mode="tree,form"/>

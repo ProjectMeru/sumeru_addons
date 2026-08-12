@@ -39,26 +39,24 @@
             </sheet>
         </view>
         <view id="view_hr_employee_kanban" model="hr.employee" type="kanban">
-            <kanban>
-                <field name="name"/>
-                <field name="job_id"/>
-                <field name="department_id"/>
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="sum-kanban-global-click">
-                            <div class="sum-kanban-content">
-                                <strong class="sum-kanban-record-title">
-                                    <field name="name"/>
-                                </strong>
-                                <div class="sum-kanban-record-body">
-                                    <field name="job_id"/>
-                                    <field name="department_id"/>
-                                </div>
+            <field name="name"/>
+            <field name="job_id"/>
+            <field name="department_id"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="sum-kanban-global-click">
+                        <div class="sum-kanban-content">
+                            <strong class="sum-kanban-record-title">
+                                <field name="name"/>
+                            </strong>
+                            <div class="sum-kanban-record-body">
+                                <field name="job_id"/>
+                                <field name="department_id"/>
                             </div>
                         </div>
-                    </t>
-                </templates>
-            </kanban>
+                    </div>
+                </t>
+            </templates>
         </view>
 
         <view id="view_hr_department_tree" model="hr.department" type="tree">

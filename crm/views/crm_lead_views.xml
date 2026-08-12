@@ -71,41 +71,39 @@
 
         <!-- Kanban View -->
         <view id="view_crm_lead_kanban" model="crm.lead" type="kanban">
-            <kanban default_group_by="stage_id">
-                <field name="name"/>
-                <field name="expected_revenue"/>
-                <field name="partner_id"/>
-                <field name="user_id"/>
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="sum-kanban-global-click">
-                            <div class="sum-kanban-content">
-                                <div class="sum-kanban-record-top">
-                                    <div class="sum-kanban-record-headings">
-                                        <strong class="sum-kanban-record-title">
-                                            <field name="name"/>
-                                        </strong>
-                                    </div>
+            <field name="name"/>
+            <field name="expected_revenue"/>
+            <field name="partner_id"/>
+            <field name="user_id"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="sum-kanban-global-click">
+                        <div class="sum-kanban-content">
+                            <div class="sum-kanban-record-top">
+                                <div class="sum-kanban-record-headings">
+                                    <strong class="sum-kanban-record-title">
+                                        <field name="name"/>
+                                    </strong>
                                 </div>
-                                <div class="sum-kanban-record-body">
-                                    <field name="partner_id"/>
-                                    <div t-if="record.expected_revenue.raw_value">
-                                        <field name="expected_revenue"/>
-                                    </div>
+                            </div>
+                            <div class="sum-kanban-record-body">
+                                <field name="partner_id"/>
+                                <div t-if="record.expected_revenue.raw_value">
+                                    <field name="expected_revenue"/>
                                 </div>
-                                <div class="sum-kanban-record-bottom">
-                                    <div class="sum-kanban-bottom-left">
-                                        <field name="priority" widget="priority"/>
-                                    </div>
-                                    <div class="sum-kanban-bottom-right">
-                                        <field name="user_id"/>
-                                    </div>
+                            </div>
+                            <div class="sum-kanban-record-bottom">
+                                <div class="sum-kanban-bottom-left">
+                                    <field name="priority" widget="priority"/>
+                                </div>
+                                <div class="sum-kanban-bottom-right">
+                                    <field name="user_id"/>
                                 </div>
                             </div>
                         </div>
-                    </t>
-                </templates>
-            </kanban>
+                    </div>
+                </t>
+            </templates>
         </view>
     </data>
 </sumeru>

@@ -11,12 +11,27 @@ func (AccountMoveLine) ModelName() string { return "account.move.line" }
 func (AccountMoveLine) Fields() []sdk.FieldDefinition {
 	return []sdk.FieldDefinition{
 		{Name: "move_id", Type: sdk.Many2One, Relation: "account.move", String: "Journal Entry", Required: true, Index: true},
-		{Name: "account_id", Type: sdk.Many2One, Relation: "account.account", String: "Account", Required: true},
+		{Name: "account_id", Type: sdk.Many2One, Relation: "account.account", String: "Account"},
 		{Name: "name", Type: sdk.Char, String: "Label"},
 		{Name: "partner_id", Type: sdk.Many2One, Relation: "core.partner", String: "Partner"},
+		{Name: "product_id", Type: sdk.Many2One, Relation: "product.product", String: "Product"},
+		{Name: "tax_id", Type: sdk.Many2One, Relation: "account.tax", String: "Tax"},
+		{Name: "tax_line_id", Type: sdk.Many2One, Relation: "account.tax", String: "Originator Tax"},
+		{Name: "quantity", Type: sdk.Numeric, String: "Quantity", DefaultVal: 1},
+		{Name: "price_unit", Type: sdk.Numeric, String: "Unit Price", DefaultVal: 0},
+		{Name: "price_subtotal", Type: sdk.Numeric, String: "Subtotal", DefaultVal: 0},
+		{Name: "display_type", Type: sdk.Selection, String: "Display Type", Selection: [][]string{
+			{"product", "Product"},
+			{"line_section", "Section"},
+			{"line_note", "Note"},
+			{"tax", "Tax"},
+			{"entry", "Journal Item"},
+		}, DefaultVal: "product"},
 		{Name: "debit", Type: sdk.Numeric, String: "Debit", DefaultVal: 0},
 		{Name: "credit", Type: sdk.Numeric, String: "Credit", DefaultVal: 0},
 		{Name: "balance", Type: sdk.Numeric, String: "Balance", DefaultVal: 0},
+		{Name: "reconciled", Type: sdk.Boolean, String: "Reconciled", DefaultVal: false},
+		{Name: "amount_residual", Type: sdk.Numeric, String: "Residual", DefaultVal: 0},
 	}
 }
 

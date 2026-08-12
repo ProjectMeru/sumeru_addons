@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_account_tree" model="account.account" type="tree">
+            <field name="code" string="Code"/>
+            <field name="name" string="Account Name"/>
+            <field name="account_type" string="Type"/>
+            <field name="reconcile" string="Reconcile"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
+        </view>
+        <view id="view_account_account_form" model="account.account" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Account Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="code" string="Code"/>
+                    <field name="account_type" string="Type"/>
+                    <field name="reconcile" string="Allow Reconciliation"/>
+                    <field name="active" string="Active"/>
+                </group>
+            </sheet>
+        </view>
+        <record id="action_account_accounts" model="sys.action.window">
+            <field name="name">Chart of Accounts</field>
+            <field name="core_model">account.account</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</sumeru>

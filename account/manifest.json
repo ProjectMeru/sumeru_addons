@@ -1,16 +1,23 @@
 {
   "name": "account",
   "display_name": "Invoicing",
-  "version": "1.0.0",
-  "summary": "Invoices, bills, and basic accounting",
-  "description": "Customer invoices, vendor bills, chart of accounts, and posted journal entries.",
+  "version": "2.0.0",
+  "summary": "Invoices, bills, taxes, payments, and double-entry accounting",
+  "description": "Odoo-shaped invoicing: chart of accounts, journals, taxes, payment terms, payment register and credit-note wizards, invoice print and analysis.",
   "author": "Sumeru",
   "depends": ["product", "contacts"],
   "data": [
     "security/security.xml",
     "security/sys.access.csv",
     "data/account_data.xml",
-    "views/account_views.xml",
+    "data/account_demo.xml",
+    "views/account_account_views.xml",
+    "views/account_journal_views.xml",
+    "views/account_tax_views.xml",
+    "views/account_move_views.xml",
+    "views/account_payment_views.xml",
+    "views/account_report_views.xml",
+    "views/wizard_views.xml",
     "views/menus.xml"
   ],
   "application": true
