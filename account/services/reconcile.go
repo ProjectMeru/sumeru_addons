@@ -8,7 +8,6 @@ import (
 	"sumeru/core/orm"
 )
 
-// reconcilePaymentToInvoice matches payment counterpart line against invoice AR/AP residual.
 func reconcilePaymentToInvoice(ctx context.Context, invoiceID, paymentLineID int, amount float64) error {
 	inv, err := orm.SearchOne(ctx, "account.move", map[string]interface{}{"id": invoiceID})
 	if err != nil {
@@ -25,7 +24,6 @@ func reconcilePaymentToInvoice(ctx context.Context, invoiceID, paymentLineID int
 		if math.Abs(res) < balanceEpsilon {
 			continue
 		}
-		// Prefer receivable residual for customer docs, payable for vendor.
 		acctID, _ := orm.CoerceInt64(ln["account_id"])
 		acct, _ := orm.SearchOne(ctx, "account.account", map[string]interface{}{"id": acctID})
 		atype := orm.AsString(acct["account_type"])
@@ -46,7 +44,7 @@ func reconcilePaymentToInvoice(ctx context.Context, invoiceID, paymentLineID int
 		}
 	}
 	if invLine == nil {
-		return fmt.Errorf("no open receivable/payable line on invoice %d", invoiceID)
+		return fmt.Errorf("no open line")
 	}
 	invLineID, _ := orm.CoerceInt64(invLine["id"])
 	invRes := numericFloat(invLine["amount_residual"])
@@ -65,7 +63,6 @@ func reconcilePaymentToInvoice(ctx context.Context, invoiceID, paymentLineID int
 	if invRes < 0 {
 		debitID, creditID = paymentLineID, int(invLineID)
 	}
-	// Ensure debit_move has positive residual direction vs credit.
 	if numericFloat(invLine["debit"]) > 0 || invRes > 0 {
 		debitID, creditID = int(invLineID), paymentLineID
 	} else {
@@ -97,14 +94,18 @@ func reconcilePaymentToInvoice(ctx context.Context, invoiceID, paymentLineID int
 	} else {
 		newPayRes = payRes + reconcileAmt
 	}
-	_ = orm.UpdateRecordByID(ctx, "account.move.line", int(invLineID), map[string]interface{}{
+	if err := orm.UpdateRecordByID(ctx, "account.move.line", int(invLineID), map[string]interface{}{
 		"amount_residual": round2(newInvRes),
 		"reconciled":      math.Abs(newInvRes) <= balanceEpsilon,
-	})
-	_ = orm.UpdateRecordByID(ctx, "account.move.line", paymentLineID, map[string]interface{}{
+	}); err != nil {
+		return err
+	}
+	if err := orm.UpdateRecordByID(ctx, "account.move.line", paymentLineID, map[string]interface{}{
 		"amount_residual": round2(newPayRes),
 		"reconciled":      math.Abs(newPayRes) <= balanceEpsilon,
-	})
+	}); err != nil {
+		return err
+	}
 
 	return recomputeInvoicePaymentState(ctx, invoiceID)
 }
@@ -140,10 +141,12 @@ func recomputeInvoicePaymentState(ctx context.Context, invoiceID int) error {
 	} else if residual+balanceEpsilon >= total {
 		state = "not_paid"
 	}
-	_ = orm.UpdateRecordByID(ctx, "account.move", invoiceID, map[string]interface{}{
+	if err := orm.UpdateRecordByID(ctx, "account.move", invoiceID, map[string]interface{}{
 		"amount_residual": round2(residual),
 		"payment_state":   state,
-	})
+	}); err != nil {
+		return err
+	}
 	return upsertInvoiceReport(ctx, invoiceID)
 }
 
@@ -184,7 +187,6 @@ func upsertInvoiceReport(ctx context.Context, moveID int) error {
 	return err
 }
 
-// CancelMove sets cancel when not paid/reconciled.
 func CancelMove(ctx context.Context, moveID int) error {
 	bypass := orm.ContextWithBypass(ctx, true)
 	move, err := orm.SearchOne(bypass, "account.move", map[string]interface{}{"id": moveID})
@@ -193,7 +195,7 @@ func CancelMove(ctx context.Context, moveID int) error {
 	}
 	if orm.AsString(move["payment_state"]) == "paid" || orm.AsString(move["payment_state"]) == "partial" {
 		if numericFloat(move["amount_residual"])+balanceEpsilon < numericFloat(move["amount_total"]) {
-			return fmt.Errorf("cannot cancel a reconciled invoice; reset payments first")
+			return fmt.Errorf("invoice reconciled")
 		}
 	}
 	return orm.UpdateRecordByID(bypass, "account.move", moveID, map[string]interface{}{
@@ -201,7 +203,6 @@ func CancelMove(ctx context.Context, moveID int) error {
 	})
 }
 
-// ResetMoveToDraft only if posted and fully open (no partial reconcile).
 func ResetMoveToDraft(ctx context.Context, moveID int) error {
 	bypass := orm.ContextWithBypass(ctx, true)
 	move, err := orm.SearchOne(bypass, "account.move", map[string]interface{}{"id": moveID})
@@ -214,7 +215,7 @@ func ResetMoveToDraft(ctx context.Context, moveID int) error {
 	residual := numericFloat(move["amount_residual"])
 	total := numericFloat(move["amount_total"])
 	if orm.AsString(move["move_type"]) != "entry" && residual+balanceEpsilon < total {
-		return fmt.Errorf("cannot reset to draft: payments exist")
+		return fmt.Errorf("payments exist")
 	}
 	return orm.UpdateRecordByID(bypass, "account.move", moveID, map[string]interface{}{
 		"state":         "draft",
