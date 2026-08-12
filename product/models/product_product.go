@@ -12,6 +12,7 @@ func (ProductProduct) ModelName() string { return "product.product" }
 func (ProductProduct) Fields() []sdk.FieldDefinition {
 	return []sdk.FieldDefinition{
 		{Name: "name", Type: sdk.Char, String: "Product Name", Required: true},
+		{Name: "image", Type: sdk.Text, String: "Image"},
 		{Name: "default_code", Type: sdk.Char, String: "Internal Reference"},
 		{Name: "type", Type: sdk.Selection, String: "Product Type", Selection: [][]string{
 			{"consu", "Consumable"},

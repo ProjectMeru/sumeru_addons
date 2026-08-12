@@ -11,6 +11,7 @@ func (HrEmployee) ModelName() string { return "hr.employee" }
 func (HrEmployee) Fields() []sdk.FieldDefinition {
 	return []sdk.FieldDefinition{
 		{Name: "name", Type: sdk.Char, String: "Employee Name", Required: true},
+		{Name: "image", Type: sdk.Text, String: "Image"},
 		{Name: "work_email", Type: sdk.Char, String: "Work Email"},
 		{Name: "work_phone", Type: sdk.Char, String: "Work Phone"},
 		{Name: "department_id", Type: sdk.Many2One, Relation: "hr.department", String: "Department"},
