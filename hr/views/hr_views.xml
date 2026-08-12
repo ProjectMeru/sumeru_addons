@@ -10,57 +10,53 @@
             <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_hr_employee_form" model="hr.employee" type="form">
-            <form>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="Employee Name..."/>
-                        </h1>
-                    </div>
-                    <group>
-                        <group string="Work">
-                            <field name="work_email" string="Work Email"/>
-                            <field name="work_phone" string="Work Phone"/>
-                            <field name="department_id" string="Department"/>
-                            <field name="job_id" string="Job Position"/>
-                        </group>
-                        <group string="Organization">
-                            <field name="parent_id" string="Manager"/>
-                            <field name="user_id" string="Related User"/>
-                            <field name="partner_id" string="Related Contact"/>
-                            <field name="company_id" string="Company"/>
-                            <field name="active" string="Active"/>
-                        </group>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Employee Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Work">
+                        <field name="work_email" string="Work Email"/>
+                        <field name="work_phone" string="Work Phone"/>
+                        <field name="department_id" string="Department"/>
+                        <field name="job_id" string="Job Position"/>
                     </group>
-                    <notebook>
-                        <page string="Notes">
-                            <field name="notes" string="Notes"/>
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
+                    <group string="Organization">
+                        <field name="parent_id" string="Manager"/>
+                        <field name="user_id" string="Related User"/>
+                        <field name="partner_id" string="Related Contact"/>
+                        <field name="company_id" string="Company"/>
+                        <field name="active" string="Active"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Notes">
+                        <field name="notes" string="Notes"/>
+                    </page>
+                </notebook>
+            </sheet>
         </view>
         <view id="view_hr_employee_kanban" model="hr.employee" type="kanban">
-            <kanban>
-                <field name="name"/>
-                <field name="job_id"/>
-                <field name="department_id"/>
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="sum-kanban-global-click">
-                            <div class="sum-kanban-content">
-                                <strong class="sum-kanban-record-title">
-                                    <field name="name"/>
-                                </strong>
-                                <div class="sum-kanban-record-body">
-                                    <field name="job_id"/>
-                                    <field name="department_id"/>
-                                </div>
+            <field name="name"/>
+            <field name="job_id"/>
+            <field name="department_id"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="sum-kanban-global-click">
+                        <div class="sum-kanban-content">
+                            <strong class="sum-kanban-record-title">
+                                <field name="name"/>
+                            </strong>
+                            <div class="sum-kanban-record-body">
+                                <field name="job_id"/>
+                                <field name="department_id"/>
                             </div>
                         </div>
-                    </t>
-                </templates>
-            </kanban>
+                    </div>
+                </t>
+            </templates>
         </view>
 
         <view id="view_hr_department_tree" model="hr.department" type="tree">
@@ -70,20 +66,18 @@
             <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_hr_department_form" model="hr.department" type="form">
-            <form>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="Department Name..."/>
-                        </h1>
-                    </div>
-                    <group>
-                        <field name="parent_id" string="Parent Department"/>
-                        <field name="manager_id" string="Manager"/>
-                        <field name="active" string="Active"/>
-                    </group>
-                </sheet>
-            </form>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Department Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="parent_id" string="Parent Department"/>
+                    <field name="manager_id" string="Manager"/>
+                    <field name="active" string="Active"/>
+                </group>
+            </sheet>
         </view>
 
         <view id="view_hr_job_tree" model="hr.job" type="tree">
@@ -92,24 +86,22 @@
             <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_hr_job_form" model="hr.job" type="form">
-            <form>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="Job Position..."/>
-                        </h1>
-                    </div>
-                    <group>
-                        <field name="department_id" string="Department"/>
-                        <field name="active" string="Active"/>
-                    </group>
-                    <notebook>
-                        <page string="Description">
-                            <field name="description" string="Job Description"/>
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Job Position..."/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="department_id" string="Department"/>
+                    <field name="active" string="Active"/>
+                </group>
+                <notebook>
+                    <page string="Description">
+                        <field name="description" string="Job Description"/>
+                    </page>
+                </notebook>
+            </sheet>
         </view>
 
         <action id="action_hr_employee" type="window" model="hr.employee" name="Employees" view_mode="kanban,tree,form">

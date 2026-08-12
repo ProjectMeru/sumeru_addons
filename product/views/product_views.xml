@@ -10,35 +10,45 @@
             <field name="standard_price" string="Cost"/>
             <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
+        <view id="view_product_product_kanban" model="product.product" type="kanban">
+            <field name="image"/>
+            <field name="name"/>
+            <field name="default_code"/>
+            <field name="list_price"/>
+        </view>
         <view id="view_product_product_form" model="product.product" type="form">
-            <form>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="Product Name..."/>
-                        </h1>
-                    </div>
-                    <group>
-                        <group string="General">
-                            <field name="default_code" string="Internal Reference"/>
-                            <field name="type" string="Product Type"/>
-                            <field name="categ_id" string="Category"/>
-                            <field name="active" string="Active"/>
-                        </group>
-                        <group string="Pricing">
-                            <field name="list_price" string="Sales Price"/>
-                            <field name="standard_price" string="Cost"/>
-                            <field name="sale_ok" string="Can be Sold"/>
-                            <field name="purchase_ok" string="Can be Purchased"/>
-                        </group>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Product Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="General">
+                        <field name="default_code" string="Internal Reference"/>
+                        <field name="type" string="Product Type"/>
+                        <field name="categ_id" string="Category"/>
+                        <field name="active" string="Active"/>
                     </group>
-                    <notebook>
-                        <page string="Description">
-                            <field name="description" string="Description"/>
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
+                    <group string="Pricing">
+                        <field name="list_price" string="Sales Price"/>
+                        <field name="standard_price" string="Cost"/>
+                        <field name="sale_ok" string="Can be Sold"/>
+                        <field name="purchase_ok" string="Can be Purchased"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Description">
+                        <field name="description" string="Description"/>
+                    </page>
+                    <page string="Accounting">
+                        <group>
+                            <field name="property_account_income_id" string="Income Account"/>
+                            <field name="property_account_expense_id" string="Expense Account"/>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
         </view>
 
         <view id="view_product_category_tree" model="product.category" type="tree">
@@ -48,23 +58,21 @@
             <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_product_category_form" model="product.category" type="form">
-            <form>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="Category Name..."/>
-                        </h1>
-                    </div>
-                    <group>
-                        <field name="parent_id" string="Parent Category"/>
-                        <field name="sequence" string="Sequence"/>
-                        <field name="active" string="Active"/>
-                    </group>
-                </sheet>
-            </form>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Category Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="parent_id" string="Parent Category"/>
+                    <field name="sequence" string="Sequence"/>
+                    <field name="active" string="Active"/>
+                </group>
+            </sheet>
         </view>
 
-        <action id="action_product_product" type="window" model="product.product" name="Products" view_mode="tree,form">
+        <action id="action_product_product" type="window" model="product.product" name="Products" view_mode="kanban,tree,form">
             <help>Create products that can be sold or purchased.</help>
         </action>
         <action id="action_product_category" type="window" model="product.category" name="Product Categories" view_mode="tree,form"/>

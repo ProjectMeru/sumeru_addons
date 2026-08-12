@@ -11,68 +11,74 @@
             <field name="state" string="Status"/>
         </view>
         <view id="view_account_move_form" model="account.move" type="form">
-            <form>
-                <header>
-                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
-                </header>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="INV/001"/>
-                        </h1>
-                    </div>
-                    <group>
-                        <group string="Invoice">
-                            <field name="move_type" string="Type"/>
-                            <field name="partner_id" string="Partner"/>
-                            <field name="journal_id" string="Journal"/>
-                            <field name="date" string="Date"/>
-                        </group>
-                        <group string="Amounts">
-                            <field name="invoice_origin" string="Source Document"/>
-                            <field name="ref" string="Reference"/>
-                            <field name="amount_total" string="Total"/>
-                            <field name="payment_state" string="Payment Status"/>
-                        </group>
+            <header>
+                <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="INV/001"/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Invoice">
+                        <field name="move_type" string="Type"/>
+                        <field name="partner_id" string="Partner"/>
+                        <field name="journal_id" string="Journal"/>
+                        <field name="date" string="Date"/>
                     </group>
-                    <notebook>
-                        <page string="Journal Items">
-                            <field name="line_ids" string="Journal Items"/>
-                        </page>
-                        <page string="Notes">
-                            <field name="narration" string="Notes"/>
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
+                    <group string="Amounts">
+                        <field name="invoice_origin" string="Source Document"/>
+                        <field name="ref" string="Reference"/>
+                        <field name="amount_total" string="Total"/>
+                        <field name="payment_state" string="Payment Status"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Invoice Lines">
+                        <field name="line_ids" string="Lines"/>
+                    </page>
+                    <page string="Notes">
+                        <field name="narration" string="Notes"/>
+                    </page>
+                </notebook>
+            </sheet>
         </view>
 
         <view id="view_account_move_line_tree" model="account.move.line" type="tree">
             <field name="move_id" string="Entry"/>
-            <field name="account_id" string="Account"/>
+            <field name="display_type" string="Type"/>
+            <field name="product_id" string="Product"/>
             <field name="name" string="Label"/>
+            <field name="quantity" string="Qty"/>
+            <field name="price_unit" string="Unit Price"/>
+            <field name="price_subtotal" string="Subtotal"/>
+            <field name="account_id" string="Account"/>
             <field name="partner_id" string="Partner"/>
             <field name="debit" string="Debit"/>
             <field name="credit" string="Credit"/>
         </view>
         <view id="view_account_move_line_form" model="account.move.line" type="form">
-            <form>
-                <sheet>
-                    <group>
-                        <group string="Item">
-                            <field name="move_id" string="Journal Entry"/>
-                            <field name="account_id" string="Account"/>
-                            <field name="name" string="Label"/>
-                            <field name="partner_id" string="Partner"/>
-                        </group>
-                        <group string="Amounts">
-                            <field name="debit" string="Debit"/>
-                            <field name="credit" string="Credit"/>
-                            <field name="balance" string="Balance"/>
-                        </group>
+            <sheet>
+                <group>
+                    <group string="Line">
+                        <field name="move_id" string="Journal Entry"/>
+                        <field name="display_type" string="Display Type"/>
+                        <field name="product_id" string="Product"/>
+                        <field name="name" string="Label"/>
+                        <field name="account_id" string="Account"/>
+                        <field name="partner_id" string="Partner"/>
                     </group>
-                </sheet>
-            </form>
+                    <group string="Amounts">
+                        <field name="quantity" string="Quantity"/>
+                        <field name="price_unit" string="Unit Price"/>
+                        <field name="price_subtotal" string="Subtotal"/>
+                        <field name="debit" string="Debit"/>
+                        <field name="credit" string="Credit"/>
+                        <field name="balance" string="Balance"/>
+                    </group>
+                </group>
+            </sheet>
         </view>
 
         <view id="view_account_account_tree" model="account.account" type="tree">
@@ -83,21 +89,19 @@
             <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_account_account_form" model="account.account" type="form">
-            <form>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="Account Name..."/>
-                        </h1>
-                    </div>
-                    <group>
-                        <field name="code" string="Code"/>
-                        <field name="account_type" string="Type"/>
-                        <field name="reconcile" string="Allow Reconciliation"/>
-                        <field name="active" string="Active"/>
-                    </group>
-                </sheet>
-            </form>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Account Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="code" string="Code"/>
+                    <field name="account_type" string="Type"/>
+                    <field name="reconcile" string="Allow Reconciliation"/>
+                    <field name="active" string="Active"/>
+                </group>
+            </sheet>
         </view>
 
         <view id="view_account_journal_tree" model="account.journal" type="tree">
@@ -108,30 +112,72 @@
             <field name="active" string="Active" widget="boolean_toggle"/>
         </view>
         <view id="view_account_journal_form" model="account.journal" type="form">
-            <form>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="Journal Name..."/>
-                        </h1>
-                    </div>
-                    <group>
-                        <field name="code" string="Short Code"/>
-                        <field name="type" string="Type"/>
-                        <field name="default_account_id" string="Default Account"/>
-                        <field name="active" string="Active"/>
-                    </group>
-                </sheet>
-            </form>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Journal Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="code" string="Short Code"/>
+                    <field name="type" string="Type"/>
+                    <field name="default_account_id" string="Default Account"/>
+                    <field name="active" string="Active"/>
+                </group>
+            </sheet>
         </view>
 
-        <action id="action_account_moves_out" type="window" model="account.move" name="Customer Invoices" view_mode="tree,form">
-            <help>Confirm a sales order to auto-create a draft invoice, then set Status to Posted.</help>
+        <view id="view_account_payment_tree" model="account.payment" type="tree">
+            <field name="name" string="Number"/>
+            <field name="payment_type" string="Type"/>
+            <field name="partner_id" string="Partner"/>
+            <field name="amount" string="Amount"/>
+            <field name="date" string="Date"/>
+            <field name="journal_id" string="Journal"/>
+            <field name="invoice_id" string="Invoice"/>
+            <field name="state" string="Status"/>
+        </view>
+        <view id="view_account_payment_form" model="account.payment" type="form">
+            <header>
+                <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="PAY/00001"/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Payment">
+                        <field name="payment_type" string="Payment Type"/>
+                        <field name="partner_type" string="Partner Type"/>
+                        <field name="partner_id" string="Partner"/>
+                        <field name="invoice_id" string="Invoice / Bill"/>
+                    </group>
+                    <group string="Details">
+                        <field name="amount" string="Amount"/>
+                        <field name="date" string="Date"/>
+                        <field name="journal_id" string="Journal"/>
+                        <field name="memo" string="Memo"/>
+                        <field name="move_id" string="Journal Entry"/>
+                    </group>
+                </group>
+            </sheet>
+        </view>
+
+        <action id="action_account_moves_out" type="window" model="account.move" name="Customer Invoices" view_mode="tree,form" domain="[[&quot;move_type&quot;,&quot;=&quot;,&quot;out_invoice&quot;]]">
+            <help>Confirm a sales order to auto-create a draft invoice with lines, then set Status to Posted. Register a payment from Customers → Payments.</help>
         </action>
-        <action id="action_account_moves_in" type="window" model="account.move" name="Vendor Bills" view_mode="tree,form"/>
-        <action id="action_account_moves" type="window" model="account.move" name="Journal Entries" view_mode="tree,form"/>
+        <action id="action_account_moves_out_refund" type="window" model="account.move" name="Customer Credit Notes" view_mode="tree,form" domain="[[&quot;move_type&quot;,&quot;=&quot;,&quot;out_refund&quot;]]"/>
+        <action id="action_account_moves_in" type="window" model="account.move" name="Vendor Bills" view_mode="tree,form" domain="[[&quot;move_type&quot;,&quot;=&quot;,&quot;in_invoice&quot;]]"/>
+        <action id="action_account_moves_in_refund" type="window" model="account.move" name="Vendor Refunds" view_mode="tree,form" domain="[[&quot;move_type&quot;,&quot;=&quot;,&quot;in_refund&quot;]]"/>
+        <action id="action_account_moves" type="window" model="account.move" name="Journal Entries" view_mode="tree,form" domain="[[&quot;move_type&quot;,&quot;=&quot;,&quot;entry&quot;]]"/>
         <action id="action_account_move_lines" type="window" model="account.move.line" name="Journal Items" view_mode="tree,form"/>
         <action id="action_account_accounts" type="window" model="account.account" name="Chart of Accounts" view_mode="tree,form"/>
         <action id="action_account_journals" type="window" model="account.journal" name="Journals" view_mode="tree,form"/>
+        <action id="action_account_payments_inbound" type="window" model="account.payment" name="Customer Payments" view_mode="tree,form" domain="[[&quot;payment_type&quot;,&quot;=&quot;,&quot;inbound&quot;]]">
+            <help>Create a payment linked to a posted invoice, set Amount, then set Status to Posted to mark the invoice paid.</help>
+        </action>
+        <action id="action_account_payments_outbound" type="window" model="account.payment" name="Vendor Payments" view_mode="tree,form" domain="[[&quot;payment_type&quot;,&quot;=&quot;,&quot;outbound&quot;]]"/>
     </data>
 </sumeru>

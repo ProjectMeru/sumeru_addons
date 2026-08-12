@@ -28,10 +28,20 @@
             <field name="name">Cash</field>
             <field name="account_type">asset_cash</field>
         </record>
+        <record id="account_bank" model="account.account">
+            <field name="code">102000</field>
+            <field name="name">Bank</field>
+            <field name="account_type">asset_cash</field>
+        </record>
         <record id="account_equity" model="account.account">
             <field name="code">300000</field>
             <field name="name">Equity</field>
             <field name="account_type">equity</field>
+        </record>
+        <record id="account_tax_payable" model="account.account">
+            <field name="code">251000</field>
+            <field name="name">Tax Payable</field>
+            <field name="account_type">liability_current</field>
         </record>
 
         <record id="journal_sale" model="account.journal">
@@ -50,6 +60,40 @@
             <field name="name">Miscellaneous</field>
             <field name="code">MISC</field>
             <field name="type">general</field>
+        </record>
+        <record id="journal_bank" model="account.journal">
+            <field name="name">Bank</field>
+            <field name="code">BANK</field>
+            <field name="type">bank</field>
+            <field name="default_account_id" ref="account_bank"/>
+        </record>
+        <record id="journal_cash" model="account.journal">
+            <field name="name">Cash</field>
+            <field name="code">CASH</field>
+            <field name="type">cash</field>
+            <field name="default_account_id" ref="account_cash"/>
+        </record>
+
+        <record id="seq_account_out_invoice" model="sys.sequence">
+            <field name="name">Customer Invoices</field>
+            <field name="code">account.move.out_invoice</field>
+            <field name="prefix">INV/</field>
+            <field name="padding" eval="5"/>
+            <field name="number_next" eval="1"/>
+        </record>
+        <record id="seq_account_in_invoice" model="sys.sequence">
+            <field name="name">Vendor Bills</field>
+            <field name="code">account.move.in_invoice</field>
+            <field name="prefix">BILL/</field>
+            <field name="padding" eval="5"/>
+            <field name="number_next" eval="1"/>
+        </record>
+        <record id="seq_account_payment" model="sys.sequence">
+            <field name="name">Payments</field>
+            <field name="code">account.payment</field>
+            <field name="prefix">PAY/</field>
+            <field name="padding" eval="5"/>
+            <field name="number_next" eval="1"/>
         </record>
     </data>
 </sumeru>

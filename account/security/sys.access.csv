@@ -7,3 +7,5 @@ access_account_move_user,access_account_move_user,account.move,group_account_inv
 access_account_move_manager,access_account_move_manager,account.move,group_account_manager,1,1,1,1
 access_account_move_line_user,access_account_move_line_user,account.move.line,group_account_invoice,1,1,1,0
 access_account_move_line_manager,access_account_move_line_manager,account.move.line,group_account_manager,1,1,1,1
+access_account_payment_user,access_account_payment_user,account.payment,group_account_invoice,1,1,1,0
+access_account_payment_manager,access_account_payment_manager,account.payment,group_account_manager,1,1,1,1

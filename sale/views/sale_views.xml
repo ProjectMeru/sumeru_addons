@@ -12,40 +12,38 @@
             <field name="state" string="Status"/>
         </view>
         <view id="view_sale_order_form" model="sale.order" type="form">
-            <form>
-                <header>
-                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
-                </header>
-                <sheet>
-                    <div class="sum_title">
-                        <h1>
-                            <field name="name" placeholder="e.g. SO001"/>
-                        </h1>
-                    </div>
-                    <group>
-                        <group string="Customer">
-                            <field name="partner_id" string="Customer"/>
-                            <field name="date_order" string="Order Date"/>
-                            <field name="opportunity_id" string="Opportunity"/>
-                        </group>
-                        <group string="Sales">
-                            <field name="user_id" string="Salesperson"/>
-                            <field name="invoice_status" string="Invoice Status"/>
-                            <field name="company_id" string="Company"/>
-                            <field name="amount_untaxed" string="Untaxed Amount"/>
-                            <field name="amount_total" string="Total"/>
-                        </group>
+            <header>
+                <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="e.g. SO001"/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Customer">
+                        <field name="partner_id" string="Customer"/>
+                        <field name="date_order" string="Order Date"/>
+                        <field name="opportunity_id" string="Opportunity"/>
                     </group>
-                    <notebook>
-                        <page string="Order Lines">
-                            <field name="order_line" string="Order Lines"/>
-                        </page>
-                        <page string="Other Info">
-                            <field name="note" string="Terms and Conditions"/>
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
+                    <group string="Sales">
+                        <field name="user_id" string="Salesperson"/>
+                        <field name="invoice_status" string="Invoice Status"/>
+                        <field name="company_id" string="Company"/>
+                        <field name="amount_untaxed" string="Untaxed Amount"/>
+                        <field name="amount_total" string="Total"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Order Lines">
+                        <field name="order_line" string="Order Lines"/>
+                    </page>
+                    <page string="Other Info">
+                        <field name="note" string="Terms and Conditions"/>
+                    </page>
+                </notebook>
+            </sheet>
         </view>
 
         <view id="view_sale_order_line_tree" model="sale.order.line" type="tree">
@@ -57,23 +55,21 @@
             <field name="price_subtotal" string="Subtotal"/>
         </view>
         <view id="view_sale_order_line_form" model="sale.order.line" type="form">
-            <form>
-                <sheet>
-                    <group>
-                        <group string="Line">
-                            <field name="order_id" string="Order"/>
-                            <field name="product_id" string="Product"/>
-                            <field name="name" string="Description"/>
-                        </group>
-                        <group string="Prices">
-                            <field name="product_uom_qty" string="Quantity"/>
-                            <field name="price_unit" string="Unit Price"/>
-                            <field name="price_subtotal" string="Subtotal"/>
-                            <field name="sequence" string="Sequence"/>
-                        </group>
+            <sheet>
+                <group>
+                    <group string="Line">
+                        <field name="order_id" string="Order"/>
+                        <field name="product_id" string="Product"/>
+                        <field name="name" string="Description"/>
                     </group>
-                </sheet>
-            </form>
+                    <group string="Prices">
+                        <field name="product_uom_qty" string="Quantity"/>
+                        <field name="price_unit" string="Unit Price"/>
+                        <field name="price_subtotal" string="Subtotal"/>
+                        <field name="sequence" string="Sequence"/>
+                    </group>
+                </group>
+            </sheet>
         </view>
 
         <action id="action_sale_quotations" type="window" model="sale.order" name="Quotations" view_mode="tree,form">

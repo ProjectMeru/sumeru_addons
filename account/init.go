@@ -15,6 +15,7 @@ func init() {
 	event.Subscribe("record.updated", onSaleOrderToInvoice)
 	event.Subscribe("record.updated", onPurchaseOrderToBill)
 	event.Subscribe("record.updated", onMovePost)
+	event.Subscribe("record.updated", onPaymentPost)
 }
 
 func onSaleOrderToInvoice(ctx context.Context, ev event.Event) error {
@@ -89,16 +90,42 @@ func onMovePost(ctx context.Context, ev event.Event) error {
 	if orm.AsString(move["state"]) != "posted" {
 		return nil
 	}
-	lines, _ := orm.Search(bypass, "account.move.line", [][]interface{}{
-		{"move_id", "=", id},
-	})
-	if len(lines) > 0 {
+	moveType := orm.AsString(move["move_type"])
+	if moveType == "entry" {
 		return nil
 	}
-	_ = orm.UpdateRecordByID(bypass, "account.move", id, map[string]interface{}{"state": "draft"})
 	if err := PostMove(ctx, id); err != nil {
 		log.Printf("account: post move %d: %v", id, err)
 		_ = orm.UpdateRecordByID(bypass, "account.move", id, map[string]interface{}{"state": "draft"})
+	}
+	return nil
+}
+
+func onPaymentPost(ctx context.Context, ev event.Event) error {
+	model, _ := ev.Payload["model"].(string)
+	if model != "account.payment" {
+		return nil
+	}
+	id, ok := coerceID(ev.Payload["id"])
+	if !ok {
+		return nil
+	}
+	bypass := orm.ContextWithBypass(ctx, true)
+	pay, err := orm.SearchOne(bypass, "account.payment", map[string]interface{}{"id": id})
+	if err != nil {
+		return nil
+	}
+	if orm.AsString(pay["state"]) != "posted" {
+		return nil
+	}
+	// Revert to draft then PostPayment (idempotent if already has move_id).
+	if mid, ok := orm.CoerceInt64(pay["move_id"]); ok && mid > 0 {
+		return nil
+	}
+	_ = orm.UpdateRecordByID(bypass, "account.payment", id, map[string]interface{}{"state": "draft"})
+	if err := PostPayment(ctx, id); err != nil {
+		log.Printf("account: post payment %d: %v", id, err)
+		_ = orm.UpdateRecordByID(bypass, "account.payment", id, map[string]interface{}{"state": "draft"})
 	}
 	return nil
 }

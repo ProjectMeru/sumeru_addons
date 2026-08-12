@@ -23,9 +23,10 @@ Technical module names must match **`^[a-z][a-z0-9_]*$`** and equal the **folder
 
 ## Commercial flow (v1)
 
+Address book (`contacts`) lives under **core** [`../sumeru/addons/contacts`](../sumeru/addons/contacts/) — not in this repo. Business modules below still `depends: ["contacts"]` where needed.
+
 | Module | Role |
 |--------|------|
-| `contacts` | Address book (`core.partner`) |
 | `product` | Product catalog |
 | `crm` | Leads / opportunities |
 | `sale` | Quotations / sales orders |
@@ -34,7 +35,7 @@ Technical module names must match **`^[a-z][a-z0-9_]*$`** and equal the **folder
 | `purchase` | RFQ / PO → vendor bill |
 | `hr` | Employees, departments, jobs |
 
-Typical install order: `contacts, product, crm, sale, sale_crm, account, purchase, hr`.
+Typical install order: `contacts, product, crm, sale, sale_crm, account, purchase, hr` (`contacts` from `sumeru/addons`).
 
 ## Custom extensions
 
