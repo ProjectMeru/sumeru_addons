@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_stage_form" model="crm.stage" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Stage Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="sequence"/>
+                        <field name="is_won"/>
+                        <field name="fold"/>
+                        <field name="active"/>
+                        <field name="color"/>
+                    </group>
+                    <group>
+                        <field name="rotting_threshold_days"/>
+                        <field name="team_ids"/>
+                    </group>
+                </group>
+                <separator string="Requirements"/>
+                <field name="requirements" placeholder="Guidelines for moving opportunities to this stage."/>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

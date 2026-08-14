@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_lost_reasons" type="window" model="crm.lost.reason" name="Lost Reasons" view_mode="list,form"/>
+    </data>
+</sumeru>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="action_account_moves_out" model="sys.action.window">
+            <field name="name">Customer Invoices</field>
+            <field name="core_model">account.move</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[["move_type","=","out_invoice"]]</field>
+        </record>
+        <record id="action_account_moves_out_refund" model="sys.action.window">
+            <field name="name">Customer Credit Notes</field>
+            <field name="core_model">account.move</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[["move_type","=","out_refund"]]</field>
+        </record>
+        <record id="action_account_moves_in" model="sys.action.window">
+            <field name="name">Vendor Bills</field>
+            <field name="core_model">account.move</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[["move_type","=","in_invoice"]]</field>
+        </record>
+        <record id="action_account_moves_in_refund" model="sys.action.window">
+            <field name="name">Vendor Refunds</field>
+            <field name="core_model">account.move</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[["move_type","=","in_refund"]]</field>
+        </record>
+        <record id="action_account_moves" model="sys.action.window">
+            <field name="name">Journal Entries</field>
+            <field name="core_model">account.move</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[["move_type","=","entry"]]</field>
+        </record>
+    </data>
+</sumeru>

@@ -7,7 +7,9 @@
     "author": "Sumeru",
     "depends": [
         "base",
-        "contacts"
+        "contacts",
+        "mail",
+        "utm"
     ],
     "data": [
         "security/security.xml",
@@ -15,10 +17,33 @@
         "security/crm_rules.xml",
         "data/crm_stage_data.xml",
         "data/crm_lost_reason_data.xml",
-        "views/crm_lead_views.xml",
-        "views/crm_team_views.xml",
-        "views/crm_stage_views.xml",
-        "views/crm_menus.xml"
+        "data/crm_recurring_plan_data.xml",
+        "views/crm_lead_list_views.xml",
+        "views/crm_lead_form_views.xml",
+        "views/crm_lead_pipeline_kanban_views.xml",
+        "views/crm_lead_forecast_kanban_views.xml",
+        "views/crm_lead_forecast_list_views.xml",
+        "views/crm_lead_lost_form_views.xml",
+        "views/crm_lead2opportunity_form_views.xml",
+        "views/crm_merge_opportunity_form_views.xml",
+        "views/crm_activity_report_list_views.xml",
+        "views/crm_tag_list_views.xml",
+        "views/crm_tag_form_views.xml",
+        "views/crm_team_list_views.xml",
+        "views/crm_team_form_views.xml",
+        "views/crm_stage_list_views.xml",
+        "views/crm_stage_form_views.xml",
+        "views/crm_lost_reason_list_views.xml",
+        "views/crm_lost_reason_form_views.xml",
+        "views/crm_recurring_plan_list_views.xml",
+        "views/crm_recurring_plan_form_views.xml",
+        "views/crm_lead_actions.xml",
+        "views/crm_tag_actions.xml",
+        "views/crm_team_actions.xml",
+        "views/crm_stage_actions.xml",
+        "views/crm_lost_reason_actions.xml",
+        "views/crm_recurring_plan_actions.xml",
+        "views/menus.xml"
     ],
     "application": true,
     "auto_install": false

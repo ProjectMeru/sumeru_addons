@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_team_form" model="crm.team" type="form">
+            <header>
+                <button name="action_assign_leads" string="Assign Leads" type="object" class="sum_highlight"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Sales Team Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="user_id"/>
+                        <field name="company_id"/>
+                        <field name="sequence"/>
+                    </group>
+                    <group>
+                        <field name="active"/>
+                        <field name="use_leads"/>
+                        <field name="use_opportunities"/>
+                    </group>
+                </group>
+                <group string="Assignment">
+                    <field name="assignment_enabled"/>
+                    <field name="assignment_max"/>
+                    <field name="assignment_domain"/>
+                </group>
+                <notebook>
+                    <page string="Members" name="members">
+                        <field name="member_ids"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

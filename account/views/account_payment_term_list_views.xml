@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_payment_term_list" model="account.payment.term" type="list">
+            <field name="name" string="Name"/>
+            <field name="days" string="Due Days"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
+        </view>
+    </data>
+</sumeru>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_lead2opportunity_form" model="crm.lead2opportunity" type="form">
+            <sheet>
+                <group>
+                    <field name="lead_id" readonly="1"/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="team_id"/>
+                </group>
+            </sheet>
+            <footer>
+                <button name="action_apply_convert" string="Convert" type="object" class="sum_highlight"/>
+            </footer>
+        </view>
+    </data>
+</sumeru>

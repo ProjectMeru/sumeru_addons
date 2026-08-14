@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_purchase_order_list" model="purchase.order" type="list">
+            <field name="name" string="Reference"/>
+            <field name="partner_id" string="Vendor"/>
+            <field name="date_order" string="Deadline"/>
+            <field name="user_id" string="Buyer"/>
+            <field name="amount_total" string="Total"/>
+            <field name="state" string="Status"/>
+        </view>
+    </data>
+</sumeru>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_hr_employee_form" model="hr.employee" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Employee Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Work">
+                        <field name="work_email" string="Work Email"/>
+                        <field name="work_phone" string="Work Phone"/>
+                        <field name="department_id" string="Department"/>
+                        <field name="job_id" string="Job Position"/>
+                    </group>
+                    <group string="Organization">
+                        <field name="parent_id" string="Manager"/>
+                        <field name="user_id" string="Related User"/>
+                        <field name="partner_id" string="Related Contact"/>
+                        <field name="company_id" string="Company"/>
+                        <field name="active" string="Active"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Notes">
+                        <field name="notes" string="Notes"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

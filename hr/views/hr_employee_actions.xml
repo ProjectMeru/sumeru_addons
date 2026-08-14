@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_hr_employee" type="window" model="hr.employee" name="Employees" view_mode="kanban,list,form">
+            <help>Create your first employee.</help>
+        </action>
+    </data>
+</sumeru>

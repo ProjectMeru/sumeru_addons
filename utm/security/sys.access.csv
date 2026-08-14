@@ -1,0 +1,4 @@
+id,name,model,group_id,perm_read,perm_write,perm_create,perm_unlink
+access_utm_campaign_user,access_utm_campaign_user,utm.campaign,,1,1,1,0
+access_utm_medium_user,access_utm_medium_user,utm.medium,,1,1,1,0
+access_utm_source_user,access_utm_source_user,utm.source,,1,1,1,0

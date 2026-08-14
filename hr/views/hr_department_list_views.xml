@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_hr_department_list" model="hr.department" type="list">
+            <field name="name" string="Department"/>
+            <field name="parent_id" string="Parent"/>
+            <field name="manager_id" string="Manager"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
+        </view>
+    </data>
+</sumeru>

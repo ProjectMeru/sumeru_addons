@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_utm_source_list" model="utm.source" type="list">
+            <field name="name" string="Source"/>
+            <field name="active" string="Active"/>
+        </view>
+    </data>
+</sumeru>

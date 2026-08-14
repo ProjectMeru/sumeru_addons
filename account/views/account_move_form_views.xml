@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_move_form" model="account.move" type="form">
+            <header>
+                <button name="action_post" string="Post" type="object" class="sum_highlight"/>
+                <button name="action_register_payment" string="Register Payment" type="object"/>
+                <button name="action_reverse" string="Credit Note" type="object"/>
+                <button name="action_print_invoice" string="Print" type="object"/>
+                <button name="action_draft" string="Reset to Draft" type="object"/>
+                <button name="action_cancel" string="Cancel" type="object"/>
+                <field name="state" widget="statusbar"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="INV/001"/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Invoice">
+                        <field name="move_type" string="Type"/>
+                        <field name="partner_id" string="Partner"/>
+                        <field name="journal_id" string="Journal"/>
+                        <field name="payment_term_id" string="Payment Terms"/>
+                        <field name="date" string="Accounting Date"/>
+                        <field name="invoice_date" string="Invoice Date"/>
+                        <field name="invoice_date_due" string="Due Date"/>
+                    </group>
+                    <group string="Amounts">
+                        <field name="invoice_origin" string="Source Document"/>
+                        <field name="ref" string="Reference"/>
+                        <field name="reversed_entry_id" string="Reversal Of"/>
+                        <field name="amount_untaxed" string="Untaxed"/>
+                        <field name="amount_tax" string="Tax"/>
+                        <field name="amount_total" string="Total"/>
+                        <field name="amount_residual" string="Amount Due"/>
+                        <field name="payment_state" string="Payment Status"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Invoice Lines">
+                        <field name="line_ids" string="Lines"/>
+                    </page>
+                    <page string="Notes">
+                        <field name="narration" string="Notes"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

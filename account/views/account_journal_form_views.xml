@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_journal_form" model="account.journal" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Journal Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="code" string="Code"/>
+                    <field name="type" string="Type"/>
+                    <field name="default_account_id" string="Default Account"/>
+                    <field name="active" string="Active"/>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

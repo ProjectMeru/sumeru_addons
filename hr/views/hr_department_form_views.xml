@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_hr_department_form" model="hr.department" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Department Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="parent_id" string="Parent Department"/>
+                    <field name="manager_id" string="Manager"/>
+                    <field name="active" string="Active"/>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

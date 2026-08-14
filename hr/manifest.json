@@ -9,7 +9,16 @@
   "data": [
     "security/security.xml",
     "security/sys.access.csv",
-    "views/hr_views.xml",
+    "views/hr_employee_list_views.xml",
+    "views/hr_employee_form_views.xml",
+    "views/hr_employee_kanban_views.xml",
+    "views/hr_department_list_views.xml",
+    "views/hr_department_form_views.xml",
+    "views/hr_job_list_views.xml",
+    "views/hr_job_form_views.xml",
+    "views/hr_employee_actions.xml",
+    "views/hr_department_actions.xml",
+    "views/hr_job_actions.xml",
     "views/menus.xml"
   ],
   "application": true

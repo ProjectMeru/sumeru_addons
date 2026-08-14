@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="action_account_journals" model="sys.action.window">
+            <field name="name">Journals</field>
+            <field name="core_model">account.journal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</sumeru>

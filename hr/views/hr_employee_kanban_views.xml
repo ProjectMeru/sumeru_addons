@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_hr_employee_kanban" model="hr.employee" type="kanban">
+            <field name="name"/>
+            <field name="job_id"/>
+            <field name="department_id"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="sum-kanban-global-click">
+                        <div class="sum-kanban-content">
+                            <strong class="sum-kanban-record-title">
+                                <field name="name"/>
+                            </strong>
+                            <div class="sum-kanban-record-body">
+                                <field name="job_id"/>
+                                <field name="department_id"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </view>
+    </data>
+</sumeru>

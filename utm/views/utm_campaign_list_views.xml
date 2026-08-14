@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_utm_campaign_list" model="utm.campaign" type="list">
+            <field name="name" string="Campaign"/>
+            <field name="active" string="Active"/>
+        </view>
+    </data>
+</sumeru>

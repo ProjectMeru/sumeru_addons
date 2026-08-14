@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_purchase_rfq" type="window" model="purchase.order" name="Requests for Quotation" view_mode="list,form">
+            <help>Create an RFQ, set Status to Purchase Order to confirm. A vendor bill is created automatically.</help>
+        </action>
+        <action id="action_purchase_orders" type="window" model="purchase.order" name="Purchase Orders" view_mode="list,form"/>
+    </data>
+</sumeru>

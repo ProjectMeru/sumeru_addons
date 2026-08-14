@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_tag_list" model="crm.tag" type="list">
+            <field name="name" string="Tag"/>
+            <field name="color" string="Color"/>
+            <field name="active" string="Active"/>
+        </view>
+    </data>
+</sumeru>

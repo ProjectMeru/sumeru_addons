@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_payment_list" model="account.payment" type="list">
+            <field name="name" string="Number"/>
+            <field name="payment_type" string="Type"/>
+            <field name="partner_id" string="Partner"/>
+            <field name="amount" string="Amount"/>
+            <field name="date" string="Date"/>
+            <field name="journal_id" string="Journal"/>
+            <field name="invoice_id" string="Invoice"/>
+            <field name="state" string="Status"/>
+        </view>
+    </data>
+</sumeru>

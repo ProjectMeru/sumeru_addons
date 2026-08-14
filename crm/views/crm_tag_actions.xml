@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_tags" type="window" model="crm.tag" name="Tags" view_mode="list,form"/>
+    </data>
+</sumeru>
