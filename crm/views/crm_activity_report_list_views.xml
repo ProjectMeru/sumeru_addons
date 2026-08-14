@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_activity_report_list" model="crm.activity.report" type="list" open="0">
+            <field name="lead_id" string="Lead / Opportunity"/>
+            <field name="user_id" string="Assigned To"/>
+            <field name="team_id" string="Sales Team"/>
+            <field name="stage_id" string="Stage"/>
+            <field name="summary" string="Summary"/>
+            <field name="date_deadline" string="Due Date"/>
+            <field name="state" string="State"/>
+        </view>
+    </data>
+</sumeru>

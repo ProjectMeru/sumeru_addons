@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_tax_list" model="account.tax" type="list">
+            <field name="name" string="Tax"/>
+            <field name="amount" string="Amount %"/>
+            <field name="type_tax_use" string="Type"/>
+            <field name="account_id" string="Account"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
+        </view>
+    </data>
+</sumeru>

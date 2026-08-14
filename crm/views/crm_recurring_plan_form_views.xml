@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_recurring_plan_form" model="crm.recurring.plan" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Recurring Plan Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="number_of_months"/>
+                        <field name="sequence"/>
+                    </group>
+                    <group>
+                        <field name="active"/>
+                    </group>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

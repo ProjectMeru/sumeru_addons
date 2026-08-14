@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_product_product_form" model="product.product" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Product Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="General">
+                        <field name="default_code" string="Internal Reference"/>
+                        <field name="type" string="Product Type"/>
+                        <field name="categ_id" string="Category"/>
+                        <field name="active" string="Active"/>
+                    </group>
+                    <group string="Pricing">
+                        <field name="list_price" string="Sales Price"/>
+                        <field name="standard_price" string="Cost"/>
+                        <field name="sale_ok" string="Can be Sold"/>
+                        <field name="purchase_ok" string="Can be Purchased"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Description">
+                        <field name="description" string="Description"/>
+                    </page>
+                    <page string="Accounting">
+                        <group>
+                            <field name="property_account_income_id" string="Income Account"/>
+                            <field name="property_account_expense_id" string="Expense Account"/>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

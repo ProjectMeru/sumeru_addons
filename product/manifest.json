@@ -10,7 +10,13 @@
     "security/security.xml",
     "security/sys.access.csv",
     "data/product_category_data.xml",
-    "views/product_views.xml",
+    "views/product_product_list_views.xml",
+    "views/product_product_kanban_views.xml",
+    "views/product_product_form_views.xml",
+    "views/product_category_list_views.xml",
+    "views/product_category_form_views.xml",
+    "views/product_product_actions.xml",
+    "views/product_category_actions.xml",
     "views/menus.xml"
   ],
   "application": true

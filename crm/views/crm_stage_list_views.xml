@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_stage_list" model="crm.stage" type="list">
+            <field name="sequence" widget="handle"/>
+            <field name="name"/>
+            <field name="is_won"/>
+        </view>
+    </data>
+</sumeru>

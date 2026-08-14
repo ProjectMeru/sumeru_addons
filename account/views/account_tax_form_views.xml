@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_tax_form" model="account.tax" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Tax Name"/>
+                    </h1>
+                </div>
+                <group>
+                    <field name="amount" string="Amount (%)"/>
+                    <field name="type_tax_use" string="Tax Type"/>
+                    <field name="account_id" string="Tax Account"/>
+                    <field name="active" string="Active"/>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_move_line_list" model="account.move.line" type="list">
+            <field name="move_id" string="Entry"/>
+            <field name="display_type" string="Type"/>
+            <field name="product_id" string="Product"/>
+            <field name="name" string="Label"/>
+            <field name="tax_id" string="Tax"/>
+            <field name="quantity" string="Qty"/>
+            <field name="price_unit" string="Unit Price"/>
+            <field name="price_subtotal" string="Subtotal"/>
+            <field name="account_id" string="Account"/>
+            <field name="partner_id" string="Partner"/>
+            <field name="debit" string="Debit"/>
+            <field name="credit" string="Credit"/>
+            <field name="amount_residual" string="Residual"/>
+        </view>
+    </data>
+</sumeru>

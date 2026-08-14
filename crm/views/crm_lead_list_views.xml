@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_lead_list" model="crm.lead" type="list">
+            <field name="name" string="Opportunity"/>
+            <field name="type" string="Type"/>
+            <field name="partner_id" string="Customer"/>
+            <field name="contact_name" string="Contact"/>
+            <field name="email_from" string="Email"/>
+            <field name="phone" string="Phone"/>
+            <field name="city" string="City"/>
+            <field name="user_id" string="Salesperson"/>
+            <field name="team_id" string="Sales Team"/>
+            <field name="stage_id" string="Stage"/>
+            <field name="expected_revenue" string="Expected Revenue"/>
+            <field name="probability" string="Probability"/>
+            <field name="priority" string="Priority"/>
+            <field name="date_deadline" string="Expected Closing"/>
+            <field name="won_status" string="Status"/>
+        </view>
+    </data>
+</sumeru>

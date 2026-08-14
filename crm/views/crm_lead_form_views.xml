@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_lead_form" model="crm.lead" type="form">
+            <header>
+                <button name="action_set_won" string="Won" type="object" class="sum_highlight"/>
+                <button name="action_convert_opportunity" string="Convert" type="object"/>
+                <button name="action_lost_wizard" string="Lost" type="object"/>
+                <button name="action_restore" string="Restore" type="object"/>
+                <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Opportunity..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Customer">
+                        <field name="partner_id"/>
+                        <field name="contact_name"/>
+                        <field name="partner_name"/>
+                        <field name="email_from"/>
+                        <field name="phone"/>
+                        <field name="website"/>
+                    </group>
+                    <group string="Pipeline">
+                        <field name="type"/>
+                        <field name="date_deadline"/>
+                        <field name="user_id"/>
+                        <field name="team_id"/>
+                        <field name="priority" widget="priority"/>
+                        <field name="tag_ids"/>
+                    </group>
+                </group>
+                <group string="Address">
+                    <field name="street"/>
+                    <field name="street2"/>
+                    <field name="city"/>
+                    <field name="zip"/>
+                </group>
+                <group>
+                    <group string="Revenue">
+                        <field name="expected_revenue"/>
+                        <field name="probability"/>
+                        <field name="recurring_revenue"/>
+                        <field name="recurring_plan"/>
+                        <field name="prorated_revenue"/>
+                    </group>
+                    <group string="Marketing">
+                        <field name="campaign_id"/>
+                        <field name="medium_id"/>
+                        <field name="source_id"/>
+                        <field name="referred"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Internal Notes">
+                        <field name="description"/>
+                    </page>
+                    <page string="Extra Info">
+                        <group>
+                            <field name="active"/>
+                            <field name="won_status"/>
+                            <field name="lost_reason_id"/>
+                            <field name="date_closed"/>
+                            <field name="date_open"/>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+            <chatter/>
+        </view>
+    </data>
+</sumeru>

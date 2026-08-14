@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_product_product_list" model="product.product" type="list">
+            <field name="default_code" string="Internal Reference"/>
+            <field name="name" string="Product"/>
+            <field name="type" string="Type"/>
+            <field name="categ_id" string="Category"/>
+            <field name="list_price" string="Sales Price"/>
+            <field name="standard_price" string="Cost"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
+        </view>
+    </data>
+</sumeru>

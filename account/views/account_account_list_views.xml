@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_account_list" model="account.account" type="list">
+            <field name="code" string="Code"/>
+            <field name="name" string="Account Name"/>
+            <field name="account_type" string="Type"/>
+            <field name="reconcile" string="Reconcile"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
+        </view>
+    </data>
+</sumeru>

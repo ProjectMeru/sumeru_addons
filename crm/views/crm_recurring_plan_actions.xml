@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_recurring_plans" type="window" model="crm.recurring.plan" name="Recurring Plans" view_mode="list,form"/>
+    </data>
+</sumeru>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_purchase_order_form" model="purchase.order" type="form">
+            <header>
+                <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="e.g. PO001"/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Vendor">
+                        <field name="partner_id" string="Vendor"/>
+                        <field name="date_order" string="Order Deadline"/>
+                    </group>
+                    <group string="Purchase">
+                        <field name="user_id" string="Buyer"/>
+                        <field name="company_id" string="Company"/>
+                        <field name="amount_total" string="Total"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Products">
+                        <field name="order_line" string="Order Lines"/>
+                    </page>
+                    <page string="Other Info">
+                        <field name="notes" string="Terms and Conditions"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

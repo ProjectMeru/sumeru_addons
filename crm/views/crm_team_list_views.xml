@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_team_list" model="crm.team" type="list">
+            <field name="sequence" widget="handle"/>
+            <field name="name"/>
+            <field name="user_id"/>
+            <field name="company_id"/>
+        </view>
+    </data>
+</sumeru>

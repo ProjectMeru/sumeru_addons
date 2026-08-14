@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_move_reversal_form" model="account.move.reversal" type="form">
+            <sheet>
+                <group>
+                    <field name="move_id" string="Move"/>
+                    <field name="date" string="Reversal Date"/>
+                    <field name="reason" string="Reason"/>
+                </group>
+            </sheet>
+            <footer>
+                <button name="action_reverse_moves" string="Reverse" type="object" class="sum_highlight"/>
+            </footer>
+        </view>
+    </data>
+</sumeru>

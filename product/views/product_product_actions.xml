@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_product_product" type="window" model="product.product" name="Products" view_mode="kanban,list,form">
+            <help>Create products that can be sold or purchased.</help>
+        </action>
+    </data>
+</sumeru>

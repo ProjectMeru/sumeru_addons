@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_invoice_report_list" model="account.invoice.report" type="list" open="0">
+            <field name="name" string="Number"/>
+            <field name="partner_id" string="Partner"/>
+            <field name="move_type" string="Type"/>
+            <field name="invoice_date" string="Date"/>
+            <field name="state" string="Status"/>
+            <field name="payment_state" string="Payment"/>
+            <field name="amount_untaxed" string="Untaxed"/>
+            <field name="amount_tax" string="Tax"/>
+            <field name="amount_total" string="Total"/>
+            <field name="amount_residual" string="Residual"/>
+        </view>
+    </data>
+</sumeru>

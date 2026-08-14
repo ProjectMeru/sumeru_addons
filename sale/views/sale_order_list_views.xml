@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_sale_order_list" model="sale.order" type="list">
+            <field name="name" string="Number"/>
+            <field name="partner_id" string="Customer"/>
+            <field name="date_order" string="Order Date"/>
+            <field name="user_id" string="Salesperson"/>
+            <field name="opportunity_id" string="Opportunity"/>
+            <field name="amount_total" string="Total"/>
+            <field name="invoice_status" string="Invoice Status"/>
+            <field name="state" string="Status"/>
+        </view>
+    </data>
+</sumeru>

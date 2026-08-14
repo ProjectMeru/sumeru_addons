@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_move_line_form" model="account.move.line" type="form">
+            <sheet>
+                <group>
+                    <group string="Line">
+                        <field name="move_id" string="Journal Entry"/>
+                        <field name="display_type" string="Display Type"/>
+                        <field name="product_id" string="Product"/>
+                        <field name="name" string="Label"/>
+                        <field name="account_id" string="Account"/>
+                        <field name="tax_id" string="Tax"/>
+                        <field name="partner_id" string="Partner"/>
+                    </group>
+                    <group string="Amounts">
+                        <field name="quantity" string="Quantity"/>
+                        <field name="price_unit" string="Unit Price"/>
+                        <field name="price_subtotal" string="Subtotal"/>
+                        <field name="debit" string="Debit"/>
+                        <field name="credit" string="Credit"/>
+                        <field name="balance" string="Balance"/>
+                        <field name="amount_residual" string="Residual"/>
+                    </group>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

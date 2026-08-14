@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data noupdate="1">
+        <record id="recurring_plan_monthly" model="crm.recurring.plan">
+            <field name="name">Monthly</field>
+            <field name="number_of_months">1</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="recurring_plan_yearly" model="crm.recurring.plan">
+            <field name="name">Yearly</field>
+            <field name="number_of_months">12</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="recurring_plan_3y" model="crm.recurring.plan">
+            <field name="name">Over 3 years</field>
+            <field name="number_of_months">36</field>
+            <field name="sequence">3</field>
+        </record>
+        <record id="recurring_plan_5y" model="crm.recurring.plan">
+            <field name="name">Over 5 years</field>
+            <field name="number_of_months">60</field>
+            <field name="sequence">4</field>
+        </record>
+    </data>
+</sumeru>

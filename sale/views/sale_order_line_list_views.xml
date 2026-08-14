@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_sale_order_line_list" model="sale.order.line" type="list">
+            <field name="order_id" string="Order"/>
+            <field name="product_id" string="Product"/>
+            <field name="name" string="Description"/>
+            <field name="product_uom_qty" string="Quantity"/>
+            <field name="price_unit" string="Unit Price"/>
+            <field name="price_subtotal" string="Subtotal"/>
+        </view>
+    </data>
+</sumeru>

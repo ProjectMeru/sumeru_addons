@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_product_category_list" model="product.category" type="list">
+            <field name="sequence" string="Sequence" widget="handle"/>
+            <field name="name" string="Category"/>
+            <field name="parent_id" string="Parent"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
+        </view>
+    </data>
+</sumeru>

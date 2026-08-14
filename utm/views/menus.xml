@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <menuitem id="utm_menu_root" name="UTM" sequence="90" groups="base.group_user"/>
+        <menuitem id="utm_menu_campaigns" name="Campaigns" parent="utm_menu_root" action="utm.action_utm_campaign" sequence="1"/>
+        <menuitem id="utm_menu_mediums" name="Mediums" parent="utm_menu_root" action="utm.action_utm_medium" sequence="2"/>
+        <menuitem id="utm_menu_sources" name="Sources" parent="utm_menu_root" action="utm.action_utm_source" sequence="3"/>
+    </data>
+</sumeru>

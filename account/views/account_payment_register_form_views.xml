@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_payment_register_form" model="account.payment.register" type="form">
+            <sheet>
+                <group>
+                    <field name="invoice_id" string="Invoice"/>
+                    <field name="partner_id" string="Partner"/>
+                    <field name="amount" string="Amount"/>
+                    <field name="journal_id" string="Payment Journal"/>
+                    <field name="payment_date" string="Payment Date"/>
+                    <field name="payment_type" string="Payment Type"/>
+                    <field name="communication" string="Memo"/>
+                </group>
+            </sheet>
+            <footer>
+                <button name="action_create_payments" string="Create Payment" type="object" class="sum_highlight"/>
+            </footer>
+        </view>
+    </data>
+</sumeru>

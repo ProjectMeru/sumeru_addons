@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_move_list" model="account.move" type="list">
+            <field name="name" string="Number"/>
+            <field name="move_type" string="Type"/>
+            <field name="partner_id" string="Partner"/>
+            <field name="invoice_date" string="Date"/>
+            <field name="invoice_origin" string="Source"/>
+            <field name="amount_untaxed" string="Untaxed"/>
+            <field name="amount_tax" string="Tax"/>
+            <field name="amount_total" string="Total"/>
+            <field name="amount_residual" string="Due"/>
+            <field name="payment_state" string="Payment"/>
+            <field name="state" string="Status"/>
+        </view>
+    </data>
+</sumeru>

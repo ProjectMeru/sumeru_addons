@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="action_payment_register_wizard" model="sys.action.window">
+            <field name="name">Register Payment</field>
+            <field name="core_model">account.payment.register</field>
+            <field name="view_mode">form</field>
+        </record>
+        <record id="action_move_reversal_wizard" model="sys.action.window">
+            <field name="name">Reverse Move</field>
+            <field name="core_model">account.move.reversal</field>
+            <field name="view_mode">form</field>
+        </record>
+    </data>
+</sumeru>

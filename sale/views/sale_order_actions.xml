@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_sale_quotations" type="window" model="sale.order" name="Quotations" view_mode="list,form">
+            <help>Create a quotation, then set Status to Sales Order to confirm.</help>
+        </action>
+        <action id="action_sale_orders" type="window" model="sale.order" name="Sales Orders" view_mode="list,form"/>
+    </data>
+</sumeru>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_purchase_order_lines" type="window" model="purchase.order.line" name="Order Lines" view_mode="list,form"/>
+    </data>
+</sumeru>

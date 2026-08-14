@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_lost_reason_list" model="crm.lost.reason" type="list">
+            <field name="name"/>
+            <field name="active" widget="boolean_toggle"/>
+        </view>
+    </data>
+</sumeru>

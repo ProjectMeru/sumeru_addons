@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_recurring_plan_list" model="crm.recurring.plan" type="list">
+            <field name="sequence" widget="handle"/>
+            <field name="name"/>
+            <field name="number_of_months"/>
+            <field name="active" widget="boolean_toggle"/>
+        </view>
+    </data>
+</sumeru>

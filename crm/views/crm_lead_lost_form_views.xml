@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_lead_lost_form" model="crm.lead.lost" type="form">
+            <sheet>
+                <group>
+                    <field name="lead_id" readonly="1"/>
+                    <field name="lost_reason_id"/>
+                    <field name="lost_feedback"/>
+                </group>
+            </sheet>
+            <footer>
+                <button name="action_apply_lost" string="Mark Lost" type="object" class="sum_highlight"/>
+            </footer>
+        </view>
+    </data>
+</sumeru>
