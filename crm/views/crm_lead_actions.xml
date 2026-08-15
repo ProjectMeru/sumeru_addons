@@ -8,10 +8,11 @@
         <action id="action_opportunities" type="window" model="crm.lead" name="Pipeline" view_mode="kanban,list,form"
                 view_id="view_crm_lead_pipeline_kanban"
                 domain='[["type","=","opportunity"],["active","=",true]]'>
+            <field name="context">{"default_type": "opportunity"}</field>
             <help>Drag opportunities across stages to update the pipeline.</help>
         </action>
-        <action id="action_my_activities" type="window" model="mail.activity" name="My Activities" view_mode="list,form"
-                domain='[["model","=","crm.lead"],["state","=","planned"]]'/>
+        <action id="action_my_activities" type="window" model="crm.activity.report" name="My Activities" view_mode="list"
+                domain='[["user_id","=","$uid"],["state","=","planned"]]'/>
         <action id="action_forecast" type="window" model="crm.lead" name="Forecast" view_mode="kanban,list,form"
                 view_id="view_crm_lead_forecast_kanban"
                 domain='[["type","=","opportunity"],["active","=",true],["date_deadline","!=",false]]'/>
