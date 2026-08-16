@@ -2,6 +2,7 @@
 <sumeru>
     <data>
         <view id="view_crm_lead_list" model="crm.lead" type="list">
+            <report download="csv,pdf" upload="bulk" pdf_sizes="a4,legal,letter"/>
             <field name="name" string="Opportunity"/>
             <field name="type" string="Type"/>
             <field name="partner_id" string="Customer"/>
