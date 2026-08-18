@@ -8,14 +8,14 @@ import (
 	"strings"
 	"time"
 
-	"sumeru/core/engine/render"
+	"sumeru/core/engine/swcmeta"
 	"sumeru/core/event"
 	"sumeru/core/orm"
 )
 
 func init() {
-	render.RegisterKanbanGroupExpander("crm.lead", "stage_id", expandCRMStageColumns)
-	render.RegisterKanbanGroupExpander("crm.lead", "date_deadline", expandCRMForecastColumns)
+	swcmeta.RegisterKanbanGroupExpander("crm.lead", "stage_id", expandCRMStageColumns)
+	swcmeta.RegisterKanbanGroupExpander("crm.lead", "date_deadline", expandCRMForecastColumns)
 
 	event.Subscribe("record.created", onLeadCreated)
 	event.Subscribe("record.updated", onLeadUpdated)
@@ -26,7 +26,7 @@ func init() {
 	registerObjectActions()
 }
 
-func expandCRMStageColumns(ctx context.Context, model, groupField string, records []map[string]interface{}) ([]render.KanbanColumn, error) {
+func expandCRMStageColumns(ctx context.Context, model, groupField string, records []map[string]interface{}) ([]swcmeta.KanbanColumn, error) {
 	_ = model
 	_ = groupField
 	stages, err := orm.Search(ctx, "crm.stage", [][]interface{}{{"active", "=", true}})
@@ -53,7 +53,7 @@ func expandCRMStageColumns(ctx context.Context, model, groupField string, record
 		buckets[sid] = append(buckets[sid], row)
 	}
 
-	cols := make([]render.KanbanColumn, 0, len(stages)+1)
+	cols := make([]swcmeta.KanbanColumn, 0, len(stages)+1)
 	for _, st := range stages {
 		id, ok := orm.CoerceInt64(st["id"])
 		if !ok || id <= 0 {
@@ -64,25 +64,24 @@ func expandCRMStageColumns(ctx context.Context, model, groupField string, record
 		if fold && len(recs) == 0 {
 			continue
 		}
-		cols = append(cols, render.KanbanColumn{
+		cols = append(cols, swcmeta.KanbanColumn{
 			Value:    id,
 			Label:    orm.AsString(st["name"]),
 			Sequence: int(coerceInt(st["sequence"])),
 			Color:    int(coerceInt(st["color"])),
-			Tooltip:  orm.AsString(st["requirements"]),
 			Fold:     fold,
 			Records:  recs,
 		})
 	}
 	if len(unassigned) > 0 {
-		cols = append([]render.KanbanColumn{{
+		cols = append([]swcmeta.KanbanColumn{{
 			Value: 0, Label: "New", Sequence: -1, Records: unassigned,
 		}}, cols...)
 	}
 	return cols, nil
 }
 
-func expandCRMForecastColumns(ctx context.Context, model, groupField string, records []map[string]interface{}) ([]render.KanbanColumn, error) {
+func expandCRMForecastColumns(ctx context.Context, model, groupField string, records []map[string]interface{}) ([]swcmeta.KanbanColumn, error) {
 	_ = ctx
 	_ = model
 	_ = groupField
@@ -96,9 +95,9 @@ func expandCRMForecastColumns(ctx context.Context, model, groupField string, rec
 		buckets[key] = append(buckets[key], row)
 	}
 	sort.Strings(order)
-	cols := make([]render.KanbanColumn, 0, len(order))
+	cols := make([]swcmeta.KanbanColumn, 0, len(order))
 	for i, key := range order {
-		cols = append(cols, render.KanbanColumn{
+		cols = append(cols, swcmeta.KanbanColumn{
 			Value:    int64(i + 1),
 			Label:    key,
 			Sequence: i,
