@@ -16,9 +16,9 @@
         <action id="action_forecast" type="window" model="crm.lead" name="Forecast" view_mode="kanban,list,form"
                 view_id="view_crm_lead_forecast_kanban"
                 domain='[["type","=","opportunity"],["active","=",true],["date_deadline","!=",false]]'/>
-        <action id="action_pipeline_analysis" type="window" model="crm.lead" name="Pipeline Analysis" view_mode="list,form"
+        <action id="action_pipeline_analysis" type="window" model="crm.lead" name="Pipeline Analysis" view_mode="graph,pivot,list,form"
                 domain='[["type","=","opportunity"]]'/>
-        <action id="action_leads_analysis" type="window" model="crm.lead" name="Leads Analysis" view_mode="list,form"
+        <action id="action_leads_analysis" type="window" model="crm.lead" name="Leads Analysis" view_mode="graph,pivot,list,form"
                 domain='[["type","=","lead"]]'/>
         <action id="action_activity_report" type="window" model="crm.activity.report" name="Activities" view_mode="list"/>
     </data>

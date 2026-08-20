@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <view id="view_crm_lead_forecast_kanban" model="crm.lead" type="kanban" priority="30" default_group_by="date_deadline" records_draggable="0">
+        <view id="view_crm_lead_forecast_kanban" model="crm.lead" type="kanban" priority="30" default_group_by="date_deadline" records_draggable="0" quick_create="0">
             <field name="name"/>
             <field name="partner_id"/>
             <field name="expected_revenue"/>

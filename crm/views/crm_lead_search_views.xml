@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_lead_search" model="crm.lead" type="search">
+            <field name="name"/>
+            <field name="contact_name"/>
+            <field name="email_from"/>
+            <filter name="opportunity" string="Opportunities" domain='[["type","=","opportunity"]]'/>
+            <filter name="lead" string="Leads" domain='[["type","=","lead"]]'/>
+            <filter name="won" string="Won" domain='[["won_status","=","won"]]'/>
+            <filter name="lost" string="Lost" domain='[["won_status","=","lost"]]'/>
+            <filter name="my" string="My pipeline" domain='[["user_id","=","$uid"]]'/>
+            <filter name="group_stage" string="Stage" group_by="stage_id"/>
+            <filter name="group_user" string="Salesperson" group_by="user_id"/>
+        </view>
+    </data>
+</sumeru>

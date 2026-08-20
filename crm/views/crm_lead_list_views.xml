@@ -2,6 +2,9 @@
 <sumeru>
     <data>
         <view id="view_crm_lead_list" model="crm.lead" type="list">
+            <header>
+                <button name="action_merge_wizard" string="Merge" type="object"/>
+            </header>
             <report download="csv,pdf" upload="bulk" pdf_sizes="a4,legal,letter"/>
             <field name="name" string="Opportunity"/>
             <field name="type" string="Type"/>

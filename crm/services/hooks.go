@@ -333,9 +333,12 @@ func actionAssignTeamLeads(ctx context.Context, model string, id int, vals map[s
 		m := members[mi%len(members)]
 		uid, _ := orm.CoerceInt64(m["user_id"])
 		if uid <= 0 || asBool(m["assignment_optout"]) {
+			mi++
 			continue
 		}
-		_ = orm.UpdateRecordByID(ctx, "crm.lead", int(lid), map[string]interface{}{"user_id": uid})
+		if err := orm.UpdateRecordByID(ctx, "crm.lead", int(lid), map[string]interface{}{"user_id": uid}); err != nil {
+			return "", err
+		}
 		mi++
 	}
 	return vals["next"], nil
@@ -349,7 +352,7 @@ func actionLostWizard(ctx context.Context, model string, id int, vals map[string
 	if err != nil {
 		return "", err
 	}
-	return fmt.Sprintf("/web?model=crm.lead.lost&id=%d&view_type=form", wid), nil
+	return orm.ActionOpenURL("crm.lead.lost", wid), nil
 }
 
 func actionApplyLost(ctx context.Context, model string, id int, vals map[string]string) (string, error) {
@@ -368,10 +371,14 @@ func actionApplyLost(ctx context.Context, model string, id int, vals map[string]
 	if rid, ok := orm.CoerceInt64(wiz["lost_reason_id"]); ok && rid > 0 {
 		upd["lost_reason_id"] = rid
 	}
+	upd["lost_feedback"] = orm.AsString(wiz["lost_feedback"])
 	if err := orm.UpdateRecordByID(ctx, "crm.lead", int(lid), upd); err != nil {
 		return "", err
 	}
-	return vals["next"], nil
+	if next := strings.TrimSpace(vals["next"]); next != "" {
+		return next, nil
+	}
+	return orm.ActionCloseToken(), nil
 }
 
 func actionConvertWizard(ctx context.Context, model string, id int, vals map[string]string) (string, error) {
@@ -389,7 +396,60 @@ func actionConvertWizard(ctx context.Context, model string, id int, vals map[str
 	if err != nil {
 		return "", err
 	}
-	return fmt.Sprintf("/web?model=crm.lead2opportunity&id=%d&view_type=form", wid), nil
+	return orm.ActionOpenURL("crm.lead2opportunity", wid), nil
+}
+
+func actionMergeWizard(ctx context.Context, model string, id int, vals map[string]string) (string, error) {
+	if model != "crm.lead" || id <= 0 {
+		return "", fmt.Errorf("invalid lead")
+	}
+	ids := collectMergeLeadIDs(id, vals["active_ids"])
+	if len(ids) == 0 {
+		return "", fmt.Errorf("no leads selected")
+	}
+	name := ""
+	if lead, err := orm.SearchOne(ctx, "crm.lead", map[string]interface{}{"id": ids[0]}); err == nil {
+		name = orm.AsString(lead["name"])
+	}
+	wid, err := orm.Create(ctx, orm.Registry["crm.merge.opportunity"], map[string]interface{}{
+		"lead_ids": joinIntIDs(ids),
+		"name":     name,
+	})
+	if err != nil {
+		return "", err
+	}
+	return orm.ActionOpenURL("crm.merge.opportunity", wid), nil
+}
+
+func collectMergeLeadIDs(current int, activeCSV string) []int {
+	seen := map[int]struct{}{}
+	var ids []int
+	add := func(n int) {
+		if n <= 0 {
+			return
+		}
+		if _, ok := seen[n]; ok {
+			return
+		}
+		seen[n] = struct{}{}
+		ids = append(ids, n)
+	}
+	for _, part := range strings.Split(activeCSV, ",") {
+		n, err := strconv.Atoi(strings.TrimSpace(part))
+		if err == nil {
+			add(n)
+		}
+	}
+	add(current)
+	return ids
+}
+
+func joinIntIDs(ids []int) string {
+	parts := make([]string, 0, len(ids))
+	for _, id := range ids {
+		parts = append(parts, strconv.Itoa(id))
+	}
+	return strings.Join(parts, ",")
 }
 
 func actionApplyConvert(ctx context.Context, model string, id int, vals map[string]string) (string, error) {
@@ -420,7 +480,10 @@ func actionApplyConvert(ctx context.Context, model string, id int, vals map[stri
 	if err := orm.UpdateRecordByID(ctx, "crm.lead", int(lid), upd); err != nil {
 		return "", err
 	}
-	return vals["next"], nil
+	if next := strings.TrimSpace(vals["next"]); next != "" {
+		return next, nil
+	}
+	return orm.ActionCloseToken(), nil
 }
 
 func actionApplyMerge(ctx context.Context, model string, id int, vals map[string]string) (string, error) {
@@ -447,12 +510,19 @@ func actionApplyMerge(ctx context.Context, model string, id int, vals map[string
 	keepID := ids[0]
 	name := strings.TrimSpace(orm.AsString(wiz["name"]))
 	if name != "" {
-		_ = orm.UpdateRecordByID(ctx, "crm.lead", keepID, map[string]interface{}{"name": name})
+		if err := orm.UpdateRecordByID(ctx, "crm.lead", keepID, map[string]interface{}{"name": name}); err != nil {
+			return "", err
+		}
 	}
 	for _, lid := range ids[1:] {
-		_ = orm.UpdateRecordByID(ctx, "crm.lead", lid, map[string]interface{}{"active": false})
+		if err := orm.UpdateRecordByID(ctx, "crm.lead", lid, map[string]interface{}{"active": false}); err != nil {
+			return "", err
+		}
 	}
-	return vals["next"], nil
+	if next := strings.TrimSpace(vals["next"]); next != "" {
+		return next, nil
+	}
+	return orm.ActionCloseToken(), nil
 }
 
 func onCronAssignLeads(ctx context.Context, ev event.Event) error {
@@ -531,6 +601,7 @@ func registerObjectActions() {
 	orm.RegisterObjectAction("crm.lead", "action_convert_opportunity", actionConvertOpportunity)
 	orm.RegisterObjectAction("crm.lead", "action_lost_wizard", actionLostWizard)
 	orm.RegisterObjectAction("crm.lead", "action_convert_wizard", actionConvertWizard)
+	orm.RegisterObjectAction("crm.lead", "action_merge_wizard", actionMergeWizard)
 	orm.RegisterObjectAction("crm.lead.lost", "action_apply_lost", actionApplyLost)
 	orm.RegisterObjectAction("crm.lead2opportunity", "action_apply_convert", actionApplyConvert)
 	orm.RegisterObjectAction("crm.merge.opportunity", "action_apply_merge", actionApplyMerge)

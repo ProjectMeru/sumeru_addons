@@ -22,6 +22,7 @@ type CrmLead struct {
 	RecurringPlan          sdk.Many2One[CrmRecurringPlan] `sumeru:"string=Recurring Plan"`
 	ProratedRevenue        sdk.Numeric               `sumeru:"string=Prorated Revenue"`
 	LostReasonID           sdk.Many2One[CrmLostReason] `sumeru:"string=Lost Reason"`
+	LostFeedback           sdk.Text                    `sumeru:"string=Closing Note"`
 	WonStatus              sdk.String                `sumeru:"string=Won Status,default=pending,selection=pending:Pending,won:Won,lost:Lost"`
 	DateDeadline           sdk.Date                  `sumeru:"string=Expected Closing"`
 	DateClosed             sdk.Date                  `sumeru:"string=Closed Date"`
