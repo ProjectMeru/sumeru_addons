@@ -7,6 +7,7 @@
   "author": "Sumeru",
   "depends": ["base"],
   "data": [
+    "security/sys.access.csv",
     "views/utm_campaign_list_views.xml",
     "views/utm_campaign_form_views.xml",
     "views/utm_medium_list_views.xml",
@@ -14,8 +15,7 @@
     "views/utm_source_list_views.xml",
     "views/utm_source_form_views.xml",
     "views/utm_actions.xml",
-    "views/menus.xml",
-    "security/sys.access.csv"
+    "views/menus.xml"
   ],
   "application": false
 }

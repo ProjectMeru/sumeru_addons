@@ -577,7 +577,7 @@ func createTaxLine(ctx context.Context, moveID int, accountID, partnerID, taxID 
 		"move_id":      moveID,
 		"account_id":   accountID,
 		"partner_id":   partnerID,
-		"tax_line_id":  taxID,
+		"tax_origin_id": taxID,
 		"name":         name,
 		"display_type": "tax",
 		"debit":        round2(debit),

@@ -4,6 +4,7 @@
         <view id="view_hr_employee_form" model="hr.employee" type="form">
             <sheet>
                 <div class="sum_title">
+                    <field name="image" widget="image"/>
                     <h1>
                         <field name="name" placeholder="Employee Name..."/>
                     </h1>

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <action id="action_purchase_rfq" type="window" model="purchase.order" name="Requests for Quotation" view_mode="list,form">
+        <action id="action_purchase_rfq" type="window" model="purchase.order" name="Requests for Quotation" view_mode="list,form"
+                domain='[["state","in",["draft","sent"]]]'>
+            <field name="context">{"default_state": "draft"}</field>
             <help>Create an RFQ, set Status to Purchase Order to confirm. A vendor bill is created automatically.</help>
         </action>
-        <action id="action_purchase_orders" type="window" model="purchase.order" name="Purchase Orders" view_mode="list,form"/>
+        <action id="action_purchase_orders" type="window" model="purchase.order" name="Purchase Orders" view_mode="list,form"
+                domain='[["state","=","purchase"]]'>
+            <field name="context">{"default_state": "purchase"}</field>
+        </action>
     </data>
 </sumeru>
