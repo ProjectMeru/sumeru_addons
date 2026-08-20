@@ -1,40 +1,26 @@
 package models
 
-import "sumeru/core/sdk"
+import (
+	"sumeru/core/sdk"
+)
 
 type AccountMoveLine struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=account.move.line"`
 
-func (AccountMoveLine) ModelName() string { return "account.move.line" }
-
-func (AccountMoveLine) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "move_id", Type: sdk.Many2One, Relation: "account.move", String: "Journal Entry", Required: true, Index: true},
-		{Name: "account_id", Type: sdk.Many2One, Relation: "account.account", String: "Account"},
-		{Name: "name", Type: sdk.Char, String: "Label"},
-		{Name: "partner_id", Type: sdk.Many2One, Relation: "core.partner", String: "Partner"},
-		{Name: "product_id", Type: sdk.Many2One, Relation: "product.product", String: "Product"},
-		{Name: "tax_id", Type: sdk.Many2One, Relation: "account.tax", String: "Tax"},
-		{Name: "tax_line_id", Type: sdk.Many2One, Relation: "account.tax", String: "Originator Tax"},
-		{Name: "quantity", Type: sdk.Numeric, String: "Quantity", DefaultVal: 1},
-		{Name: "price_unit", Type: sdk.Numeric, String: "Unit Price", DefaultVal: 0},
-		{Name: "price_subtotal", Type: sdk.Numeric, String: "Subtotal", DefaultVal: 0},
-		{Name: "display_type", Type: sdk.Selection, String: "Display Type", Selection: [][]string{
-			{"product", "Product"},
-			{"line_section", "Section"},
-			{"line_note", "Note"},
-			{"tax", "Tax"},
-			{"entry", "Journal Item"},
-		}, DefaultVal: "product"},
-		{Name: "debit", Type: sdk.Numeric, String: "Debit", DefaultVal: 0},
-		{Name: "credit", Type: sdk.Numeric, String: "Credit", DefaultVal: 0},
-		{Name: "balance", Type: sdk.Numeric, String: "Balance", DefaultVal: 0},
-		{Name: "reconciled", Type: sdk.Boolean, String: "Reconciled", DefaultVal: false},
-		{Name: "amount_residual", Type: sdk.Numeric, String: "Residual", DefaultVal: 0},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &AccountMoveLine{}, Module: "account"})
+	MoveID         sdk.Many2One[AccountMove]     `sumeru:"required,index,string=Journal Entry"`
+	AccountID      sdk.Many2One[AccountAccount]  `sumeru:"string=Account"`
+	Name           sdk.String                    `sumeru:"string=Label"`
+	PartnerID      sdk.Many2One[sdk.Any]     `sumeru:"string=Partner,comodel=core.partner"`
+	ProductID      sdk.Many2One[sdk.Any]  `sumeru:"string=Product,comodel=product.product"`
+	TaxID          sdk.Many2One[AccountTax]      `sumeru:"string=Tax"`
+	TaxOriginID    sdk.Many2One[AccountTax]      `sumeru:"string=Originator Tax"`
+	Quantity       sdk.Numeric                   `sumeru:"string=Quantity,default=1"`
+	PriceUnit      sdk.Numeric                   `sumeru:"string=Unit Price,default=0"`
+	PriceSubtotal  sdk.Numeric                   `sumeru:"string=Subtotal,default=0"`
+	DisplayType    sdk.String                    `sumeru:"string=Display Type,default=product,selection=product:Product,line_section:Section,line_note:Note,tax:Tax,entry:Journal Item"`
+	Debit          sdk.Numeric                   `sumeru:"string=Debit,default=0"`
+	Credit         sdk.Numeric                   `sumeru:"string=Credit,default=0"`
+	Balance        sdk.Numeric                   `sumeru:"string=Balance,default=0"`
+	Reconciled     sdk.Boolean                   `sumeru:"string=Reconciled,default=false"`
+	AmountResidual sdk.Numeric                   `sumeru:"string=Residual,default=0"`
 }

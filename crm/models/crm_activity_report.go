@@ -1,30 +1,18 @@
 package models
 
-import "sumeru/core/sdk"
+import (
+	"sumeru/core/sdk"
+)
 
 type CrmActivityReport struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=crm.activity.report"`
 
-func (CrmActivityReport) ModelName() string { return "crm.activity.report" }
-
-func (CrmActivityReport) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "activity_id", Type: sdk.Many2One, Relation: "mail.activity", String: "Activity"},
-		{Name: "lead_id", Type: sdk.Many2One, Relation: "crm.lead", String: "Lead / Opportunity"},
-		{Name: "user_id", Type: sdk.Many2One, Relation: "core.user", String: "Assigned To"},
-		{Name: "team_id", Type: sdk.Many2One, Relation: "crm.team", String: "Sales Team"},
-		{Name: "stage_id", Type: sdk.Many2One, Relation: "crm.stage", String: "Stage"},
-		{Name: "summary", Type: sdk.Text, String: "Summary"},
-		{Name: "date_deadline", Type: sdk.Date, String: "Due Date"},
-		{Name: "state", Type: sdk.Selection, String: "State", Selection: [][]string{
-			{"planned", "Planned"},
-			{"done", "Done"},
-			{"cancelled", "Cancelled"},
-		}},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &CrmActivityReport{}, Module: "crm"})
+	ActivityID   sdk.Many2One[sdk.Any] `sumeru:"string=Activity,comodel=mail.activity"`
+	LeadID       sdk.Many2One[CrmLead]      `sumeru:"string=Lead / Opportunity"`
+	UserID       sdk.Many2One[sdk.Any]     `sumeru:"string=Assigned To,comodel=core.user"`
+	TeamID       sdk.Many2One[CrmTeam]      `sumeru:"string=Sales Team"`
+	StageID      sdk.Many2One[CrmStage]     `sumeru:"string=Stage"`
+	Summary      sdk.Text                   `sumeru:"string=Summary"`
+	DateDeadline sdk.Date                   `sumeru:"string=Due Date"`
+	State        sdk.String                 `sumeru:"string=State,selection=planned:Planned,done:Done,cancelled:Cancelled"`
 }

@@ -1,20 +1,12 @@
 package wizard
 
-import "sumeru/core/sdk"
+import (
+	"sumeru/core/sdk"
+)
 
 type CrmMergeOpportunity struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=crm.merge.opportunity"`
 
-func (CrmMergeOpportunity) ModelName() string { return "crm.merge.opportunity" }
-
-func (CrmMergeOpportunity) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "lead_ids", Type: sdk.Char, String: "Lead IDs"},
-		{Name: "name", Type: sdk.Char, String: "Merged Name"},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &CrmMergeOpportunity{}, Module: "crm"})
+	LeadIds sdk.String `sumeru:"string=Lead IDs"`
+	Name    sdk.String `sumeru:"string=Merged Name"`
 }

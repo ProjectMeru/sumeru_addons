@@ -1,18 +1,12 @@
 package models
 
-import "sumeru/core/sdk"
+import (
+	"sumeru/core/sdk"
+)
 
-type UtmSource struct{ sdk.BaseModel }
+type UtmSource struct {
+	sdk.Model `sumeru:"model=utm.source"`
 
-func (UtmSource) ModelName() string { return "utm.source" }
-
-func (UtmSource) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "name", Type: sdk.Char, String: "Source", Required: true},
-		{Name: "active", Type: sdk.Boolean, String: "Active", DefaultVal: true},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &UtmSource{}, Module: "utm"})
+	Name   sdk.String  `sumeru:"required,string=Source"`
+	Active sdk.Boolean `sumeru:"string=Active,default=true"`
 }

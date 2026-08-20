@@ -1,21 +1,13 @@
 package wizard
 
-import "sumeru/core/sdk"
+import (
+	"sumeru/core/sdk"
+)
 
 type CrmLeadLost struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=crm.lead.lost"`
 
-func (CrmLeadLost) ModelName() string { return "crm.lead.lost" }
-
-func (CrmLeadLost) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "lead_id", Type: sdk.Many2One, Relation: "crm.lead", String: "Lead", Required: true},
-		{Name: "lost_reason_id", Type: sdk.Many2One, Relation: "crm.lost.reason", String: "Lost Reason"},
-		{Name: "lost_feedback", Type: sdk.Text, String: "Closing Note"},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &CrmLeadLost{}, Module: "crm"})
+	LeadID       sdk.Many2One[CrmLead]       `sumeru:"required,string=Lead"`
+	LostReasonID sdk.Many2One[CrmLostReason] `sumeru:"string=Lost Reason"`
+	LostFeedback sdk.Text                    `sumeru:"string=Closing Note"`
 }

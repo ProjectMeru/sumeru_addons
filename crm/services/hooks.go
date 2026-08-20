@@ -17,6 +17,8 @@ func init() {
 	swcmeta.RegisterKanbanGroupExpander("crm.lead", "stage_id", expandCRMStageColumns)
 	swcmeta.RegisterKanbanGroupExpander("crm.lead", "date_deadline", expandCRMForecastColumns)
 
+	orm.RegisterOnchange("crm.lead", "team_id", onLeadTeamChange)
+
 	event.Subscribe("record.created", onLeadCreated)
 	event.Subscribe("record.updated", onLeadUpdated)
 	event.Subscribe("record.created", onActivityCreated)
@@ -24,6 +26,22 @@ func init() {
 	event.Subscribe("crm.cron_assign_leads", onCronAssignLeads)
 
 	registerObjectActions()
+}
+
+func onLeadTeamChange(ctx context.Context, values map[string]interface{}, _ string) (orm.OnchangeResult, error) {
+	_ = ctx
+	result := orm.OnchangeResult{Value: map[string]interface{}{}}
+	teamID, _ := orm.CoerceInt64(values["team_id"])
+	if teamID <= 0 {
+		result.Value["user_id"] = false
+		return result, nil
+	}
+	result.Domain = map[string]interface{}{
+		"user_id": [][]interface{}{
+			{"active", "=", true},
+		},
+	}
+	return result, nil
 }
 
 func expandCRMStageColumns(ctx context.Context, model, groupField string, records []map[string]interface{}) ([]swcmeta.KanbanColumn, error) {

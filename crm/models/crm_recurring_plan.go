@@ -5,22 +5,10 @@ import (
 )
 
 type CrmRecurringPlan struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=crm.recurring.plan"`
 
-func (p CrmRecurringPlan) ModelName() string {
-	return "crm.recurring.plan"
-}
-
-func (p CrmRecurringPlan) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "name", Type: sdk.Char, String: "Plan Name", Required: true},
-		{Name: "number_of_months", Type: sdk.Integer, String: "# Months", Required: true},
-		{Name: "active", Type: sdk.Boolean, String: "Active", DefaultVal: true},
-		{Name: "sequence", Type: sdk.Integer, String: "Sequence", DefaultVal: 10},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &CrmRecurringPlan{}, Module: "crm"})
+	Name           sdk.String  `sumeru:"required,string=Plan Name"`
+	NumberOfMonths sdk.Integer `sumeru:"required,string=# Months"`
+	Active         sdk.Boolean `sumeru:"string=Active,default=true"`
+	Sequence       sdk.Integer `sumeru:"string=Sequence,default=10"`
 }
