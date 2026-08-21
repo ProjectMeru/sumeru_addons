@@ -4,6 +4,7 @@
         <view id="view_product_product_form" model="product.product" type="form">
             <sheet>
                 <div class="sum_title">
+                    <field name="image" widget="image"/>
                     <h1>
                         <field name="name" placeholder="Product Name..."/>
                     </h1>

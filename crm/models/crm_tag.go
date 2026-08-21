@@ -5,21 +5,9 @@ import (
 )
 
 type CrmTag struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=crm.tag"`
 
-func (t CrmTag) ModelName() string {
-	return "crm.tag"
-}
-
-func (t CrmTag) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "name", Type: sdk.Char, String: "Tag Name", Required: true},
-		{Name: "color", Type: sdk.Integer, String: "Color", DefaultVal: 0},
-		{Name: "active", Type: sdk.Boolean, String: "Active", DefaultVal: true},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &CrmTag{}, Module: "crm"})
+	Name   sdk.String  `sumeru:"required,string=Tag Name"`
+	Color  sdk.Integer `sumeru:"string=Color,default=0"`
+	Active sdk.Boolean `sumeru:"string=Active,default=true"`
 }

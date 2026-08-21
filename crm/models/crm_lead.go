@@ -5,67 +5,44 @@ import (
 )
 
 type CrmLead struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=crm.lead"`
 
-func (l CrmLead) ModelName() string {
-	return "crm.lead"
-}
-
-func (l CrmLead) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "name", Type: sdk.Char, String: "Opportunity", Required: true},
-		{Name: "user_id", Type: sdk.Many2One, Relation: "core.user", String: "Salesperson"},
-		{Name: "team_id", Type: sdk.Many2One, Relation: "crm.team", String: "Sales Team"},
-		{Name: "stage_id", Type: sdk.Many2One, Relation: "crm.stage", String: "Stage"},
-		{Name: "partner_id", Type: sdk.Many2One, Relation: "core.partner", String: "Customer"},
-		{Name: "type", Type: sdk.Selection, String: "Type", Selection: [][]string{
-			{"lead", "Lead"},
-			{"opportunity", "Opportunity"},
-		}, DefaultVal: "lead"},
-		{Name: "priority", Type: sdk.Selection, String: "Priority", Selection: [][]string{
-			{"0", "Low"},
-			{"1", "Medium"},
-			{"2", "High"},
-			{"3", "Very High"},
-		}, DefaultVal: "1"},
-		{Name: "expected_revenue", Type: sdk.Numeric, String: "Expected Revenue"},
-		{Name: "probability", Type: sdk.Float, String: "Probability (%)"},
-		{Name: "automated_probability", Type: sdk.Float, String: "Automated Probability"},
-		{Name: "is_automated_probability", Type: sdk.Boolean, String: "Auto Probability", DefaultVal: true},
-		{Name: "recurring_revenue", Type: sdk.Numeric, String: "Recurring Revenue"},
-		{Name: "recurring_plan", Type: sdk.Many2One, Relation: "crm.recurring.plan", String: "Recurring Plan"},
-		{Name: "prorated_revenue", Type: sdk.Numeric, String: "Prorated Revenue"},
-		{Name: "lost_reason_id", Type: sdk.Many2One, Relation: "crm.lost.reason", String: "Lost Reason"},
-		{Name: "won_status", Type: sdk.Selection, String: "Won Status", Selection: [][]string{
-			{"pending", "Pending"},
-			{"won", "Won"},
-			{"lost", "Lost"},
-		}, DefaultVal: "pending"},
-		{Name: "date_deadline", Type: sdk.Date, String: "Expected Closing"},
-		{Name: "date_closed", Type: sdk.Date, String: "Closed Date"},
-		{Name: "date_open", Type: sdk.Date, String: "Assignment Date"},
-		{Name: "date_last_stage_update", Type: sdk.DateTime, String: "Last Stage Update"},
-		{Name: "description", Type: sdk.Text, String: "Notes"},
-		{Name: "active", Type: sdk.Boolean, String: "Active", DefaultVal: true},
-		{Name: "contact_name", Type: sdk.Char, String: "Contact Name"},
-		{Name: "partner_name", Type: sdk.Char, String: "Company Name"},
-		{Name: "email_from", Type: sdk.Char, String: "Email"},
-		{Name: "phone", Type: sdk.Char, String: "Phone"},
-		{Name: "website", Type: sdk.Char, String: "Website"},
-		{Name: "street", Type: sdk.Char, String: "Street"},
-		{Name: "street2", Type: sdk.Char, String: "Street 2"},
-		{Name: "zip", Type: sdk.Char, String: "Zip"},
-		{Name: "city", Type: sdk.Char, String: "City"},
-		{Name: "color", Type: sdk.Integer, String: "Color Index", DefaultVal: 0},
-		{Name: "tag_ids", Type: sdk.Many2Many, Relation: "crm.tag", RelationTable: "crm_lead_tag_rel", Column1: "lead_id", Column2: "tag_id", String: "Tags"},
-		{Name: "campaign_id", Type: sdk.Many2One, Relation: "utm.campaign", String: "Campaign"},
-		{Name: "medium_id", Type: sdk.Many2One, Relation: "utm.medium", String: "Medium"},
-		{Name: "source_id", Type: sdk.Many2One, Relation: "utm.source", String: "Source"},
-		{Name: "referred", Type: sdk.Char, String: "Referred By"},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &CrmLead{}, Module: "crm"})
+	Name                   sdk.String                `sumeru:"required,string=Opportunity"`
+	UserID                 sdk.Many2One[sdk.Any]    `sumeru:"string=Salesperson,comodel=core.user"`
+	TeamID                 sdk.Many2One[CrmTeam]     `sumeru:"string=Sales Team"`
+	StageID                sdk.Many2One[CrmStage]    `sumeru:"string=Stage"`
+	PartnerID              sdk.Many2One[sdk.Any] `sumeru:"string=Customer,comodel=core.partner"`
+	Type                   sdk.String                `sumeru:"string=Type,default=lead,selection=lead:Lead,opportunity:Opportunity"`
+	Priority               sdk.String                `sumeru:"string=Priority,default=1,selection=0:Low,1:Medium,2:High,3:Very High"`
+	ExpectedRevenue        sdk.Numeric               `sumeru:"string=Expected Revenue"`
+	Probability            sdk.Float64               `sumeru:"string=Probability (%)"`
+	AutomatedProbability   sdk.Float64               `sumeru:"string=Automated Probability"`
+	IsAutomatedProbability sdk.Boolean               `sumeru:"string=Auto Probability,default=true"`
+	RecurringRevenue       sdk.Numeric               `sumeru:"string=Recurring Revenue"`
+	RecurringPlan          sdk.Many2One[CrmRecurringPlan] `sumeru:"string=Recurring Plan"`
+	ProratedRevenue        sdk.Numeric               `sumeru:"string=Prorated Revenue"`
+	LostReasonID           sdk.Many2One[CrmLostReason] `sumeru:"string=Lost Reason"`
+	LostFeedback           sdk.Text                    `sumeru:"string=Closing Note"`
+	WonStatus              sdk.String                `sumeru:"string=Won Status,default=pending,selection=pending:Pending,won:Won,lost:Lost"`
+	DateDeadline           sdk.Date                  `sumeru:"string=Expected Closing"`
+	DateClosed             sdk.Date                  `sumeru:"string=Closed Date"`
+	DateOpen               sdk.Date                  `sumeru:"string=Assignment Date"`
+	DateLastStageUpdate    sdk.DateTime              `sumeru:"string=Last Stage Update"`
+	Description            sdk.Text                  `sumeru:"string=Notes"`
+	Active                 sdk.Boolean               `sumeru:"string=Active,default=true"`
+	ContactName            sdk.String                `sumeru:"string=Contact Name"`
+	PartnerName            sdk.String                `sumeru:"string=Company Name"`
+	EmailFrom              sdk.String                `sumeru:"string=Email"`
+	Phone                  sdk.String                `sumeru:"string=Phone"`
+	Website                sdk.String                `sumeru:"string=Website"`
+	Street                 sdk.String                `sumeru:"string=Street"`
+	Street2                sdk.String                `sumeru:"string=Street 2"`
+	Zip                    sdk.String                `sumeru:"string=Zip"`
+	City                   sdk.String                `sumeru:"string=City"`
+	Color                  sdk.Integer               `sumeru:"string=Color Index,default=0"`
+	TagIDs                 sdk.Many2Many[CrmTag]     `sumeru:"string=Tags,table=crm_lead_tag_rel,left=lead_id,right=tag_id"`
+	CampaignID             sdk.Many2One[sdk.Any] `sumeru:"string=Campaign,comodel=utm.campaign"`
+	MediumID               sdk.Many2One[sdk.Any]   `sumeru:"string=Medium,comodel=utm.medium"`
+	SourceID               sdk.Many2One[sdk.Any]   `sumeru:"string=Source,comodel=utm.source"`
+	Referred               sdk.String                `sumeru:"string=Referred By"`
 }

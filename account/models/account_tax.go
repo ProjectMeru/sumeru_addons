@@ -1,27 +1,15 @@
 package models
 
-import "sumeru/core/sdk"
+import (
+	"sumeru/core/sdk"
+)
 
 type AccountTax struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=account.tax"`
 
-func (AccountTax) ModelName() string { return "account.tax" }
-
-func (AccountTax) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "name", Type: sdk.Char, String: "Tax Name", Required: true},
-		{Name: "amount", Type: sdk.Numeric, String: "Amount (%)", DefaultVal: 0},
-		{Name: "type_tax_use", Type: sdk.Selection, String: "Tax Type", Selection: [][]string{
-			{"sale", "Sales"},
-			{"purchase", "Purchase"},
-			{"none", "None"},
-		}, DefaultVal: "sale"},
-		{Name: "account_id", Type: sdk.Many2One, Relation: "account.account", String: "Tax Account"},
-		{Name: "active", Type: sdk.Boolean, String: "Active", DefaultVal: true},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &AccountTax{}, Module: "account"})
+	Name       sdk.String             `sumeru:"required,string=Tax Name"`
+	Amount     sdk.Numeric            `sumeru:"string=Amount (%),default=0"`
+	TypeTaxUse sdk.String             `sumeru:"string=Tax Type,default=sale,selection=sale:Sales,purchase:Purchase,none:None"`
+	AccountID  sdk.Many2One[AccountAccount] `sumeru:"string=Tax Account"`
+	Active     sdk.Boolean            `sumeru:"string=Active,default=true"`
 }

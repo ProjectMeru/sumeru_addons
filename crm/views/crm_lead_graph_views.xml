@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_lead_graph" model="crm.lead" type="graph" chart="bar" string="Pipeline">
+            <field name="stage_id" type="row"/>
+            <field name="expected_revenue" type="measure"/>
+        </view>
+    </data>
+</sumeru>

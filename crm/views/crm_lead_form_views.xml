@@ -4,8 +4,9 @@
         <view id="view_crm_lead_form" model="crm.lead" type="form">
             <header>
                 <button name="action_set_won" string="Won" type="object" class="sum_highlight"/>
-                <button name="action_convert_opportunity" string="Convert" type="object"/>
+                <button name="action_convert_wizard" string="Convert" type="object"/>
                 <button name="action_lost_wizard" string="Lost" type="object"/>
+                <button name="action_merge_wizard" string="Merge" type="object"/>
                 <button name="action_restore" string="Restore" type="object"/>
                 <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
             </header>
@@ -15,7 +16,7 @@
                         <field name="name" placeholder="Opportunity..."/>
                     </h1>
                 </div>
-                <group>
+                <group col="2">
                     <group string="Customer">
                         <field name="partner_id"/>
                         <field name="contact_name"/>
@@ -25,21 +26,25 @@
                         <field name="website"/>
                     </group>
                     <group string="Pipeline">
-                        <field name="type"/>
+                        <field name="type" widget="selection"/>
                         <field name="date_deadline" widget="date"/>
                         <field name="user_id"/>
                         <field name="team_id"/>
-                        <field name="priority" widget="priority"/>
-                        <field name="tag_ids"/>
+                        <field name="priority" widget="priority" options="mode:stars,stars:3"/>
+                        <field name="tag_ids" widget="many2many_tags"/>
                     </group>
                 </group>
-                <group string="Address">
-                    <field name="street"/>
-                    <field name="street2"/>
-                    <field name="city"/>
-                    <field name="zip"/>
+                <group col="2">
+                    <group string="Address">
+                        <field name="street"/>
+                        <field name="street2"/>
+                    </group>
+                    <group string="City">
+                        <field name="city"/>
+                        <field name="zip"/>
+                    </group>
                 </group>
-                <group>
+                <group col="2">
                     <group string="Revenue">
                         <field name="expected_revenue"/>
                         <field name="probability"/>
@@ -56,13 +61,14 @@
                 </group>
                 <notebook>
                     <page string="Internal Notes">
-                        <field name="description"/>
+                        <field name="description" placeholder="Internal notes..."/>
                     </page>
                     <page string="Extra Info">
                         <group>
                             <field name="active"/>
                             <field name="won_status"/>
                             <field name="lost_reason_id"/>
+                            <field name="lost_feedback"/>
                             <field name="date_closed"/>
                             <field name="date_open"/>
                         </group>
