@@ -16,7 +16,7 @@ type AccountMoveLine struct {
 	TaxOriginID    sdk.Many2One[AccountTax]      `sumeru:"string=Originator Tax"`
 	Quantity       sdk.Numeric                   `sumeru:"string=Quantity,default=1"`
 	PriceUnit      sdk.Numeric                   `sumeru:"string=Unit Price,default=0"`
-	PriceSubtotal  sdk.Numeric                   `sumeru:"string=Subtotal,default=0"`
+	PriceSubtotal  sdk.Numeric                   `sumeru:"string=Subtotal,default=0,readonly"`
 	DisplayType    sdk.String                    `sumeru:"string=Display Type,default=product,selection=product:Product,line_section:Section,line_note:Note,tax:Tax,entry:Journal Item"`
 	Debit          sdk.Numeric                   `sumeru:"string=Debit,default=0"`
 	Credit         sdk.Numeric                   `sumeru:"string=Credit,default=0"`
