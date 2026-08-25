@@ -2,6 +2,9 @@ package services
 
 import (
 	"context"
+	"math"
+	"strconv"
+	"strings"
 
 	"sumeru/core/event"
 	"sumeru/core/orm"
@@ -9,6 +12,9 @@ import (
 
 func init() {
 	event.Subscribe("record.updated", onSaleOrderUpdated)
+	orm.RegisterOnchange("sale.order.line", "product_id", onSaleOrderLineProductChange)
+	orm.RegisterOnchange("sale.order.line", "product_uom_qty", onSaleOrderLineSubtotalChange)
+	orm.RegisterOnchange("sale.order.line", "price_unit", onSaleOrderLineSubtotalChange)
 }
 
 func onSaleOrderUpdated(ctx context.Context, ev event.Event) error {
@@ -42,6 +48,62 @@ func onSaleOrderUpdated(ctx context.Context, ev event.Event) error {
 		}
 	}
 	return nil
+}
+
+// onSaleOrderLineProductChange updates the line description from the product name.
+func onSaleOrderLineProductChange(ctx context.Context, values map[string]interface{}, _ string) (orm.OnchangeResult, error) {
+	result := orm.OnchangeResult{Value: map[string]interface{}{}}
+	productID, ok := orm.CoerceInt64(values["product_id"])
+	if !ok || productID <= 0 {
+		return result, nil
+	}
+	product, err := orm.SearchOne(ctx, "product.product", map[string]interface{}{"id": int(productID)})
+	if err != nil || product == nil {
+		return result, nil
+	}
+	result.Value["name"] = orm.AsString(product["name"])
+	return result, nil
+}
+
+// onSaleOrderLineSubtotalChange recomputes the untaxed line subtotal (qty × price).
+func onSaleOrderLineSubtotalChange(_ context.Context, values map[string]interface{}, _ string) (orm.OnchangeResult, error) {
+	result := orm.OnchangeResult{Value: map[string]interface{}{}}
+	qty := numericFloat(values["product_uom_qty"])
+	if qty <= 0 {
+		qty = 1
+	}
+	price := numericFloat(values["price_unit"])
+	result.Value["price_subtotal"] = round2(qty * price)
+	return result, nil
+}
+
+func numericFloat(v interface{}) float64 {
+	switch t := v.(type) {
+	case float64:
+		return t
+	case float32:
+		return float64(t)
+	case int:
+		return float64(t)
+	case int64:
+		return float64(t)
+	case int32:
+		return float64(t)
+	default:
+		s := strings.TrimSpace(orm.AsString(v))
+		if s == "" {
+			return 0
+		}
+		f, err := strconv.ParseFloat(s, 64)
+		if err != nil {
+			return 0
+		}
+		return f
+	}
+}
+
+func round2(v float64) float64 {
+	return math.Round(v*100) / 100
 }
 
 func coerceID(v interface{}) (int, bool) {

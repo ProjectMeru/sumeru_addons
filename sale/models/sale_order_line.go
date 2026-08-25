@@ -12,6 +12,6 @@ type SaleOrderLine struct {
 	Name          sdk.String                   `sumeru:"required,string=Description"`
 	ProductUomQty sdk.Float64                  `sumeru:"string=Quantity,default=1"`
 	PriceUnit     sdk.Numeric                  `sumeru:"string=Unit Price,default=0"`
-	PriceSubtotal sdk.Numeric                  `sumeru:"string=Subtotal,default=0"`
+	PriceSubtotal sdk.Numeric                  `sumeru:"string=Subtotal,default=0,readonly"`
 	Sequence      sdk.Integer                  `sumeru:"string=Sequence,default=10"`
 }
