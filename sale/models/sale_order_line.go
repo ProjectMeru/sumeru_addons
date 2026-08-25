@@ -10,8 +10,8 @@ type SaleOrderLine struct {
 	OrderID       sdk.Many2One[SaleOrder]      `sumeru:"required,index,string=Order"`
 	ProductID     sdk.Many2One[ProductProduct] `sumeru:"string=Product"`
 	Name          sdk.String                   `sumeru:"required,string=Description"`
-	ProductUomQty sdk.Float                    `sumeru:"string=Quantity,default=1"`
-	PriceUnit     sdk.Numeric                  `sumeru:"string=Unit Price,precision=18,scale=2,default=0"`
-	PriceSubtotal sdk.Numeric                  `sumeru:"string=Subtotal,precision=18,scale=2,default=0"`
+	ProductUomQty sdk.Float64                  `sumeru:"string=Quantity,default=1"`
+	PriceUnit     sdk.Numeric                  `sumeru:"string=Unit Price,default=0"`
+	PriceSubtotal sdk.Numeric                  `sumeru:"string=Subtotal,default=0,readonly"`
 	Sequence      sdk.Integer                  `sumeru:"string=Sequence,default=10"`
 }

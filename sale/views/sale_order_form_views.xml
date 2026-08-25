@@ -32,7 +32,15 @@
                 </group>
                 <notebook>
                     <page string="Order Lines">
-                        <field name="order_line" string="Order Lines"/>
+                        <field name="order_line" string="Order Lines">
+                            <list editable="bottom">
+                                <field name="product_id" string="Product"/>
+                                <field name="name" string="Description"/>
+                                <field name="product_uom_qty" string="Quantity"/>
+                                <field name="price_unit" string="Unit Price"/>
+                                <field name="price_subtotal" string="Subtotal"/>
+                            </list>
+                        </field>
                     </page>
                     <page string="Other Info">
                         <field name="note" string="Terms and Conditions"/>
