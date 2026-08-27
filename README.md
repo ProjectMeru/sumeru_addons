@@ -65,7 +65,7 @@ sumeru_custom_addons  ──replace + make generate──►  sumeru (core)
 | **`addons_path`** | Comma-separated roots in `sumeru.conf`, e.g. `../sumeru/addons,../sumeru_addons,./addons`. Later roots **override** the same `manifest.name`. |
 | **Go modules** | This repo replaces `sumeru => ../sumeru`. The custom workspace also replaces `sumeru_addons` and generates blank-imports so `init()` runs. |
 | **Manifests** | Each app has `manifest.json` with `depends`, `data` (XML/CSV), and optional `application`. |
-| **Models** | Go types register with `sdk.RegisterModel` (prefer `sumeru/core/sdk`). |
+| **Models** | Go structs with `sdk.Model` embed; `make generate` → `sdk.MustRegister` |
 | **XML / security** | Views, menus, groups, and ACLs load on install/update. |
 | **Events** | Cross-module automation via `event.Subscribe` (see [`sale_crm`](sale_crm/)). |
 | **Relations** | Many2One / related fields to core models such as `core.partner`, `core.user`, `core.company`. |
@@ -184,7 +184,7 @@ Use this repository when the module should ship to every Sumeru deployment:
 
 1. Add a new directory at the repo root named with the technical name.
 2. Add `manifest.json` (`depends` only on `base` / other modules here / kernel apps; this Go module must depend only on `sumeru`).
-3. Register models with `sdk.RegisterModel` and optional `init.go` hooks.
+3. Define models as structs with `sdk.Model` embed and `sumeru` tags; run `make generate`.
 4. Ship XML under `views/`, ACLs under `security/`, seed data under `data/` as needed.
 5. Verify from `sumeru_custom_addons` with `make generate` and `-i <name> --stop-after-init`.
 

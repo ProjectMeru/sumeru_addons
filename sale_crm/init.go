@@ -3,14 +3,12 @@ package sale_crm
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"sumeru/core/event"
 	"sumeru/core/orm"
 )
 
 func init() {
-	log.Println("Sale CRM Addon Loaded")
 	event.Subscribe("record.updated", onLeadWonCreateQuotation)
 }
 
@@ -23,9 +21,12 @@ func CreateQuotationFromLead(ctx context.Context, leadID int) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	existing, _ := orm.Search(bypass, "sale.order", [][]interface{}{
+	existing, err := orm.Search(bypass, "sale.order", [][]interface{}{
 		{"opportunity_id", "=", leadID},
 	})
+	if err != nil {
+		return 0, err
+	}
 	if len(existing) > 0 {
 		id, _ := orm.CoerceInt64(existing[0]["id"])
 		return int(id), nil
@@ -67,7 +68,7 @@ func onLeadWonCreateQuotation(ctx context.Context, ev event.Event) error {
 	bypass := orm.ContextWithBypass(ctx, true)
 	lead, err := orm.SearchOne(bypass, "crm.lead", map[string]interface{}{"id": id})
 	if err != nil {
-		return nil
+		return err
 	}
 	typ := orm.AsString(lead["type"])
 	stageID, _ := orm.CoerceInt64(lead["stage_id"])
@@ -78,15 +79,15 @@ func onLeadWonCreateQuotation(ctx context.Context, ev event.Event) error {
 		}
 	}
 	if typ == "lead" && won {
-		_ = orm.UpdateRecordByID(bypass, "crm.lead", id, map[string]interface{}{"type": "opportunity"})
+		if err := orm.UpdateRecordByID(bypass, "crm.lead", id, map[string]interface{}{"type": "opportunity"}); err != nil {
+			return err
+		}
 	}
 	if !won {
 		return nil
 	}
-	if _, err := CreateQuotationFromLead(ctx, id); err != nil {
-		log.Printf("sale_crm: quotation from lead %d: %v", id, err)
-	}
-	return nil
+	_, err = CreateQuotationFromLead(ctx, id)
+	return err
 }
 
 func coerceID(v interface{}) (int, bool) {

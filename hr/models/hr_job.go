@@ -1,22 +1,14 @@
 package models
 
-import "sumeru/core/sdk"
+import (
+	"sumeru/core/sdk"
+)
 
 type HrJob struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=hr.job"`
 
-func (HrJob) ModelName() string { return "hr.job" }
-
-func (HrJob) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "name", Type: sdk.Char, String: "Job Position", Required: true},
-		{Name: "department_id", Type: sdk.Many2One, Relation: "hr.department", String: "Department"},
-		{Name: "description", Type: sdk.Text, String: "Job Description"},
-		{Name: "active", Type: sdk.Boolean, String: "Active", DefaultVal: true},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &HrJob{}, Module: "hr"})
+	Name         sdk.String                `sumeru:"required,string=Job Position"`
+	DepartmentID sdk.Many2One[HrDepartment] `sumeru:"string=Department"`
+	Description  sdk.Text                  `sumeru:"string=Job Description"`
+	Active       sdk.Boolean               `sumeru:"string=Active,default=true"`
 }

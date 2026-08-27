@@ -5,30 +5,18 @@ import (
 )
 
 type CrmTeam struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=crm.team"`
 
-func (t CrmTeam) ModelName() string {
-	return "crm.team"
-}
-
-func (t CrmTeam) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "name", Type: sdk.Char, String: "Sales Team", Required: true},
-		{Name: "active", Type: sdk.Boolean, String: "Active", DefaultVal: true},
-		{Name: "sequence", Type: sdk.Integer, String: "Sequence", DefaultVal: 10},
-		{Name: "user_id", Type: sdk.Many2One, Relation: "core.user", String: "Team Leader"},
-		{Name: "company_id", Type: sdk.Many2One, Relation: "core.company", String: "Company"},
-		{Name: "use_leads", Type: sdk.Boolean, String: "Leads", DefaultVal: true},
-		{Name: "use_opportunities", Type: sdk.Boolean, String: "Pipeline", DefaultVal: true},
-		{Name: "lead_ids", Type: sdk.One2Many, Relation: "crm.lead", String: "Leads"},
-		{Name: "member_ids", Type: sdk.One2Many, Relation: "crm.team.member", String: "Members"},
-		{Name: "assignment_enabled", Type: sdk.Boolean, String: "Lead Assignment", DefaultVal: false},
-		{Name: "assignment_max", Type: sdk.Integer, String: "Max Leads / Member", DefaultVal: 30},
-		{Name: "assignment_domain", Type: sdk.Char, String: "Assignment Domain"},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &CrmTeam{}, Module: "crm"})
+	Name              sdk.String                `sumeru:"required,string=Sales Team"`
+	Active            sdk.Boolean               `sumeru:"string=Active,default=true"`
+	Sequence          sdk.Integer               `sumeru:"string=Sequence,default=10"`
+	UserID            sdk.Many2One[sdk.Any]    `sumeru:"string=Team Leader,comodel=core.user"`
+	CompanyID         sdk.Many2One[sdk.Any] `sumeru:"string=Company,comodel=core.company"`
+	UseLeads          sdk.Boolean               `sumeru:"string=Leads,default=true"`
+	UseOpportunities  sdk.Boolean               `sumeru:"string=Pipeline,default=true"`
+	LeadIDs           sdk.One2Many[CrmLead]     `sumeru:"string=Leads"`
+	MemberIDs         sdk.One2Many[CrmTeamMember] `sumeru:"string=Members"`
+	AssignmentEnabled sdk.Boolean               `sumeru:"string=Lead Assignment,default=false"`
+	AssignmentMax     sdk.Integer               `sumeru:"string=Max Leads / Member,default=30"`
+	AssignmentDomain  sdk.String                `sumeru:"string=Assignment Domain"`
 }

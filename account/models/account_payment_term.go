@@ -1,22 +1,14 @@
 package models
 
-import "sumeru/core/sdk"
+import (
+	"sumeru/core/sdk"
+)
 
 type AccountPaymentTerm struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=account.payment.term"`
 
-func (AccountPaymentTerm) ModelName() string { return "account.payment.term" }
-
-func (AccountPaymentTerm) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "name", Type: sdk.Char, String: "Payment Terms", Required: true},
-		{Name: "note", Type: sdk.Text, String: "Description"},
-		{Name: "days", Type: sdk.Integer, String: "Due Days", DefaultVal: 0},
-		{Name: "active", Type: sdk.Boolean, String: "Active", DefaultVal: true},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &AccountPaymentTerm{}, Module: "account"})
+	Name   sdk.String  `sumeru:"required,string=Payment Terms"`
+	Note   sdk.Text    `sumeru:"string=Description"`
+	Days   sdk.Integer `sumeru:"string=Due Days,default=0"`
+	Active sdk.Boolean `sumeru:"string=Active,default=true"`
 }

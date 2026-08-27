@@ -1,25 +1,17 @@
 package models
 
-import "sumeru/core/sdk"
+import (
+	"sumeru/core/sdk"
+)
 
 type PurchaseOrderLine struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=purchase.order.line"`
 
-func (PurchaseOrderLine) ModelName() string { return "purchase.order.line" }
-
-func (PurchaseOrderLine) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "order_id", Type: sdk.Many2One, Relation: "purchase.order", String: "Order", Required: true, Index: true},
-		{Name: "product_id", Type: sdk.Many2One, Relation: "product.product", String: "Product"},
-		{Name: "name", Type: sdk.Char, String: "Description", Required: true},
-		{Name: "product_qty", Type: sdk.Float, String: "Quantity", DefaultVal: 1},
-		{Name: "price_unit", Type: sdk.Numeric, String: "Unit Price", DefaultVal: 0},
-		{Name: "price_subtotal", Type: sdk.Numeric, String: "Subtotal", DefaultVal: 0},
-		{Name: "sequence", Type: sdk.Integer, String: "Sequence", DefaultVal: 10},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &PurchaseOrderLine{}, Module: "purchase"})
+	OrderID       sdk.Many2One[PurchaseOrder]  `sumeru:"required,index,string=Order"`
+	ProductID     sdk.Many2One[sdk.Any] `sumeru:"string=Product,comodel=product.product"`
+	Name          sdk.String                   `sumeru:"required,string=Description"`
+	ProductQty    sdk.Float64                  `sumeru:"string=Quantity,default=1"`
+	PriceUnit     sdk.Numeric                  `sumeru:"string=Unit Price,default=0"`
+	PriceSubtotal sdk.Numeric                  `sumeru:"string=Subtotal,default=0"`
+	Sequence      sdk.Integer                  `sumeru:"string=Sequence,default=10"`
 }

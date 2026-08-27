@@ -4,8 +4,9 @@
         <view id="view_crm_lead_form" model="crm.lead" type="form">
             <header>
                 <button name="action_set_won" string="Won" type="object" class="sum_highlight"/>
-                <button name="action_convert_opportunity" string="Convert" type="object"/>
+                <button name="action_convert_wizard" string="Convert" type="object"/>
                 <button name="action_lost_wizard" string="Lost" type="object"/>
+                <button name="action_merge_wizard" string="Merge" type="object"/>
                 <button name="action_restore" string="Restore" type="object"/>
                 <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
             </header>
@@ -67,6 +68,7 @@
                             <field name="active"/>
                             <field name="won_status"/>
                             <field name="lost_reason_id"/>
+                            <field name="lost_feedback"/>
                             <field name="date_closed"/>
                             <field name="date_open"/>
                         </group>

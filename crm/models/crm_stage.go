@@ -5,27 +5,15 @@ import (
 )
 
 type CrmStage struct {
-	sdk.BaseModel
-}
+	sdk.Model `sumeru:"model=crm.stage"`
 
-func (s CrmStage) ModelName() string {
-	return "crm.stage"
-}
-
-func (s CrmStage) Fields() []sdk.FieldDefinition {
-	return []sdk.FieldDefinition{
-		{Name: "name", Type: sdk.Char, String: "Stage Name", Required: true},
-		{Name: "sequence", Type: sdk.Integer, String: "Sequence", DefaultVal: 1},
-		{Name: "is_won", Type: sdk.Boolean, String: "Is Won Stage?"},
-		{Name: "fold", Type: sdk.Boolean, String: "Folded in Pipeline"},
-		{Name: "requirements", Type: sdk.Text, String: "Requirements"},
-		{Name: "active", Type: sdk.Boolean, String: "Active", DefaultVal: true},
-		{Name: "team_ids", Type: sdk.Many2Many, Relation: "crm.team", RelationTable: "crm_stage_team_rel", Column1: "stage_id", Column2: "team_id", String: "Sales Teams"},
-		{Name: "rotting_threshold_days", Type: sdk.Integer, String: "Days to Rot", DefaultVal: 0},
-		{Name: "color", Type: sdk.Integer, String: "Color Index", DefaultVal: 0},
-	}
-}
-
-func init() {
-	sdk.RegisterModel(sdk.RegisterModelInput{Model: &CrmStage{}, Module: "crm"})
+	Name                 sdk.String            `sumeru:"required,string=Stage Name"`
+	Sequence             sdk.Integer           `sumeru:"string=Sequence,default=1"`
+	IsWon                sdk.Boolean           `sumeru:"string=Is Won Stage?"`
+	Fold                 sdk.Boolean           `sumeru:"string=Folded in Pipeline"`
+	Requirements         sdk.Text              `sumeru:"string=Requirements"`
+	Active               sdk.Boolean           `sumeru:"string=Active,default=true"`
+	TeamIDs              sdk.Many2Many[CrmTeam] `sumeru:"string=Sales Teams,table=crm_stage_team_rel,left=stage_id,right=team_id"`
+	RottingThresholdDays sdk.Integer           `sumeru:"string=Days to Rot,default=0"`
+	Color                sdk.Integer           `sumeru:"string=Color Index,default=0"`
 }

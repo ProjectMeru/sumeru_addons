@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_lead_calendar" model="crm.lead" type="calendar" date_start="date_deadline" string="Pipeline">
+            <field name="name"/>
+            <field name="date_deadline"/>
+            <field name="user_id"/>
+        </view>
+    </data>
+</sumeru>

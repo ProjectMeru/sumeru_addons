@@ -197,7 +197,11 @@ func actionCreatePayments(ctx context.Context, model string, id int, vals map[st
 	if err := PostPayment(ctx, payID); err != nil {
 		return "", err
 	}
-	return moveFormURL(int(invoiceID)), nil
+	moveType := ""
+	if inv, err := orm.SearchOne(bypass, "account.move", map[string]interface{}{"id": invoiceID}); err == nil {
+		moveType = orm.AsString(inv["move_type"])
+	}
+	return moveFormURL(int(invoiceID), moveType), nil
 }
 
 func actionReverseMoves(ctx context.Context, model string, id int, vals map[string]string) (string, error) {
@@ -298,7 +302,7 @@ func actionReverseMoves(ctx context.Context, model string, id int, vals map[stri
 	if err := PostMove(ctx, newID); err != nil {
 		return "", err
 	}
-	return moveFormURL(newID), nil
+	return moveFormURL(newID, revType), nil
 }
 
 func wizardFormURL(model string, id int, next string) string {
@@ -310,21 +314,34 @@ func wizardFormURL(model string, id int, next string) string {
 		actionXML = "account.action_move_reversal_wizard"
 	}
 	q := url.Values{}
+	q.Set("model", model)
 	if actionXML != "" {
 		q.Set("action", actionXML)
 	}
 	q.Set("view_type", "form")
 	q.Set("id", strconv.Itoa(id))
 	q.Set("edit", "1")
+	q.Set("target", "dialog")
 	if next != "" {
 		q.Set("next", next)
 	}
 	return "/web?" + q.Encode()
 }
 
-func moveFormURL(id int) string {
+func moveFormURL(id int, moveType string) string {
+	action := "account.action_account_moves"
+	switch moveType {
+	case "out_invoice":
+		action = "account.action_account_moves_out"
+	case "out_refund":
+		action = "account.action_account_moves_out_refund"
+	case "in_invoice":
+		action = "account.action_account_moves_in"
+	case "in_refund":
+		action = "account.action_account_moves_in_refund"
+	}
 	q := url.Values{}
-	q.Set("action", "account.action_account_moves_out")
+	q.Set("action", action)
 	q.Set("view_type", "form")
 	q.Set("id", strconv.Itoa(id))
 	return "/web?" + q.Encode()
