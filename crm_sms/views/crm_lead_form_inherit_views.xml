@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="view_crm_lead_form_sms" model="sys.view">
+            <field name="inherit_id" ref="crm.view_crm_lead_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='action_create_quotation']" position="after">
+                    <button name="action_send_sms" string="SMS" type="object"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</sumeru>
