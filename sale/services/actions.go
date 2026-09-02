@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"math"
+	"strconv"
+	"strings"
 	"time"
 
 	"sumeru/core/event"
@@ -165,12 +167,24 @@ func numericFloat(v interface{}) float64 {
 	switch t := v.(type) {
 	case float64:
 		return t
-	case int64:
+	case float32:
 		return float64(t)
 	case int:
 		return float64(t)
+	case int64:
+		return float64(t)
+	case int32:
+		return float64(t)
 	default:
-		return 0
+		s := strings.TrimSpace(orm.AsString(v))
+		if s == "" {
+			return 0
+		}
+		f, err := strconv.ParseFloat(s, 64)
+		if err != nil {
+			return 0
+		}
+		return f
 	}
 }
 

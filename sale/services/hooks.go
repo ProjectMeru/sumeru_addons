@@ -2,9 +2,6 @@ package services
 
 import (
 	"context"
-	"math"
-	"strconv"
-	"strings"
 
 	"sumeru/core/event"
 	"sumeru/core/orm"
@@ -49,7 +46,6 @@ func onSaleOrderUpdated(ctx context.Context, ev event.Event) error {
 	}
 	return nil
 }
-<<<<<<< HEAD
 
 // onSaleOrderLineProductChange updates the line description from the product name.
 func onSaleOrderLineProductChange(ctx context.Context, values map[string]interface{}, _ string) (orm.OnchangeResult, error) {
@@ -77,39 +73,3 @@ func onSaleOrderLineSubtotalChange(_ context.Context, values map[string]interfac
 	result.Value["price_subtotal"] = round2(qty * price)
 	return result, nil
 }
-
-func numericFloat(v interface{}) float64 {
-	switch t := v.(type) {
-	case float64:
-		return t
-	case float32:
-		return float64(t)
-	case int:
-		return float64(t)
-	case int64:
-		return float64(t)
-	case int32:
-		return float64(t)
-	default:
-		s := strings.TrimSpace(orm.AsString(v))
-		if s == "" {
-			return 0
-		}
-		f, err := strconv.ParseFloat(s, 64)
-		if err != nil {
-			return 0
-		}
-		return f
-	}
-}
-
-func round2(v float64) float64 {
-	return math.Round(v*100) / 100
-}
-
-func coerceID(v interface{}) (int, bool) {
-	n, ok := orm.CoerceInt64(v)
-	return int(n), ok && n > 0
-}
-=======
->>>>>>> 1a55542 (feat(sale): add order actions, sequences, and typed model fields)
