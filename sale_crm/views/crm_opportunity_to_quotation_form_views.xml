@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_opportunity_to_quotation_form" model="crm.opportunity.to.quotation" type="form">
+            <sheet>
+                <group>
+                    <field name="lead_id"/>
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+                    <field name="quantity"/>
+                    <field name="mark_won"/>
+                </group>
+            </sheet>
+            <footer>
+                <button name="action_apply_quotation" string="Create Quotation" type="object" class="sum_highlight"/>
+            </footer>
+        </view>
+    </data>
+</sumeru>

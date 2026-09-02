@@ -1,0 +1,2 @@
+id,name,model,group_id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_opportunity_to_quotation_user,access_crm_opportunity_to_quotation_user,crm.opportunity.to.quotation,crm.group_crm_user,1,1,1,1
