@@ -1,23 +1,28 @@
 {
-  "name": "sale",
-  "display_name": "Sales",
-  "version": "1.0.0",
-  "summary": "Quotations and sales orders",
-  "description": "Minimal sales flow: quotation → confirmed order.",
-  "author": "Sumeru",
-  "depends": ["product", "contacts", "crm"],
-  "data": [
-    "security/security.xml",
-    "security/sale_rules.xml",
-    "security/sys.access.csv",
-    "data/sale_sequence_data.xml",
-    "views/sale_order_list_views.xml",
-    "views/sale_order_form_views.xml",
-    "views/sale_order_line_list_views.xml",
-    "views/sale_order_line_form_views.xml",
-    "views/sale_order_actions.xml",
-    "views/sale_order_line_actions.xml",
-    "views/menus.xml"
-  ],
-  "application": true
+    "name": "sale",
+    "display_name": "Sales",
+    "version": "1.0.0",
+    "summary": "Quotations and sales orders",
+    "description": "Minimal sales flow: quotation \u2192 confirmed order.",
+    "author": "Sumeru",
+    "depends": [
+        "product",
+        "contacts",
+        "crm"
+    ],
+    "data": [
+        "security/security.xml",
+        "security/sale_rules.xml",
+        "security/sys.access.csv",
+        "data/sale_sequence_data.xml",
+        "views/sale_order_list_views.xml",
+        "views/sale_order_form_views.xml",
+        "views/sale_order_line_list_views.xml",
+        "views/sale_order_line_form_views.xml",
+        "views/sale_order_actions.xml",
+        "views/sale_order_line_actions.xml",
+        "views/menus.xml"
+    ],
+    "application": true,
+    "category": "Sales"
 }

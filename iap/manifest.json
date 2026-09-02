@@ -1,0 +1,22 @@
+{
+    "name": "iap",
+    "display_name": "In-App Purchases",
+    "version": "1.0.0",
+    "summary": "IAP account and service registry",
+    "description": "Stub IAP accounts and service registry for enrichment and mining addons.",
+    "author": "Sumeru",
+    "depends": [
+        "base"
+    ],
+    "data": [
+        "security/sys.access.csv",
+        "security/iap_mining_access.csv",
+        "views/iap_account_list_views.xml",
+        "views/iap_account_form_views.xml",
+        "views/crm_iap_lead_mining_request_form_views.xml",
+        "views/iap_actions.xml",
+        "views/crm_iap_mine_actions.xml"
+    ],
+    "application": false,
+    "category": "Technical"
+}

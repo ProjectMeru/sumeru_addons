@@ -1,22 +1,26 @@
 {
-  "name": "purchase",
-  "display_name": "Purchase",
-  "version": "1.0.0",
-  "summary": "RFQs and purchase orders",
-  "description": "Minimal purchase flow: RFQ → confirmed PO → vendor bill.",
-  "author": "Sumeru",
-  "depends": ["account", "product"],
-  "data": [
-    "security/security.xml",
-    "security/sys.access.csv",
-    "data/purchase_sequence_data.xml",
-    "views/purchase_order_list_views.xml",
-    "views/purchase_order_form_views.xml",
-    "views/purchase_order_line_list_views.xml",
-    "views/purchase_order_line_form_views.xml",
-    "views/purchase_order_actions.xml",
-    "views/purchase_order_line_actions.xml",
-    "views/menus.xml"
-  ],
-  "application": true
+    "name": "purchase",
+    "display_name": "Purchase",
+    "version": "1.0.0",
+    "summary": "RFQs and purchase orders",
+    "description": "Minimal purchase flow: RFQ \u2192 confirmed PO \u2192 vendor bill.",
+    "author": "Sumeru",
+    "depends": [
+        "account",
+        "product"
+    ],
+    "data": [
+        "security/security.xml",
+        "security/sys.access.csv",
+        "data/purchase_sequence_data.xml",
+        "views/purchase_order_list_views.xml",
+        "views/purchase_order_form_views.xml",
+        "views/purchase_order_line_list_views.xml",
+        "views/purchase_order_line_form_views.xml",
+        "views/purchase_order_actions.xml",
+        "views/purchase_order_line_actions.xml",
+        "views/menus.xml"
+    ],
+    "application": true,
+    "category": "Purchase"
 }

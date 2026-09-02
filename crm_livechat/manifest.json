@@ -1,0 +1,19 @@
+{
+    "name": "crm_livechat",
+    "display_name": "CRM Live Chat",
+    "version": "1.0.0",
+    "summary": "Link live chat sessions to CRM leads",
+    "description": "Stub live chat sessions with session-to-lead conversion.",
+    "author": "Sumeru",
+    "depends": [
+        "crm"
+    ],
+    "data": [
+        "security/sys.access.csv",
+        "views/crm_livechat_session_list_views.xml",
+        "views/crm_livechat_session_form_views.xml",
+        "views/crm_livechat_actions.xml"
+    ],
+    "application": false,
+    "category": "CRM"
+}

@@ -1,11 +1,22 @@
 {
-  "name": "sale_crm",
-  "display_name": "Sales CRM Bridge",
-  "version": "1.0.0",
-  "summary": "Create quotations from CRM opportunities",
-  "description": "Won opportunity creates a draft quotation.",
-  "author": "Sumeru",
-  "depends": ["sale", "crm"],
-  "data": [],
-  "application": false
+    "name": "sale_crm",
+    "display_name": "Sale CRM",
+    "version": "1.0.0",
+    "description": "Quotation bridge between CRM and Sales",
+    "summary": "Quotation bridge between CRM and Sales",
+    "author": "Sumeru",
+    "depends": [
+        "crm",
+        "sale"
+    ],
+    "data": [
+        "security/sys.access.csv",
+        "views/crm_opportunity_to_quotation_form_views.xml",
+        "views/crm_lead_form_inherit_views.xml",
+        "views/sale_order_form_inherit_views.xml",
+        "views/crm_team_form_inherit_views.xml"
+    ],
+    "application": false,
+    "auto_install": true,
+    "category": "CRM"
 }
