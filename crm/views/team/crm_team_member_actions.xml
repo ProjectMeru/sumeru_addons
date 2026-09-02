@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_team_members" type="window" model="crm.team.member" name="Team Members" view_mode="list"/>
+    </data>
+</sumeru>

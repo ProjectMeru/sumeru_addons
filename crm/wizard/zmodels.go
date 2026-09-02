@@ -7,7 +7,9 @@ import "sumeru/core/sdk"
 func init() {
 	sdk.MustRegister("crm",
 		&CrmLead2Opportunity{},
+		&CrmLead2OpportunityMass{},
 		&CrmLeadLost{},
+		&CrmLeadPlsUpdate{},
 		&CrmMergeOpportunity{},
 	)
 }

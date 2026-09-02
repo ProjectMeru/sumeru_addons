@@ -45,4 +45,21 @@ type CrmLead struct {
 	MediumID               sdk.Many2One[UtmMedium]          `sumeru:"string=Medium"`
 	SourceID               sdk.Many2One[UtmSource]          `sumeru:"string=Source"`
 	Referred               sdk.String                       `sumeru:"string=Referred By"`
+	CompanyID              sdk.Many2One[CoreCompany]        `sumeru:"string=Company"`
+	LangID                 sdk.Many2One[CoreLang]           `sumeru:"string=Language"`
+	StateID                sdk.Many2One[CoreCountryState]   `sumeru:"string=State"`
+	CountryID              sdk.Many2One[CoreCountry]        `sumeru:"string=Country"`
+	Function               sdk.String                       `sumeru:"string=Job Position"`
+	Mobile                 sdk.String                       `sumeru:"string=Mobile"`
+	RecurringRevenueMonthly sdk.Numeric                     `sumeru:"string=Monthly Recurring Revenue,precision=18,scale=2"`
+	CompanyCurrencyID      sdk.Many2One[CoreCurrency]       `sumeru:"string=Company Currency"`
+	DateConversion         sdk.Date                         `sumeru:"string=Conversion Date"`
+	DateAutomationLast     sdk.DateTime                     `sumeru:"string=Last Automation"`
+	DayOpen                sdk.Integer                      `sumeru:"string=Days to Assign"`
+	DayClose               sdk.Integer                      `sumeru:"string=Days to Close"`
+	DuplicateLeadCount     sdk.Integer                      `sumeru:"string=Duplicate Count,default=0"`
+	DuplicateLeadIDs       sdk.String                       `sumeru:"string=Duplicate Lead IDs"`
+	MeetingCount           sdk.Integer                      `sumeru:"string=Meetings,default=0"`
+	QuotationCount         sdk.Integer                      `sumeru:"string=Quotations,default=0"`
+	LeadProperties         sdk.Text                         `sumeru:"string=Properties"`
 }

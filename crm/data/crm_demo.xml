@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data noupdate="1">
+        <record id="demo_opp_acme" model="crm.lead">
+            <field name="name">Acme Corp — ERP rollout</field>
+            <field name="type">opportunity</field>
+            <field name="stage_id" ref="stage_lead1"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="expected_revenue">42000</field>
+            <field name="probability">20</field>
+            <field name="contact_name">Jane Miller</field>
+            <field name="email_from">jane.miller@acme.example</field>
+        </record>
+        <record id="demo_opp_globex" model="crm.lead">
+            <field name="name">Globex — CRM expansion</field>
+            <field name="type">opportunity</field>
+            <field name="stage_id" ref="stage_lead2"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="expected_revenue">18500</field>
+            <field name="probability">40</field>
+            <field name="contact_name">Sam Ortiz</field>
+            <field name="email_from">sam.ortiz@globex.example</field>
+        </record>
+        <record id="demo_opp_initech" model="crm.lead">
+            <field name="name">Initech — Support retainer</field>
+            <field name="type">opportunity</field>
+            <field name="stage_id" ref="stage_lead3"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="expected_revenue">9600</field>
+            <field name="probability">60</field>
+            <field name="contact_name">Peter Gibbons</field>
+            <field name="email_from">peter@initech.example</field>
+        </record>
+        <record id="demo_opp_stark" model="crm.lead">
+            <field name="name">Stark Industries — Integration</field>
+            <field name="type">opportunity</field>
+            <field name="stage_id" ref="stage_lead2"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="expected_revenue">75000</field>
+            <field name="probability">35</field>
+            <field name="contact_name">Pepper Potts</field>
+        </record>
+        <record id="demo_opp_wayne" model="crm.lead">
+            <field name="name">Wayne Enterprises — Audit</field>
+            <field name="type">opportunity</field>
+            <field name="stage_id" ref="stage_lead1"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="expected_revenue">31000</field>
+            <field name="probability">15</field>
+            <field name="contact_name">Lucius Fox</field>
+        </record>
+    </data>
+</sumeru>

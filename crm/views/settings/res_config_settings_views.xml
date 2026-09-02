@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="view_res_config_settings_crm_inherit" model="sys.view">
+            <field name="inherit_id" ref="base.view_res.config.settings_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <group string="CRM">
+                        <field name="group_use_lead" string="Leads"/>
+                        <field name="group_use_recurring_revenues" string="Recurring Revenues"/>
+                        <field name="is_membership_multi" string="Multi Teams"/>
+                        <field name="crm_use_auto_assignment" string="Rule-Based Assignment"/>
+                        <field name="crm_auto_assignment_action" string="Assignment Mode"/>
+                        <field name="crm_auto_assignment_interval_number" string="Repeat Every"/>
+                        <field name="crm_auto_assignment_interval_type" string="Interval Unit"/>
+                        <field name="crm_auto_assignment_run_datetime" string="Next Run"/>
+                        <field name="lead_enrich_auto" string="Lead Enrichment"/>
+                        <field name="lead_mining_in_pipeline" string="Lead Mining in Pipeline"/>
+                        <field name="predictive_lead_scoring_start_date" string="PLS Start Date"/>
+                        <field name="predictive_lead_scoring_fields_str" string="PLS Fields"/>
+                        <field name="predictive_lead_scoring_field_labels" string="PLS Field Labels"/>
+                        <button name="action_open_pls_update" string="Update Probabilities" type="object" class="sum_highlight"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <action id="action_crm_config_settings" type="window" model="res.config.settings" name="CRM Settings" view_mode="form"/>
+    </data>
+</sumeru>

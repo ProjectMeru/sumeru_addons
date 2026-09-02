@@ -31,3 +31,19 @@ func TestWeightedPipelineIncludesRecurring(t *testing.T) {
 		t.Fatalf("expected 11000, got %v", got)
 	}
 }
+
+func TestNormalizeEmail(t *testing.T) {
+	if got := crm.NormalizeEmail(" Foo@Bar.com "); got != "foo@bar.com" {
+		t.Fatalf("unexpected %q", got)
+	}
+}
+
+func TestColumnProratedSum(t *testing.T) {
+	sum := crm.ColumnProratedSum([]map[string]interface{}{
+		{"prorated_revenue": 10.0},
+		{"prorated_revenue": 5.0},
+	})
+	if sum != 15 {
+		t.Fatalf("expected 15, got %v", sum)
+	}
+}
