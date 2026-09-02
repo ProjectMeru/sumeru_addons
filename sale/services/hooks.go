@@ -49,6 +49,7 @@ func onSaleOrderUpdated(ctx context.Context, ev event.Event) error {
 	}
 	return nil
 }
+<<<<<<< HEAD
 
 // onSaleOrderLineProductChange updates the line description from the product name.
 func onSaleOrderLineProductChange(ctx context.Context, values map[string]interface{}, _ string) (orm.OnchangeResult, error) {
@@ -110,3 +111,5 @@ func coerceID(v interface{}) (int, bool) {
 	n, ok := orm.CoerceInt64(v)
 	return int(n), ok && n > 0
 }
+=======
+>>>>>>> 1a55542 (feat(sale): add order actions, sequences, and typed model fields)
