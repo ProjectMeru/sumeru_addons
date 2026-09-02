@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_crm_iap_lead_mining_request" type="window" model="crm.iap.lead.mining.request" name="Lead Mining" view_mode="form" target="new"/>
+    </data>
+</sumeru>

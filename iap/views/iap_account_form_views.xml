@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_iap_account_form" model="iap.account" type="form">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="service_name"/>
+                    <field name="account_token"/>
+                    <field name="balance"/>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>
