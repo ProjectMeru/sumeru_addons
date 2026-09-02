@@ -15,199 +15,174 @@
 >
 > APIs, data models, and behavior may change without notice. There is no migration guarantee and no production support.
 
-Standard **business addons** for [Sumeru](https://github.com/ProjectMeru/sumeru) (Go module: `module sumeru_addons`).
+**Standard business addons** for [Sumeru](https://github.com/ProjectMeru/sumeru) — CRM, Sales, Accounting, Purchase, HR, and supporting apps. Each directory at the repo root is an installable Sumeru module with a `manifest.json`, Go models, and XML views.
 
-This repository is **Tier 2** of the Sumeru stack: shared CRM, Sales, Accounting, Purchase, HR, and related apps. It depends only on **[`../sumeru`](../sumeru/)** (`replace sumeru => ../sumeru` in `go.mod`).
+Go module: `sumeru_addons` · depends on [`sumeru`](../sumeru/) only (`replace sumeru => ../sumeru` in `go.mod`).
 
-## Do not modify this tree for customer work
+---
 
-**Business and customer teams should treat this repository as pull-only.**
+## Module catalog
 
-- Pull updates and install the modules you need.
-- Put overrides, branding, and client-specific modules under **[`sumeru_custom_addons/addons/`](../sumeru_custom_addons/)**.
-- Do **not** edit files here to customize a deployment. That creates merge conflicts and blocks clean upstream pulls.
+| Module | Display name | Summary | Depends |
+| ------ | -------------- | ------- | ------- |
+| [`product`](product/) | Products | Product catalog shared by sales, purchase, and accounting | `base` |
+| [`utm`](utm/) | UTM Tracking | Campaigns, mediums, and sources for lead attribution | `base` |
+| [`crm`](crm/) | CRM | Leads, pipelines, teams, and opportunities | `base`, `contacts`, `mail`, `utm` |
+| [`sale`](sale/) | Sales | Quotations and sales orders | `product`, `contacts`, `crm` |
+| [`sale_crm`](sale_crm/) | Sales CRM Bridge | Draft quotation when an opportunity is won | `sale`, `crm` |
+| [`account`](account/) | Invoicing | COA, journal entries, taxes, payments, financial reports, bank reconciliation, analytic | `product`, `contacts` |
+| [`purchase`](purchase/) | Purchase | RFQ → confirmed PO → vendor bill | `account`, `product` |
+| [`hr`](hr/) | Employees | Employee directory, departments, and job positions | `base`, `contacts` |
 
-Shared improvements that belong in the standard suite should land via a pull request to this repo, not by forking and diverging locally.
+Kernel apps such as `contacts` and `mail` ship with **[`sumeru`](../sumeru/)** — they are not in this repository but are required by several modules above.
 
-**Do not run the HTTP server from this tree.** Always run from **[`../sumeru_custom_addons`](../sumeru_custom_addons/)** so `addons_path` can list core, these addons, and your custom addons together.
+### Install order
 
-## Architecture and module placement
-
-Sumeru is split into three sibling repositories so you can pull the engine and standard apps without mixing in customer code.
-
-```text
-parent/
-  sumeru/                 # Tier 1: engine + kernel addons (pull-only)
-  sumeru_addons/          # Tier 2: this repo (pull-only for businesses)
-  sumeru_custom_addons/   # Tier 3: run the server + custom addons
-```
+Install modules in dependency order. A typical full stack:
 
 ```text
-sumeru_custom_addons  ──replace + make generate──►  sumeru (core)
-         │                                              │
-         └──replace + addons_path──────────────────────►│
-         │                                              ▼
-         └──make run────────────────────────────►  HTTP server
-                ▲
-                └── also loads  sumeru_addons (this repo)
+product → utm → crm → sale → sale_crm → account → purchase → hr
 ```
 
-| Repository | Role | Remote |
-| ---------- | ---- | ------ |
-| **`sumeru`** | Core engine + kernel addons (`base`, `mail`, …) | `git@github.com:ProjectMeru/sumeru.git` |
-| **`sumeru_addons`** | Standard business apps (this repo) | `git@github.com:ProjectMeru/sumeru_addons.git` |
-| **`sumeru_custom_addons`** | Workspace: custom addons, local INI, generated imports, process you run | `git@github.com:ProjectMeru/sumeru_custom_addons.git` |
-
-### How core, standard, and custom modules communicate
-
-| Mechanism | How it works |
-| --------- | ------------ |
-| **`addons_path`** | Comma-separated roots in `sumeru.conf`, e.g. `../sumeru/addons,../sumeru_addons,./addons`. Later roots **override** the same `manifest.name`. |
-| **Go modules** | This repo replaces `sumeru => ../sumeru`. The custom workspace also replaces `sumeru_addons` and generates blank-imports so `init()` runs. |
-| **Manifests** | Each app has `manifest.json` with `depends`, `data` (XML/CSV), and optional `application`. |
-| **Models** | Go structs with `sdk.Model` embed; `make generate` → `sdk.MustRegister` |
-| **XML / security** | Views, menus, groups, and ACLs load on install/update. |
-| **Events** | Cross-module automation via `event.Subscribe` (see [`sale_crm`](sale_crm/)). |
-| **Relations** | Many2One / related fields to core models such as `core.partner`, `core.user`, `core.company`. |
-
-List **`../sumeru_addons`** on `addons_path` **before** **`./addons`** so custom modules can extend standard apps without forking them.
-
-## Included modules
-
-| Module | Role |
-| ------ | ---- |
-| `contacts` | Address book (views/security on `core.partner`) |
-| `product` | Product catalog |
-| `crm` | Leads / opportunities |
-| `sale` | Quotations / sales orders |
-| `sale_crm` | Opportunity → draft quotation (on Won) |
-| `account` | Invoices, bills, COA, journal lines |
-| `purchase` | RFQ / PO → vendor bill |
-| `hr` | Employees, departments, jobs |
-
-Typical install order: `contacts, product, crm, sale, sale_crm, account, purchase, hr`.
-
-## Prerequisites
-
-| Requirement | Notes |
-| ----------- | ----- |
-| [Go](https://go.dev/dl/) **1.26.2+** | See `go.mod` |
-| [PostgreSQL](https://www.postgresql.org/) | Application database |
-| Sibling checkouts | `sumeru` and `sumeru_custom_addons` next to this repo |
-
-## Quick start
-
-Clone all three repos as siblings, then configure and run from the custom workspace.
+From your Sumeru workspace (see [sumeru_custom_addons](https://github.com/ProjectMeru/sumeru_custom_addons)):
 
 ```bash
-mkdir -p ~/sumeru_erp && cd ~/sumeru_erp
-git clone git@github.com:ProjectMeru/sumeru.git
-git clone git@github.com:ProjectMeru/sumeru_addons.git
-git clone git@github.com:ProjectMeru/sumeru_custom_addons.git
-
-# Create an empty database matching db_name in your INI, e.g.:
-#   psql -c "CREATE DATABASE sumeru;"
-
-cd sumeru_custom_addons
-cp sumeru.conf.example sumeru.conf   # edit db_* , http_port, addons_path
-make replace-sumeru
-make replace-sumeru-addons
-make generate                        # → addonimports/zimports.go
-make run
+go run . -- -c sumeru.conf -i product,utm,crm,sale,sale_crm,account,purchase,hr --stop-after-init
 ```
 
-Ensure `addons_path` includes this tree, for example:
-
-```ini
-addons_path = ../sumeru/addons,../sumeru_addons,./addons
-```
-
-Full workspace details: sibling **[`sumeru_custom_addons/README.md`](https://github.com/ProjectMeru/sumeru_custom_addons/blob/main/README.md)**.
-
-### Day-to-day updates
+Update a single module after pulling changes:
 
 ```bash
-cd ../sumeru && git pull
-cd ../sumeru_addons && git pull
-cd ../sumeru_custom_addons && make generate && make run
+go run . -- -c sumeru.conf -u account --stop-after-init
 ```
 
-### Install / update modules
+---
 
-From `sumeru_custom_addons`:
+## What each app covers
 
-```bash
-go run . -- -c sumeru.conf -i contacts,product,crm,sale,sale_crm,account,purchase,hr --stop-after-init
-go run . -- -c sumeru.conf -u sale --stop-after-init
-go run . -- -c sumeru.conf
-```
+### CRM & Sales
 
-## Module layout
+- **CRM** — Pipeline kanban, forecast views, lead scoring (PLS), assignment rules, merge/convert/lost wizards, prorated and recurring revenue fields.
+- **Sales** — Quotation → confirmed order, sequences, tax-aware lines, invoice status tracking.
+- **sale_crm** — Event bridge: winning an opportunity creates a draft quotation (no UI of its own).
 
-Each installable app is a **direct child directory** of this repo (sibling to `go.mod`), with `manifest.json` and optional `init.go` / `models/`:
+### Accounting
+
+The **account** module is a consolidated accounting suite:
+
+| Area | Models / features |
+| ---- | ----------------- |
+| Core | Chart of accounts, journals, moves & lines, taxes, payment terms, fiscal positions |
+| Payments | Customer/vendor payments, payment register wizard, move reversal |
+| Reporting | Profit & Loss, Balance Sheet, Trial Balance, General Ledger |
+| Bank | Bank statements, statement lines, reconciliation workspace |
+| Analytic | Analytic plans and accounts |
+
+### Operations & HR
+
+- **product** — Products and categories; income/expense account links for posting.
+- **purchase** — RFQ/PO workflow with vendor bill generation via `account`.
+- **hr** — Employees, departments, and jobs.
+- **utm** — Marketing attribution (campaign, medium, source) linked from CRM leads.
+
+---
+
+## Addon anatomy
+
+Every module in this repo follows the same layout:
 
 ```text
-sumeru_addons/
-  go.mod
-  <technical_name>/
-    manifest.json
-    init.go              # optional: blank-import models; event hooks
-    models/ …
-    views/ …
-    security/ …
-    data/ …
+<technical_name>/
+  manifest.json       # name, depends, data files, application flag
+  init.go             # blank-imports models, services, controllers, wizards
+  models/             # Go structs (sdk.Model embed + sumeru tags)
+  views/              # list, form, kanban, actions, menus (XML)
+  security/           # groups, record rules, sys.access.csv
+  data/               # seed XML, sequences, demo (optional)
+  services/           # business logic (optional)
+  controllers/        # HTTP routes (optional)
+  wizard/             # transient models (optional)
 ```
 
-Technical module names must match **`^[a-z][a-z0-9_]*$`** and equal the **folder name**.
+Rules:
 
-Reference patterns in this repo:
+- **Folder name = technical module name** — must match `^[a-z][a-z0-9_]*$` and equal `manifest.json` → `"name"`.
+- **`depends`** — only list modules from `sumeru/addons` or this repo; this Go module must not import other addon repos.
+- **`data`** — paths relative to the module root; loaded on `-i` (install) or `-u` (update).
 
-- **Views on a core model:** [`contacts/`](contacts/) (no new models; XML + security on `core.partner`)
-- **Bridge / events:** [`sale_crm/`](sale_crm/) (`event.Subscribe` when a lead is Won)
+---
 
-## How to create or extend a module
+## Go models
 
-### Customer / business teams (recommended)
+Models are Go structs embedding `sdk.Model` with struct tags consumed by the ORM and code generator.
 
-1. Keep **`sumeru`** and **`sumeru_addons`** pull-only.
-2. Create modules under **`sumeru_custom_addons/addons/<technical_name>/`** with the usual layout (`manifest.json`, `init.go`, models, views, security).
-3. Declare `depends` on standard apps as needed (e.g. `sale`, `crm`).
-4. Blank-import `sumeru_addons/...` from your addon’s `init.go` when you need to register hooks or ensure models are loaded.
-5. Run `make generate` in the custom workspace after adding or removing addons.
-6. Install with `-i your_module` from `sumeru_custom_addons`.
+```go
+type SaleOrder struct {
+    sdk.Model `sumeru:"model=sale.order"`
 
-Do **not** copy or patch modules from this repository into a private fork for day-to-day customization.
+    PartnerID sdk.Many2One[CorePartner]       `sumeru:"string=Customer"`
+    State     sdk.Selection[SaleOrderState]    `sumeru:"string=Status,default=draft"`
+    AmountTotal sdk.Numeric                    `sumeru:"string=Total,precision=18,scale=2,default=0"`
+}
+```
 
-### Contributors adding a standard business app
+Conventions used across this repo:
 
-Use this repository when the module should ship to every Sumeru deployment:
+| Pattern | Location | Purpose |
+| ------- | -------- | ------- |
+| `selection_types.go` | `models/` | Typed enums for `sdk.Selection[T]` |
+| `zrefs.go` | `models/` | Aliases for cross-module relations (`CorePartner`, `ProductProduct`, …) |
+| `zmodels.go` | `models/`, `wizard/` | Generated `sdk.MustRegister` — run `make generate` from the workspace after adding models |
 
-1. Add a new directory at the repo root named with the technical name.
-2. Add `manifest.json` (`depends` only on `base` / other modules here / kernel apps; this Go module must depend only on `sumeru`).
-3. Define models as structs with `sdk.Model` embed and `sumeru` tags; run `make generate`.
-4. Ship XML under `views/`, ACLs under `security/`, seed data under `data/` as needed.
-5. Verify from `sumeru_custom_addons` with `make generate` and `-i <name> --stop-after-init`.
+Internal relations use the module’s own structs (`Many2One[AccountJournal]`). Cross-module refs go through `zrefs.go` aliases, matching the pattern in [`engagement_cookbook`](../sumeru_custom_addons/addons/engagement_cookbook/models/).
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for PR expectations.
+---
 
-## Documentation
+## Development
 
-| Resource | Contents |
-| -------- | -------- |
-| This README | Role, placement, modules, layout, extend vs contribute |
-| [`sumeru/README.md`](https://github.com/ProjectMeru/sumeru/blob/main/README.md) | Core engine, config, CLI |
-| [`sumeru_custom_addons/README.md`](https://github.com/ProjectMeru/sumeru_custom_addons/blob/main/README.md) | Workspace runner, `make generate`, custom addons |
+### Run and test
 
-## Contributing
+This repo is **not** the process entry point. Clone it as a sibling of [`sumeru`](../sumeru/) and [`sumeru_custom_addons`](../sumeru_custom_addons/), add `../sumeru_addons` to `addons_path`, then run the server from the custom workspace. Full setup: **[sumeru_custom_addons README](https://github.com/ProjectMeru/sumeru_custom_addons/blob/main/README.md)**.
 
-See **[CONTRIBUTING.md](CONTRIBUTING.md)** for where to put changes, the generate/test loop, and PR expectations.
+After model or module changes:
 
-Please follow the **[Code of Conduct](CODE_OF_CONDUCT.md)**.
+```bash
+# From sumeru_custom_addons
+make generate
 
-## Security
+# From this repo
+go test ./...
+go vet ./...
+```
 
-Report vulnerabilities privately. See **[SECURITY.md](SECURITY.md)**. Do not open public issues for undisclosed security problems.
+### Where to put changes
 
-## License
+| Goal | Where |
+| ---- | ----- |
+| Improve a standard business app | Pull request to **this repo** |
+| Customer-specific module or override | [`sumeru_custom_addons/addons/`](../sumeru_custom_addons/addons/) |
+| Engine, kernel apps (`base`, `mail`, …) | [`sumeru`](../sumeru/) |
+
+Do not fork or patch modules here for a single deployment — extend from the custom workspace so upstream pulls stay clean.
+
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for the PR workflow, generate loop, and review expectations.
+
+---
+
+## Related repositories
+
+| Repository | Role |
+| ---------- | ---- |
+| [ProjectMeru/sumeru](https://github.com/ProjectMeru/sumeru) | Core engine and kernel addons |
+| [ProjectMeru/sumeru_addons](https://github.com/ProjectMeru/sumeru_addons) | Standard business apps (this repo) |
+| [ProjectMeru/sumeru_custom_addons](https://github.com/ProjectMeru/sumeru_custom_addons) | Workspace runner, custom addons, generated imports |
+
+---
+
+## Contributing · Security · License
+
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** — development setup and pull request guidelines
+- **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** — community standards
+- **[SECURITY.md](SECURITY.md)** — responsible disclosure (do not open public issues for undisclosed vulnerabilities)
 
 Licensed under the [Apache License, Version 2.0](LICENSE).

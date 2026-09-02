@@ -3,7 +3,12 @@
     <data>
         <view id="view_sale_order_form" model="sale.order" type="form">
             <header>
-                <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                <button name="action_confirm" string="Confirm" type="object" class="sum_highlight"/>
+                <button name="action_quotation_send" string="Send" type="object"/>
+                <button name="action_cancel" string="Cancel" type="object"/>
+                <button name="action_draft" string="Set to Draft" type="object"/>
+                <button name="action_view_invoices" string="Invoices" type="object"/>
+                <field name="state" widget="statusbar" options="{'clickable': '0'}"/>
             </header>
             <sheet>
                 <div class="sum_title">
@@ -27,7 +32,15 @@
                 </group>
                 <notebook>
                     <page string="Order Lines">
-                        <field name="order_line" string="Order Lines"/>
+                        <field name="order_line" string="Order Lines">
+                            <list editable="bottom">
+                                <field name="product_id" string="Product"/>
+                                <field name="name" string="Description"/>
+                                <field name="product_uom_qty" string="Quantity"/>
+                                <field name="price_unit" string="Unit Price"/>
+                                <field name="price_subtotal" string="Subtotal"/>
+                            </list>
+                        </field>
                     </page>
                     <page string="Other Info">
                         <field name="note" string="Terms and Conditions"/>

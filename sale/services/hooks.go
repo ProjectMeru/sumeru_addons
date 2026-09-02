@@ -9,6 +9,9 @@ import (
 
 func init() {
 	event.Subscribe("record.updated", onSaleOrderUpdated)
+	orm.RegisterOnchange("sale.order.line", "product_id", onSaleOrderLineProductChange)
+	orm.RegisterOnchange("sale.order.line", "product_uom_qty", onSaleOrderLineSubtotalChange)
+	orm.RegisterOnchange("sale.order.line", "price_unit", onSaleOrderLineSubtotalChange)
 }
 
 func onSaleOrderUpdated(ctx context.Context, ev event.Event) error {
@@ -44,7 +47,29 @@ func onSaleOrderUpdated(ctx context.Context, ev event.Event) error {
 	return nil
 }
 
-func coerceID(v interface{}) (int, bool) {
-	n, ok := orm.CoerceInt64(v)
-	return int(n), ok && n > 0
+// onSaleOrderLineProductChange updates the line description from the product name.
+func onSaleOrderLineProductChange(ctx context.Context, values map[string]interface{}, _ string) (orm.OnchangeResult, error) {
+	result := orm.OnchangeResult{Value: map[string]interface{}{}}
+	productID, ok := orm.CoerceInt64(values["product_id"])
+	if !ok || productID <= 0 {
+		return result, nil
+	}
+	product, err := orm.SearchOne(ctx, "product.product", map[string]interface{}{"id": int(productID)})
+	if err != nil || product == nil {
+		return result, nil
+	}
+	result.Value["name"] = orm.AsString(product["name"])
+	return result, nil
+}
+
+// onSaleOrderLineSubtotalChange recomputes the untaxed line subtotal (qty × price).
+func onSaleOrderLineSubtotalChange(_ context.Context, values map[string]interface{}, _ string) (orm.OnchangeResult, error) {
+	result := orm.OnchangeResult{Value: map[string]interface{}{}}
+	qty := numericFloat(values["product_uom_qty"])
+	if qty <= 0 {
+		qty = 1
+	}
+	price := numericFloat(values["price_unit"])
+	result.Value["price_subtotal"] = round2(qty * price)
+	return result, nil
 }

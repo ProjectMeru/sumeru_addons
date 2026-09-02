@@ -13,6 +13,49 @@ func init() {
 	event.Subscribe("record.updated", onPurchaseOrderToBill)
 	event.Subscribe("record.updated", onMovePost)
 	event.Subscribe("record.updated", onPaymentPost)
+	event.Subscribe("record.updated", onAccountMoveLineUpdated)
+	orm.RegisterOnchange("account.move.line", "quantity", onAccountMoveLineSubtotalChange)
+	orm.RegisterOnchange("account.move.line", "price_unit", onAccountMoveLineSubtotalChange)
+}
+
+// onAccountMoveLineSubtotalChange recomputes the untaxed line subtotal (qty × price)
+// for product lines only. Section/note/tax/entry lines are left untouched.
+func onAccountMoveLineSubtotalChange(_ context.Context, values map[string]interface{}, _ string) (orm.OnchangeResult, error) {
+	result := orm.OnchangeResult{Value: map[string]interface{}{}}
+	dt := orm.AsString(values["display_type"])
+	if dt != "" && dt != "product" {
+		return result, nil
+	}
+	qty := numericFloat(values["quantity"])
+	if qty <= 0 {
+		qty = 1
+	}
+	price := numericFloat(values["price_unit"])
+	result.Value["price_subtotal"] = round2(qty * price)
+	return result, nil
+}
+
+// onAccountMoveLineUpdated recomputes the parent move totals whenever a line
+// changes, so amount_untaxed/amount_tax/amount_total stay in sync (Odoo-style).
+func onAccountMoveLineUpdated(ctx context.Context, ev event.Event) error {
+	model, _ := ev.Payload["model"].(string)
+	if model != "account.move.line" {
+		return nil
+	}
+	id, ok := coerceID(ev.Payload["id"])
+	if !ok {
+		return nil
+	}
+	bypass := orm.ContextWithBypass(ctx, true)
+	line, err := orm.SearchOne(bypass, "account.move.line", map[string]interface{}{"id": id})
+	if err != nil || line == nil {
+		return nil
+	}
+	moveID, ok := orm.CoerceInt64(line["move_id"])
+	if !ok || moveID <= 0 {
+		return nil
+	}
+	return recomputeMoveAmounts(bypass, int(moveID))
 }
 
 func onSaleOrderToInvoice(ctx context.Context, ev event.Event) error {

@@ -20,5 +20,13 @@
         <menuitem id="menu_account_journals" name="Journals" parent="account_menu_config" action="account.action_account_journals" sequence="2" web_icon="book" groups="account.group_account_manager"/>
         <menuitem id="menu_account_taxes" name="Taxes" parent="account_menu_config" action="account.action_account_taxes" sequence="3" web_icon="percent" groups="account.group_account_manager"/>
         <menuitem id="menu_account_payment_terms" name="Payment Terms" parent="account_menu_config" action="account.action_account_payment_terms" sequence="4" web_icon="calendar" groups="account.group_account_manager"/>
+        <menuitem id="menu_account_analytic" name="Analytic Accounts" parent="account_menu_config" action="account.action_analytic_accounts" sequence="10" groups="account.group_account_manager"/>
+        <menuitem id="menu_account_bank_root" name="Bank" parent="account_menu_accounting" sequence="15" groups="account.group_account_invoice"/>
+        <menuitem id="menu_account_bank_statements" name="Statements" parent="menu_account_bank_root" action="account.action_bank_statements" sequence="1"/>
+        <menuitem id="menu_account_bank_reconcile" name="Reconciliation" parent="menu_account_bank_root" action="account.action_bank_reconcile_workspace" sequence="2"/>
+        <menuitem id="menu_account_reports_pl" name="Profit &amp; Loss" parent="account_menu_reporting" action="account.action_report_profit_loss" sequence="10" groups="account.group_account_invoice"/>
+        <menuitem id="menu_account_reports_bs" name="Balance Sheet" parent="account_menu_reporting" action="account.action_report_balance_sheet" sequence="20" groups="account.group_account_invoice"/>
+        <menuitem id="menu_account_reports_tb" name="Trial Balance" parent="account_menu_reporting" action="account.action_report_trial_balance" sequence="30" groups="account.group_account_invoice"/>
+        <menuitem id="menu_account_reports_gl" name="General Ledger" parent="account_menu_reporting" action="account.action_report_general_ledger" sequence="40" groups="account.group_account_invoice"/>
     </data>
 </sumeru>

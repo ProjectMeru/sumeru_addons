@@ -145,5 +145,12 @@
             <field name="padding" eval="5"/>
             <field name="number_next" eval="1"/>
         </record>
+        <record id="seq_account_full_reconcile" model="sys.sequence">
+            <field name="name">Full Reconcile</field>
+            <field name="code">account.full.reconcile</field>
+            <field name="prefix">REC/</field>
+            <field name="padding" eval="5"/>
+            <field name="number_next" eval="1"/>
+        </record>
     </data>
 </sumeru>

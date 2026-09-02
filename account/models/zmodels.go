@@ -7,7 +7,14 @@ import "sumeru/core/sdk"
 func init() {
 	sdk.MustRegister("account",
 		&AccountAccount{},
+		&AccountAnalyticAccount{},
+		&AccountAnalyticPlan{},
+		&AccountBankStatement{},
+		&AccountBankStatementLine{},
+		&AccountFiscalPosition{},
+		&AccountFiscalPositionTax{},
 		&AccountFullReconcile{},
+		&AccountGroup{},
 		&AccountInvoiceReport{},
 		&AccountJournal{},
 		&AccountMove{},
@@ -15,6 +22,8 @@ func init() {
 		&AccountPartialReconcile{},
 		&AccountPayment{},
 		&AccountPaymentTerm{},
+		&AccountPaymentTermLine{},
+		&AccountReconcileModel{},
 		&AccountTax{},
 		&AccountTaxRepartitionLine{},
 	)

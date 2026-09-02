@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_analytic_accounts" type="window" model="account.analytic.account" name="Analytic Accounts" view_mode="list"/>
+    </data>
+</sumeru>

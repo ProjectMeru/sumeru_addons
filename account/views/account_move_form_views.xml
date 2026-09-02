@@ -40,7 +40,18 @@
                 </group>
                 <notebook>
                     <page string="Invoice Lines">
-                        <field name="line_ids" string="Lines"/>
+                        <field name="line_ids" string="Lines">
+                            <list editable="bottom">
+                                <field name="display_type" string="Type"/>
+                                <field name="product_id" string="Product"/>
+                                <field name="name" string="Label"/>
+                                <field name="account_id" string="Account"/>
+                                <field name="tax_id" string="Tax"/>
+                                <field name="quantity" string="Qty"/>
+                                <field name="price_unit" string="Unit Price"/>
+                                <field name="price_subtotal" string="Subtotal"/>
+                            </list>
+                        </field>
                     </page>
                     <page string="Notes">
                         <field name="narration" string="Notes"/>
