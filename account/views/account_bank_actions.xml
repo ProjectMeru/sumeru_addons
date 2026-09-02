@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_bank_statements" type="window" model="account.bank.statement" name="Bank Statements" view_mode="list,form"/>
+        <action id="action_bank_reconcile_workspace" type="url" name="Reconciliation" url="/account/bank/reconcile"/>
+    </data>
+</sumeru>

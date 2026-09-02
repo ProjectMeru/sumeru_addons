@@ -9,7 +9,8 @@
                     </h1>
                 </div>
                 <group>
-                    <field name="days" string="Due Days"/>
+                    <field name="days" string="Due Days (legacy)"/>
+                    <field name="line_ids" string="Installments"/>
                     <field name="note" string="Description"/>
                     <field name="active" string="Active"/>
                 </group>

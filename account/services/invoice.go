@@ -95,6 +95,11 @@ func CreateVendorBillFromPurchase(ctx context.Context, poID int) (int, error) {
 		incomeSide:      false,
 		taxUse:          "purchase",
 		narrationPrefix: "Bill for",
+		afterCreate: func(ctx context.Context, id int) error {
+			return orm.UpdateRecordByID(ctx, "purchase.order", id, map[string]interface{}{
+				"invoice_status": "invoiced",
+			})
+		},
 	})
 }
 
@@ -336,37 +341,6 @@ func recomputeMoveAmounts(ctx context.Context, moveID int) error {
 	})
 }
 
-func applyPaymentTermDue(ctx context.Context, move map[string]interface{}, moveID int) {
-	termID, _ := orm.CoerceInt64(move["payment_term_id"])
-	invDate := orm.AsString(move["invoice_date"])
-	if invDate == "" {
-		invDate = orm.AsString(move["date"])
-	}
-	if invDate == "" {
-		invDate = time.Now().Format("2006-01-02")
-	}
-	days := 0
-	if termID > 0 {
-		term, err := orm.SearchOne(ctx, "account.payment.term", map[string]interface{}{"id": termID})
-		if err == nil {
-			if d, ok := orm.CoerceInt64(term["days"]); ok {
-				days = int(d)
-			}
-		}
-	}
-	t, err := time.Parse("2006-01-02", invDate)
-	if err != nil {
-		t = time.Now()
-	}
-	due := t.AddDate(0, 0, days).Format("2006-01-02")
-	if err := orm.UpdateRecordByID(ctx, "account.move", moveID, map[string]interface{}{
-		"invoice_date":     invDate,
-		"invoice_date_due": due,
-	}); err != nil {
-		log.Printf("account: payment term due date move %d: %v", moveID, err)
-	}
-}
-
 func PostMove(ctx context.Context, moveID int) error {
 	if moveID <= 0 {
 		return fmt.Errorf("invalid move id")
@@ -399,6 +373,7 @@ func PostMove(ctx context.Context, moveID int) error {
 	applyPaymentTermDue(bypass, move, moveID)
 
 	prods := productLines(allLines)
+	partnerID, _ := orm.CoerceInt64(move["partner_id"])
 	untaxed := 0.0
 	taxByTaxID := map[int64]float64{}
 	incomeExpenseByAcct := map[int64]float64{}
@@ -415,9 +390,14 @@ func PostMove(ctx context.Context, moveID int) error {
 		}
 		incomeExpenseByAcct[acct] += sub
 		taxID, _ := orm.CoerceInt64(ln["tax_id"])
-		pct, taxAcct := taxAmountPercent(bypass, taxID)
+		taxID = mapFiscalTax(bypass, partnerID, taxID)
+		_, taxAcct, factor := taxRepartition(bypass, taxID)
+		pct, fallbackAcct := taxAmountPercent(bypass, taxID)
+		if taxAcct <= 0 {
+			taxAcct = fallbackAcct
+		}
 		if pct != 0 && taxAcct > 0 {
-			taxByTaxID[taxID] += sub * pct / 100.0
+			taxByTaxID[taxID] += sub * pct * factor / 10000.0
 		}
 	}
 	taxTotal := 0.0
@@ -433,7 +413,6 @@ func PostMove(ctx context.Context, moveID int) error {
 		return fmt.Errorf("amount_total zero")
 	}
 
-	partnerID, _ := orm.CoerceInt64(move["partner_id"])
 	label := orm.AsString(move["name"])
 	deleteAccountingLines(bypass, allLines)
 
