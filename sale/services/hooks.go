@@ -43,8 +43,3 @@ func onSaleOrderUpdated(ctx context.Context, ev event.Event) error {
 	}
 	return nil
 }
-
-func coerceID(v interface{}) (int, bool) {
-	n, ok := orm.CoerceInt64(v)
-	return int(n), ok && n > 0
-}

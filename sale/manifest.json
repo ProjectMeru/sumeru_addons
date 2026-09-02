@@ -10,6 +10,7 @@
     "security/security.xml",
     "security/sale_rules.xml",
     "security/sys.access.csv",
+    "data/sale_sequence_data.xml",
     "views/sale_order_list_views.xml",
     "views/sale_order_form_views.xml",
     "views/sale_order_line_list_views.xml",
