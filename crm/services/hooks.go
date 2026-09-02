@@ -24,6 +24,7 @@ func init() {
 	event.Subscribe("record.created", onActivityCreated)
 	event.Subscribe("record.updated", onActivityUpdated)
 	event.Subscribe("crm.cron_assign_leads", onCronAssignLeads)
+	event.Subscribe("crm.cron_pls_rebuild", onCronPLSRebuild)
 
 	registerObjectActions()
 }
@@ -167,7 +168,8 @@ func onLeadCreated(ctx context.Context, ev event.Event) error {
 		bypass := orm.ContextWithBypass(ctx, true)
 		_ = orm.UpdateRecordByID(bypass, "crm.lead", id, updates)
 	}
-	return nil
+	_ = ScoreLead(ctx, id)
+	return recomputeLeadRevenue(ctx, id)
 }
 
 func onLeadUpdated(ctx context.Context, ev event.Event) error {
@@ -201,10 +203,13 @@ func onLeadUpdated(ctx context.Context, ev event.Event) error {
 			}
 		}
 	}
-	if len(updates) == 0 {
-		return nil
+	if len(updates) > 0 {
+		if err := orm.UpdateRecordByID(bypass, "crm.lead", id, updates); err != nil {
+			return err
+		}
 	}
-	return orm.UpdateRecordByID(bypass, "crm.lead", id, updates)
+	_ = ScoreLead(ctx, id)
+	return recomputeLeadRevenue(ctx, id)
 }
 
 func firstStageID(ctx context.Context) int64 {
@@ -302,44 +307,8 @@ func actionAssignTeamLeads(ctx context.Context, model string, id int, vals map[s
 	if model != "crm.team" || id <= 0 {
 		return "", fmt.Errorf("invalid team")
 	}
-	team, err := orm.SearchOne(ctx, "crm.team", map[string]interface{}{"id": id})
-	if err != nil {
+	if err := assignTeamLeads(ctx, id); err != nil {
 		return "", err
-	}
-	if !asBool(team["assignment_enabled"]) {
-		return "", fmt.Errorf("assignment not enabled on team")
-	}
-	leads, err := orm.Search(ctx, "crm.lead", [][]interface{}{
-		{"team_id", "=", id},
-		{"user_id", "=", false},
-		{"active", "=", true},
-	})
-	if err != nil {
-		return "", err
-	}
-	members, err := orm.Search(ctx, "crm.team.member", [][]interface{}{
-		{"team_id", "=", id},
-		{"active", "=", true},
-	})
-	if err != nil || len(members) == 0 {
-		return "", fmt.Errorf("no team members")
-	}
-	mi := 0
-	for _, lead := range leads {
-		lid, ok := orm.CoerceInt64(lead["id"])
-		if !ok {
-			continue
-		}
-		m := members[mi%len(members)]
-		uid, _ := orm.CoerceInt64(m["user_id"])
-		if uid <= 0 || asBool(m["assignment_optout"]) {
-			mi++
-			continue
-		}
-		if err := orm.UpdateRecordByID(ctx, "crm.lead", int(lid), map[string]interface{}{"user_id": uid}); err != nil {
-			return "", err
-		}
-		mi++
 	}
 	return vals["next"], nil
 }
@@ -508,11 +477,12 @@ func actionApplyMerge(ctx context.Context, model string, id int, vals map[string
 		return "", fmt.Errorf("select at least two leads")
 	}
 	keepID := ids[0]
-	name := strings.TrimSpace(orm.AsString(wiz["name"]))
-	if name != "" {
-		if err := orm.UpdateRecordByID(ctx, "crm.lead", keepID, map[string]interface{}{"name": name}); err != nil {
-			return "", err
-		}
+	merged := mergeLeadFields(ctx, ids)
+	if name := strings.TrimSpace(orm.AsString(wiz["name"])); name != "" {
+		merged["name"] = name
+	}
+	if err := orm.UpdateRecordByID(ctx, "crm.lead", keepID, merged); err != nil {
+		return "", err
 	}
 	for _, lid := range ids[1:] {
 		if err := orm.UpdateRecordByID(ctx, "crm.lead", lid, map[string]interface{}{"active": false}); err != nil {
@@ -538,9 +508,46 @@ func onCronAssignLeads(ctx context.Context, ev event.Event) error {
 		if !ok || tid <= 0 {
 			continue
 		}
-		_, _ = actionAssignTeamLeads(ctx, "crm.team", int(tid), map[string]string{})
+		_ = assignTeamLeads(ctx, int(tid))
 	}
 	return nil
+}
+
+func onCronPLSRebuild(ctx context.Context, ev event.Event) error {
+	return rebuildAllLeadScores(ctx)
+}
+
+func mergeLeadFields(ctx context.Context, ids []int) map[string]interface{} {
+	out := map[string]interface{}{}
+	maxRevenue := 0.0
+	maxRecurring := 0.0
+	for _, id := range ids {
+		lead, err := orm.SearchOne(ctx, "crm.lead", map[string]interface{}{"id": id})
+		if err != nil {
+			continue
+		}
+		if rev := numericFloat(lead["expected_revenue"]); rev > maxRevenue {
+			maxRevenue = rev
+		}
+		if rec := numericFloat(lead["recurring_revenue"]); rec > maxRecurring {
+			maxRecurring = rec
+		}
+		if out["partner_id"] == nil {
+			if pid, ok := orm.CoerceInt64(lead["partner_id"]); ok && pid > 0 {
+				out["partner_id"] = pid
+			}
+		}
+		if out["description"] == nil && orm.AsString(lead["description"]) != "" {
+			out["description"] = lead["description"]
+		}
+	}
+	if maxRevenue > 0 {
+		out["expected_revenue"] = maxRevenue
+	}
+	if maxRecurring > 0 {
+		out["recurring_revenue"] = maxRecurring
+	}
+	return out
 }
 
 func onActivityCreated(ctx context.Context, ev event.Event) error {

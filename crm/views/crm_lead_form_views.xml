@@ -4,6 +4,7 @@
         <view id="view_crm_lead_form" model="crm.lead" type="form">
             <header>
                 <button name="action_set_won" string="Won" type="object" class="sum_highlight"/>
+                <button name="action_create_quotation" string="New Quotation" type="object"/>
                 <button name="action_convert_wizard" string="Convert" type="object"/>
                 <button name="action_lost_wizard" string="Lost" type="object"/>
                 <button name="action_merge_wizard" string="Merge" type="object"/>

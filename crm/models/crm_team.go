@@ -10,8 +10,8 @@ type CrmTeam struct {
 	Name              sdk.String                `sumeru:"required,string=Sales Team"`
 	Active            sdk.Boolean               `sumeru:"string=Active,default=true"`
 	Sequence          sdk.Integer               `sumeru:"string=Sequence,default=10"`
-	UserID            sdk.Many2One[sdk.Any]    `sumeru:"string=Team Leader,comodel=core.user"`
-	CompanyID         sdk.Many2One[sdk.Any] `sumeru:"string=Company,comodel=core.company"`
+	UserID            sdk.Many2One[CoreUser]    `sumeru:"string=Team Leader"`
+	CompanyID         sdk.Many2One[CoreCompany] `sumeru:"string=Company"`
 	UseLeads          sdk.Boolean               `sumeru:"string=Leads,default=true"`
 	UseOpportunities  sdk.Boolean               `sumeru:"string=Pipeline,default=true"`
 	LeadIDs           sdk.One2Many[CrmLead]     `sumeru:"string=Leads"`
