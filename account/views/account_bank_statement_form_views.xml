@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_bank_statement_form" model="account.bank.statement" type="form">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="date"/>
+                    <field name="balance_end"/>
+                    <field name="state"/>
+                </group>
+                <notebook>
+                    <page string="Lines">
+                        <field name="line_ids"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

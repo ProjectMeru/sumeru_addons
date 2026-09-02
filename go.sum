@@ -1,3 +1,5 @@
+github.com/gorilla/websocket v1.5.3 h1:saDtZ6Pbx/0u+bgYQ3q96pZgCzfhKXGPqt7kZ72aNNg=
+github.com/gorilla/websocket v1.5.3/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/gpdf-dev/gpdf v1.0.11 h1:IPtcb+/6COykKtenZ3CXexOoStdyNepiE7DHqnvyyew=
 github.com/gpdf-dev/gpdf v1.0.11/go.mod h1:QTnE2q2L+q9E1neWCZen/V/x9iLOuJ1jWHBtylimfAw=
 github.com/lib/pq v1.12.3 h1:tTWxr2YLKwIvK90ZXEw8GP7UFHtcbTtty8zsI+YjrfQ=

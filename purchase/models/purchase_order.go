@@ -7,13 +7,14 @@ import (
 type PurchaseOrder struct {
 	sdk.Model `sumeru:"model=purchase.order"`
 
-	Name        sdk.String                    `sumeru:"required,string=Reference"`
-	PartnerID   sdk.Many2One[sdk.Any]     `sumeru:"required,string=Vendor,comodel=core.partner"`
-	UserID      sdk.Many2One[sdk.Any]        `sumeru:"string=Buyer,comodel=core.user"`
-	DateOrder   sdk.DateTime                  `sumeru:"string=Order Deadline"`
-	State       sdk.String                    `sumeru:"string=Status,default=draft,selection=draft:RFQ,sent:RFQ Sent,purchase:Purchase Order,cancel:Cancelled"`
-	AmountTotal sdk.Numeric                   `sumeru:"string=Total,default=0"`
-	Notes       sdk.Text                      `sumeru:"string=Terms and Conditions"`
-	OrderLine   sdk.One2Many[PurchaseOrderLine] `sumeru:"string=Order Lines"`
-	CompanyID   sdk.Many2One[sdk.Any]     `sumeru:"string=Company,comodel=core.company"`
+	Name          sdk.String                         `sumeru:"required,string=Reference"`
+	PartnerID     sdk.Many2One[CorePartner]          `sumeru:"required,string=Vendor"`
+	UserID        sdk.Many2One[CoreUser]             `sumeru:"string=Buyer"`
+	DateOrder     sdk.DateTime                       `sumeru:"string=Order Deadline"`
+	State         sdk.Selection[PurchaseOrderState]  `sumeru:"string=Status,default=draft"`
+	InvoiceStatus sdk.Selection[BillingStatus]       `sumeru:"string=Billing Status,default=no"`
+	AmountTotal   sdk.Numeric                        `sumeru:"string=Total,precision=18,scale=2,default=0"`
+	Notes         sdk.Text                           `sumeru:"string=Terms and Conditions"`
+	OrderLine     sdk.One2Many[PurchaseOrderLine]    `sumeru:"string=Order Lines"`
+	CompanyID     sdk.Many2One[CoreCompany]          `sumeru:"string=Company"`
 }

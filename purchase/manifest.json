@@ -9,6 +9,7 @@
   "data": [
     "security/security.xml",
     "security/sys.access.csv",
+    "data/purchase_sequence_data.xml",
     "views/purchase_order_list_views.xml",
     "views/purchase_order_form_views.xml",
     "views/purchase_order_line_list_views.xml",

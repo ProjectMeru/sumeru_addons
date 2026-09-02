@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_report_profit_loss" type="url" name="Profit &amp; Loss" url="/account/reports/view?type=profit_loss"/>
+        <action id="action_report_balance_sheet" type="url" name="Balance Sheet" url="/account/reports/view?type=balance_sheet"/>
+        <action id="action_report_trial_balance" type="url" name="Trial Balance" url="/account/reports/view?type=trial_balance"/>
+        <action id="action_report_general_ledger" type="url" name="General Ledger" url="/account/reports/view?type=general_ledger"/>
+    </data>
+</sumeru>

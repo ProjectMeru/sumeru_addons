@@ -8,7 +8,7 @@ type SaleOrderLine struct {
 	sdk.Model `sumeru:"model=sale.order.line"`
 
 	OrderID       sdk.Many2One[SaleOrder]      `sumeru:"required,index,string=Order"`
-	ProductID     sdk.Many2One[sdk.Any] `sumeru:"string=Product,comodel=product.product"`
+	ProductID     sdk.Many2One[ProductProduct] `sumeru:"string=Product"`
 	Name          sdk.String                   `sumeru:"required,string=Description"`
 	ProductUomQty sdk.Float64                  `sumeru:"string=Quantity,default=1"`
 	PriceUnit     sdk.Numeric                  `sumeru:"string=Unit Price,default=0"`

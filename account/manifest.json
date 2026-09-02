@@ -1,9 +1,9 @@
 {
   "name": "account",
   "display_name": "Invoicing",
-  "version": "2.0.0",
-  "summary": "Invoices, bills, taxes, payments, and double-entry accounting",
-  "description": "Invoices, bills, taxes, payments, and COA.",
+  "version": "2.1.0",
+  "summary": "Invoices, bills, taxes, payments, reporting, bank reconciliation, and analytic accounting",
+  "description": "Full accounting: COA, journal entries, taxes, payments, financial reports, bank statements, analytic plans.",
   "author": "Sumeru",
   "depends": ["product", "contacts"],
   "data": [
@@ -28,6 +28,9 @@
     "views/account_invoice_report_list_views.xml",
     "views/account_payment_register_form_views.xml",
     "views/account_move_reversal_form_views.xml",
+    "views/account_bank_statement_list_views.xml",
+    "views/account_bank_statement_form_views.xml",
+    "views/account_analytic_account_list_views.xml",
     "views/account_account_actions.xml",
     "views/account_journal_actions.xml",
     "views/account_tax_actions.xml",
@@ -37,6 +40,9 @@
     "views/account_payment_actions.xml",
     "views/account_invoice_report_actions.xml",
     "views/account_wizard_actions.xml",
+    "views/report_actions.xml",
+    "views/account_bank_actions.xml",
+    "views/account_analytic_actions.xml",
     "views/menus.xml"
   ],
   "application": true

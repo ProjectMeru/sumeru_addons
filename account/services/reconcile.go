@@ -106,7 +106,9 @@ func reconcilePaymentToInvoice(ctx context.Context, invoiceID, paymentLineID int
 	}); err != nil {
 		return err
 	}
-
+	if math.Abs(newInvRes) <= balanceEpsilon {
+		_ = maybeCreateFullReconcile(ctx, int(invLineID))
+	}
 	return recomputeInvoicePaymentState(ctx, invoiceID)
 }
 

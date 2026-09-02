@@ -8,6 +8,8 @@ func init() {
 	sdk.MustRegister("crm",
 		&CrmActivityReport{},
 		&CrmLead{},
+		&CrmLeadScoringFrequency{},
+		&CrmLeadScoringFrequencyField{},
 		&CrmLostReason{},
 		&CrmRecurringPlan{},
 		&CrmStage{},

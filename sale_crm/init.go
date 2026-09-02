@@ -10,6 +10,18 @@ import (
 
 func init() {
 	event.Subscribe("record.updated", onLeadWonCreateQuotation)
+	orm.RegisterObjectAction("crm.lead", "action_create_quotation", actionCreateQuotation)
+}
+
+func actionCreateQuotation(ctx context.Context, model string, id int, vals map[string]string) (string, error) {
+	if model != "crm.lead" || id <= 0 {
+		return "", fmt.Errorf("invalid lead")
+	}
+	orderID, err := CreateQuotationFromLead(ctx, id)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("/web?action=sale.action_sale_quotations&view_type=form&id=%d", orderID), nil
 }
 
 func CreateQuotationFromLead(ctx context.Context, leadID int) (int, error) {
