@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_website_crm_forms" type="window" model="website.crm.form" name="Website CRM Forms" view_mode="list,form"/>
+    </data>
+</sumeru>

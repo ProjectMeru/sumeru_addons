@@ -1,0 +1,3 @@
+id,name,model,group_id,perm_read,perm_write,perm_create,perm_unlink
+access_website_crm_form_user,access_website_crm_form_user,website.crm.form,crm.group_crm_user,1,0,0,0
+access_website_crm_form_manager,access_website_crm_form_manager,website.crm.form,crm.group_crm_manager,1,1,1,1

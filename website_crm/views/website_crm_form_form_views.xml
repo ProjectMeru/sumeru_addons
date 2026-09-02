@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_website_crm_form_form" model="website.crm.form" type="form">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="team_id"/>
+                    <field name="active"/>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>
