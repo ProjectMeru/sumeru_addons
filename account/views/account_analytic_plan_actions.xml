@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="action_analytic_plans" model="sys.action.window">
+            <field name="name">Analytic Plans</field>
+            <field name="core_model">account.analytic.plan</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</sumeru>

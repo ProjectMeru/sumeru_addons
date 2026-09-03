@@ -12,6 +12,7 @@ type AccountFiscalPosition struct {
 	AutoApply sdk.Boolean             `sumeru:"string=Detect Automatically"`
 	CountryID sdk.Many2One[CoreCountry] `sumeru:"string=Country"`
 	Note      sdk.Text                `sumeru:"string=Notes"`
+	TaxLineIDs sdk.One2Many[AccountFiscalPositionTax] `sumeru:"string=Tax Mapping"`
 }
 
 type AccountFiscalPositionTax struct {

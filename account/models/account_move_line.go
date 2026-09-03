@@ -11,6 +11,7 @@ type AccountMoveLine struct {
 	AccountID      sdk.Many2One[AccountAccount] `sumeru:"string=Account"`
 	Name           sdk.String                   `sumeru:"string=Label"`
 	PartnerID      sdk.Many2One[CorePartner]    `sumeru:"string=Partner"`
+	AnalyticAccountID sdk.Many2One[AccountAnalyticAccount] `sumeru:"string=Analytic Account"`
 	ProductID      sdk.Many2One[sdk.Any]        `sumeru:"string=Product,comodel=product.product"`
 	TaxID          sdk.Many2One[AccountTax]     `sumeru:"string=Tax"`
 	TaxOriginID    sdk.Many2One[AccountTax]     `sumeru:"string=Originator Tax"`

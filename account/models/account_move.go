@@ -10,6 +10,7 @@ type AccountMove struct {
 	Name            sdk.String                   `sumeru:"required,string=Number"`
 	MoveType        sdk.Selection[MoveType]      `sumeru:"string=Type,default=entry"`
 	PartnerID       sdk.Many2One[CorePartner]    `sumeru:"string=Partner"`
+	CurrencyID      sdk.Many2One[CoreCurrency]   `sumeru:"string=Currency"`
 	JournalID       sdk.Many2One[AccountJournal] `sumeru:"string=Journal"`
 	CompanyID       sdk.Many2One[CoreCompany]    `sumeru:"string=Company"`
 	Date            sdk.Date                     `sumeru:"string=Accounting Date"`

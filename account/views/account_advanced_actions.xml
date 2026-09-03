@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="action_account_recurring_templates" model="sys.action.window">
+            <field name="name">Recurring Templates</field>
+            <field name="core_model">account.recurring.template</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_account_deferred_schedules" model="sys.action.window">
+            <field name="name">Deferred Schedules</field>
+            <field name="core_model">account.deferred.schedule</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_account_assets" model="sys.action.window">
+            <field name="name">Assets</field>
+            <field name="core_model">account.asset</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_account_budgets" model="sys.action.window">
+            <field name="name">Budgets</field>
+            <field name="core_model">account.budget</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_account_tax_returns" model="sys.action.window">
+            <field name="name">Tax Returns</field>
+            <field name="core_model">account.tax.return</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_account_lock_dates" model="sys.action.window">
+            <field name="name">Lock Dates</field>
+            <field name="core_model">account.lock.date</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_account_move_audits" model="sys.action.window">
+            <field name="name">Move Audit Log</field>
+            <field name="core_model">account.move.audit</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</sumeru>

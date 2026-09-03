@@ -12,6 +12,12 @@ type CoreCompany = basemodels.CoreCompany
 // CoreCountry → core.country
 type CoreCountry = basemodels.CoreCountry
 
+// CoreCurrency → core.currency
+type CoreCurrency = basemodels.CoreCurrency
+
 // CorePartner → core.partner
 type CorePartner = basemodels.CorePartner
+
+// CoreUser → core.user
+type CoreUser = basemodels.CoreUser
 

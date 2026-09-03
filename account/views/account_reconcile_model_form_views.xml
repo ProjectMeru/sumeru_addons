@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_reconcile_model_form" model="account.reconcile.model" type="form">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="match_label"/>
+                    <field name="match_amount"/>
+                    <field name="writeoff_account_id"/>
+                    <field name="active"/>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

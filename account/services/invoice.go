@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"math"
@@ -350,8 +351,14 @@ func PostMove(ctx context.Context, moveID int) error {
 	if err != nil {
 		return err
 	}
+	if orm.AsString(move["state"]) == "posted" {
+		return nil
+	}
 	if orm.AsString(move["state"]) == "cancel" {
 		return fmt.Errorf("move cancelled")
+	}
+	if err := checkMoveLockDate(bypass, move); err != nil {
+		return err
 	}
 	allLines, err := orm.Search(bypass, "account.move.line", [][]interface{}{
 		{"move_id", "=", moveID},
@@ -432,6 +439,9 @@ func PostMove(ctx context.Context, moveID int) error {
 	if err := upsertInvoiceReport(bypass, moveID); err != nil {
 		log.Printf("account: invoice report move %d: %v", moveID, err)
 	}
+	if err := writeMoveAuditLog(ctx, moveID, "post", move); err != nil {
+		log.Printf("account: move audit move %d: %v", moveID, err)
+	}
 	return orm.UpdateRecordByID(bypass, "account.move", moveID, map[string]interface{}{
 		"state":           "posted",
 		"amount_untaxed":  round2(untaxed),
@@ -496,6 +506,9 @@ func postManualEntry(ctx context.Context, moveID int, move map[string]interface{
 	total := 0.0
 	for _, ln := range lines {
 		total += numericFloat(ln["debit"])
+	}
+	if err := writeMoveAuditLog(ctx, moveID, "post", move); err != nil {
+		log.Printf("account: move audit move %d: %v", moveID, err)
 	}
 	return orm.UpdateRecordByID(ctx, "account.move", moveID, map[string]interface{}{
 		"state":           "posted",
@@ -617,4 +630,62 @@ func numericFloat(v interface{}) float64 {
 
 func round2(v float64) float64 {
 	return math.Round(v*100) / 100
+}
+
+func checkMoveLockDate(ctx context.Context, move map[string]interface{}) error {
+	moveDate := normalizeDate(move["date"])
+	if moveDate == "" {
+		moveDate = normalizeDate(move["invoice_date"])
+	}
+	journalID, _ := orm.CoerceInt64(move["journal_id"])
+	locks, err := orm.Search(ctx, "account.lock.date", nil)
+	if err != nil {
+		return err
+	}
+	for _, lock := range locks {
+		lockJournal, _ := orm.CoerceInt64(lock["journal_id"])
+		if lockJournal > 0 && lockJournal != journalID {
+			continue
+		}
+		hard := normalizeDate(lock["hard_lock_date"])
+		if hard != "" && moveDate <= hard {
+			name := orm.AsString(lock["name"])
+			if name == "" {
+				name = "lock"
+			}
+			return fmt.Errorf("posting blocked by hard lock %q through %s", name, hard)
+		}
+		soft := normalizeDate(lock["soft_lock_date"])
+		if soft != "" && moveDate <= soft {
+			name := orm.AsString(lock["name"])
+			if name == "" {
+				name = "lock"
+			}
+			return fmt.Errorf("posting blocked by soft lock %q through %s", name, soft)
+		}
+	}
+	return nil
+}
+
+func writeMoveAuditLog(ctx context.Context, moveID int, action string, move map[string]interface{}) error {
+	snapshot, err := json.Marshal(move)
+	if err != nil {
+		return fmt.Errorf("marshal move snapshot: %w", err)
+	}
+	auditModel, err := modelOrErr("account.move.audit")
+	if err != nil {
+		return err
+	}
+	uid := orm.SecurityUID(ctx)
+	if uid <= 0 {
+		uid = orm.SecurityUID(orm.ContextWithBypass(ctx, false))
+	}
+	_, err = orm.Create(ctx, auditModel, map[string]interface{}{
+		"move_id":  moveID,
+		"user_id":  uid,
+		"action":   action,
+		"snapshot": string(snapshot),
+		"date":     time.Now().Format(time.RFC3339),
+	})
+	return err
 }

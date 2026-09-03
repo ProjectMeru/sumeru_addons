@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_fiscal_position_list" model="account.fiscal.position" type="list">
+            <field name="name"/>
+            <field name="country_id"/>
+            <field name="auto_apply"/>
+            <field name="active"/>
+        </view>
+    </data>
+</sumeru>
