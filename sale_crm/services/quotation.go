@@ -138,7 +138,7 @@ func refreshQuotationCount(ctx context.Context, leadID int64) error {
 }
 
 func onLeadWonCreateQuotation(ctx context.Context, ev event.Event) error {
-	if orm.ConfigParamBool(ctx, "sale_crm.auto_quotation", true) == false {
+	if !orm.ConfigParamBool(ctx, "sale_crm.auto_quotation", true) {
 		return nil
 	}
 	model, _ := ev.Payload["model"].(string)

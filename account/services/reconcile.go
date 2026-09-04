@@ -19,6 +19,7 @@ func reconcilePaymentToInvoice(ctx context.Context, invoiceID, paymentLineID int
 		{"display_type", "=", "entry"},
 	})
 	var invLine map[string]interface{}
+findInvLine:
 	for _, ln := range lines {
 		res := numericFloat(ln["amount_residual"])
 		if math.Abs(res) < balanceEpsilon {
@@ -31,12 +32,12 @@ func reconcilePaymentToInvoice(ctx context.Context, invoiceID, paymentLineID int
 		case "out_invoice", "out_refund":
 			if atype == "asset_receivable" {
 				invLine = ln
-				break
+				break findInvLine
 			}
 		case "in_invoice", "in_refund":
 			if atype == "liability_payable" {
 				invLine = ln
-				break
+				break findInvLine
 			}
 		}
 		if invLine == nil && math.Abs(res) > balanceEpsilon {
@@ -59,10 +60,7 @@ func reconcilePaymentToInvoice(ctx context.Context, invoiceID, paymentLineID int
 		return nil
 	}
 
-	debitID, creditID := int(invLineID), paymentLineID
-	if invRes < 0 {
-		debitID, creditID = paymentLineID, int(invLineID)
-	}
+	var debitID, creditID int
 	if numericFloat(invLine["debit"]) > 0 || invRes > 0 {
 		debitID, creditID = int(invLineID), paymentLineID
 	} else {
@@ -82,8 +80,7 @@ func reconcilePaymentToInvoice(ctx context.Context, invoiceID, paymentLineID int
 		return err
 	}
 
-	newInvRes := invRes
-	newPayRes := payRes
+	var newInvRes, newPayRes float64
 	if invRes > 0 {
 		newInvRes = invRes - reconcileAmt
 	} else {

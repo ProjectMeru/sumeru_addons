@@ -27,7 +27,7 @@ func ReconcileStatementLine(ctx context.Context, moveLineID int, amount float64)
 	if math.Abs(res) <= balanceEpsilon {
 		return nil
 	}
-	newRes := res
+	var newRes float64
 	if res > 0 {
 		newRes = res - math.Abs(amount)
 	} else {
