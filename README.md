@@ -1,6 +1,7 @@
 # sumeru_addons
 
-[![Go](https://img.shields.io/badge/Go-1.26.2+-00ADD8?logo=go&logoColor=white)](https://go.dev/dl/)
+[![CI](https://github.com/ProjectMeru/sumeru_addons/actions/workflows/ci.yml/badge.svg)](https://github.com/ProjectMeru/sumeru_addons/actions/workflows/ci.yml)
+[![Go](https://img.shields.io/badge/Go-1.26.6+-00ADD8?logo=go&logoColor=white)](https://go.dev/dl/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Pre-Alpha](https://img.shields.io/badge/Status-Pre--Alpha-critical?style=for-the-badge)](https://github.com/ProjectMeru/sumeru)
 

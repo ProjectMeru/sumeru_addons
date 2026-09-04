@@ -1,0 +1,172 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # Match the PR base or push branch so addons track the same sumeru line.
+  SUMERU_REF: ${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name }}
+
+jobs:
+  go-build:
+    name: Go build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sumeru_addons
+    steps:
+      - name: Checkout sumeru_addons
+        uses: actions/checkout@v7
+        with:
+          path: sumeru_addons
+
+      - name: Checkout sumeru (replace sibling)
+        uses: actions/checkout@v7
+        with:
+          repository: ProjectMeru/sumeru
+          ref: ${{ env.SUMERU_REF }}
+          path: sumeru
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version: "1.26.6"
+          cache: true
+          cache-dependency-path: sumeru_addons/go.sum
+
+      - name: Build all packages
+        env:
+          GOFLAGS: -mod=readonly
+        run: go build ./...
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## Go build" >> "$GITHUB_STEP_SUMMARY"
+          echo "Command: \`go build ./...\` (replace sumeru => ../sumeru @ \`${{ env.SUMERU_REF }}\`)" >> "$GITHUB_STEP_SUMMARY"
+
+  go-test:
+    name: Go test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sumeru_addons
+    steps:
+      - name: Checkout sumeru_addons
+        uses: actions/checkout@v7
+        with:
+          path: sumeru_addons
+
+      - name: Checkout sumeru (replace sibling)
+        uses: actions/checkout@v7
+        with:
+          repository: ProjectMeru/sumeru
+          ref: ${{ env.SUMERU_REF }}
+          path: sumeru
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version: "1.26.6"
+          cache: true
+          cache-dependency-path: sumeru_addons/go.sum
+
+      - name: Run unit tests
+        env:
+          GOFLAGS: -mod=readonly
+        run: go test ./... -count=1 -timeout 15m
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## Go test" >> "$GITHUB_STEP_SUMMARY"
+          echo "Command: \`go test ./...\` (replace sumeru => ../sumeru @ \`${{ env.SUMERU_REF }}\`)" >> "$GITHUB_STEP_SUMMARY"
+
+  go-lint:
+    name: Go lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sumeru_addons
+    steps:
+      - name: Checkout sumeru_addons
+        uses: actions/checkout@v7
+        with:
+          path: sumeru_addons
+          fetch-depth: 0
+
+      - name: Checkout sumeru (replace sibling)
+        uses: actions/checkout@v7
+        with:
+          repository: ProjectMeru/sumeru
+          ref: ${{ env.SUMERU_REF }}
+          path: sumeru
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version: "1.26.6"
+          cache: true
+          cache-dependency-path: sumeru_addons/go.sum
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: latest
+          working-directory: sumeru_addons
+          args: --timeout=10m
+          only-new-issues: ${{ github.event_name == 'pull_request' }}
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## Go lint" >> "$GITHUB_STEP_SUMMARY"
+          echo "Commands: \`go vet ./...\`, \`golangci-lint run\`" >> "$GITHUB_STEP_SUMMARY"
+
+  go-vuln:
+    name: Go vulnerabilities
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sumeru_addons
+    steps:
+      - name: Checkout sumeru_addons
+        uses: actions/checkout@v7
+        with:
+          path: sumeru_addons
+
+      - name: Checkout sumeru (replace sibling)
+        uses: actions/checkout@v7
+        with:
+          repository: ProjectMeru/sumeru
+          ref: ${{ env.SUMERU_REF }}
+          path: sumeru
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version: "1.26.6"
+          cache: true
+          cache-dependency-path: sumeru_addons/go.sum
+
+      - name: govulncheck
+        run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## Go vulnerabilities" >> "$GITHUB_STEP_SUMMARY"
+          echo "Command: \`govulncheck ./...\`" >> "$GITHUB_STEP_SUMMARY"
