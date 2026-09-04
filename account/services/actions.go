@@ -236,13 +236,14 @@ func actionReverseMoves(ctx context.Context, model string, id int, vals map[stri
 	reason := orm.AsString(wiz["reason"])
 	seqCode := "account.move.out_refund"
 	prefix := "RINV"
-	if revType == "in_refund" {
+	switch revType {
+	case "in_refund":
 		seqCode = "account.move.in_refund"
 		prefix = "RBILL"
-	} else if revType == "out_invoice" {
+	case "out_invoice":
 		seqCode = "account.move.out_invoice"
 		prefix = "INV"
-	} else if revType == "in_invoice" {
+	case "in_invoice":
 		seqCode = "account.move.in_invoice"
 		prefix = "BILL"
 	}

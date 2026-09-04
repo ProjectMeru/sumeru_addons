@@ -143,17 +143,10 @@ func BalanceSheet(ctx context.Context, dateFrom, dateTo string) (*ReportResult, 
 	if retained != 0 {
 		lines = append(lines, ReportLine{Name: "Current Year Earnings", Balance: round2(retained)})
 	}
-	assetTotal, liabEq := 0.0, 0.0
+	assetTotal := 0.0
 	for _, v := range assets {
 		assetTotal += v
 	}
-	for _, v := range liabilities {
-		liabEq += -v
-	}
-	for _, v := range equity {
-		liabEq += -v
-	}
-	liabEq += retained
 	return &ReportResult{
 		Title:     "Balance Sheet",
 		DateFrom:  dateFrom,
