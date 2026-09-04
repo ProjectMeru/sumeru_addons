@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_analytic_plan_list" model="account.analytic.plan" type="list">
+            <field name="name"/>
+            <field name="active"/>
+        </view>
+    </data>
+</sumeru>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_lead2opportunity_mass_form" model="crm.lead2opportunity.mass" type="form">
+            <sheet>
+                <group>
+                    <field name="lead_ids" readonly="1"/>
+                    <field name="user_id"/>
+                    <field name="team_id"/>
+                    <field name="force_assign"/>
+                </group>
+            </sheet>
+            <footer>
+                <button name="action_apply_mass_convert" string="Convert" type="object" class="sum_highlight"/>
+            </footer>
+        </view>
+        <action id="action_mass_convert" type="window" model="crm.lead2opportunity.mass" name="Convert Leads" view_mode="form" target="new"/>
+    </data>
+</sumeru>

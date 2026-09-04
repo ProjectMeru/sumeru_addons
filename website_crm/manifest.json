@@ -1,0 +1,21 @@
+{
+    "name": "website_crm",
+    "display_name": "Website CRM",
+    "version": "1.0.0",
+    "summary": "Website contact forms for CRM leads",
+    "description": "Stub website CRM forms that create leads with UTM attribution.",
+    "author": "Sumeru",
+    "depends": [
+        "crm",
+        "utm"
+    ],
+    "data": [
+        "security/sys.access.csv",
+        "data/website_crm_demo.xml",
+        "views/website_crm_form_list_views.xml",
+        "views/website_crm_form_form_views.xml",
+        "views/website_crm_actions.xml"
+    ],
+    "application": false,
+    "category": "CRM"
+}

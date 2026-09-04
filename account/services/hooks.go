@@ -36,7 +36,7 @@ func onAccountMoveLineSubtotalChange(_ context.Context, values map[string]interf
 }
 
 // onAccountMoveLineUpdated recomputes the parent move totals whenever a line
-// changes, so amount_untaxed/amount_tax/amount_total stay in sync (Odoo-style).
+// changes, so amount_untaxed/amount_tax/amount_total stay in sync.
 func onAccountMoveLineUpdated(ctx context.Context, ev event.Event) error {
 	model, _ := ev.Payload["model"].(string)
 	if model != "account.move.line" {

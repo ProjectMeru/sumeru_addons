@@ -21,6 +21,7 @@
                     <group string="Invoice">
                         <field name="move_type" string="Type"/>
                         <field name="partner_id" string="Partner"/>
+                        <field name="currency_id" string="Currency"/>
                         <field name="journal_id" string="Journal"/>
                         <field name="payment_term_id" string="Payment Terms"/>
                         <field name="date" string="Accounting Date"/>
@@ -46,6 +47,7 @@
                                 <field name="product_id" string="Product"/>
                                 <field name="name" string="Label"/>
                                 <field name="account_id" string="Account"/>
+                                <field name="analytic_account_id" string="Analytic"/>
                                 <field name="tax_id" string="Tax"/>
                                 <field name="quantity" string="Qty"/>
                                 <field name="price_unit" string="Unit Price"/>

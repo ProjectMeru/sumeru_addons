@@ -4,6 +4,7 @@ import (
 	"context"
 	"math"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -230,6 +231,245 @@ func GeneralLedger(ctx context.Context, accountID int64, dateFrom, dateTo string
 		DateTo:    dateTo,
 		Lines:     out,
 		Total:     round2(running),
+		Generated: time.Now().Format(time.RFC3339),
+	}, nil
+}
+
+func PartnerLedger(ctx context.Context, dateFrom, dateTo string) (*ReportResult, error) {
+	if dateFrom == "" || dateTo == "" {
+		dateFrom, dateTo = defaultRange()
+	}
+	lines, err := partnerBalanceLines(ctx, dateFrom, dateTo, "asset_receivable", "liability_payable")
+	if err != nil {
+		return nil, err
+	}
+	total := 0.0
+	for _, ln := range lines {
+		total += ln.Balance
+	}
+	return &ReportResult{
+		Title:     "Partner Ledger",
+		DateFrom:  dateFrom,
+		DateTo:    dateTo,
+		Lines:     lines,
+		Total:     round2(total),
+		Generated: time.Now().Format(time.RFC3339),
+	}, nil
+}
+
+func AgedReceivable(ctx context.Context, dateFrom, dateTo string) (*ReportResult, error) {
+	return agedPartnerReport(ctx, dateFrom, dateTo, "asset_receivable", "Aged Receivable")
+}
+
+func AgedPayable(ctx context.Context, dateFrom, dateTo string) (*ReportResult, error) {
+	return agedPartnerReport(ctx, dateFrom, dateTo, "liability_payable", "Aged Payable")
+}
+
+func CashFlow(ctx context.Context, dateFrom, dateTo string) (*ReportResult, error) {
+	if dateFrom == "" || dateTo == "" {
+		dateFrom, dateTo = defaultRange()
+	}
+	balances, err := balanceByAccountType(ctx, dateFrom, dateTo, "asset_cash")
+	if err != nil {
+		return nil, err
+	}
+	lines := accountLines(ctx, balances, false)
+	inflow, outflow := 0.0, 0.0
+	for _, ln := range lines {
+		if ln.Balance >= 0 {
+			inflow += ln.Balance
+		} else {
+			outflow += -ln.Balance
+		}
+	}
+	return &ReportResult{
+		Title:     "Cash Flow",
+		DateFrom:  dateFrom,
+		DateTo:    dateTo,
+		Lines:     lines,
+		Total:     round2(inflow - outflow),
+		Generated: time.Now().Format(time.RFC3339),
+	}, nil
+}
+
+func AnnualComposite(ctx context.Context, dateFrom, dateTo string) (*ReportResult, error) {
+	year := time.Now().Year()
+	if dateTo != "" {
+		if t, err := time.Parse("2006-01-02", dateTo); err == nil {
+			year = t.Year()
+		}
+	}
+	lines := make([]ReportLine, 0, 12)
+	netTotal := 0.0
+	for month := 1; month <= 12; month++ {
+		from := time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.Local).Format("2006-01-02")
+		end := time.Date(year, time.Month(month+1), 0, 0, 0, 0, 0, time.Local).Format("2006-01-02")
+		pl, err := ProfitAndLoss(ctx, from, end)
+		if err != nil {
+			return nil, err
+		}
+		lines = append(lines, ReportLine{
+			Code:    from[:7],
+			Name:    time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.Local).Format("January"),
+			Balance: pl.Total,
+		})
+		netTotal += pl.Total
+	}
+	return &ReportResult{
+		Title:     "Annual Composite (P&L by Month)",
+		DateFrom:  time.Date(year, 1, 1, 0, 0, 0, 0, time.Local).Format("2006-01-02"),
+		DateTo:    time.Date(year, 12, 31, 0, 0, 0, 0, time.Local).Format("2006-01-02"),
+		Lines:     lines,
+		Total:     round2(netTotal),
+		Generated: time.Now().Format(time.RFC3339),
+	}, nil
+}
+
+func partnerBalanceLines(ctx context.Context, dateFrom, dateTo string, acctTypes ...string) ([]ReportLine, error) {
+	posted, err := postedLines(ctx, dateFrom, dateTo)
+	if err != nil {
+		return nil, err
+	}
+	typeSet := map[string]struct{}{}
+	for _, t := range acctTypes {
+		typeSet[t] = struct{}{}
+	}
+	byPartner := map[int64]float64{}
+	for _, ln := range posted {
+		partnerID, _ := orm.CoerceInt64(ln["partner_id"])
+		if partnerID <= 0 {
+			continue
+		}
+		acctID, _ := orm.CoerceInt64(ln["account_id"])
+		if acctID <= 0 {
+			continue
+		}
+		acct, err := orm.SearchOne(ctx, "account.account", map[string]interface{}{"id": acctID})
+		if err != nil {
+			continue
+		}
+		if _, ok := typeSet[orm.AsString(acct["account_type"])]; !ok {
+			continue
+		}
+		byPartner[partnerID] += numericFloat(ln["debit"]) - numericFloat(ln["credit"])
+	}
+	ids := make([]int64, 0, len(byPartner))
+	for id := range byPartner {
+		ids = append(ids, id)
+	}
+	sort.Slice(ids, func(i, j int) bool { return ids[i] < ids[j] })
+	out := make([]ReportLine, 0, len(ids))
+	for _, id := range ids {
+		bal := byPartner[id]
+		if math.Abs(bal) < 0.005 {
+			continue
+		}
+		name := strconv.FormatInt(id, 10)
+		if p, err := orm.SearchOne(ctx, "core.partner", map[string]interface{}{"id": id}); err == nil {
+			name = orm.AsString(p["name"])
+		}
+		out = append(out, ReportLine{Code: name, Name: "Balance", Balance: round2(bal)})
+	}
+	return out, nil
+}
+
+func agedPartnerReport(ctx context.Context, dateFrom, dateTo string, acctType, title string) (*ReportResult, error) {
+	if dateTo == "" {
+		_, dateTo = defaultRange()
+	}
+	if dateFrom == "" {
+		dateFrom = "1970-01-01"
+	}
+	asOf, err := time.Parse("2006-01-02", dateTo)
+	if err != nil {
+		asOf = time.Now()
+	}
+	buckets := []struct {
+		code, name string
+		min, max   int
+	}{
+		{"current", "Not Due", 0, 0},
+		{"1-30", "1–30 Days", 1, 30},
+		{"31-60", "31–60 Days", 31, 60},
+		{"61-90", "61–90 Days", 61, 90},
+		{"90+", "90+ Days", 91, 100000},
+	}
+	totals := make([]float64, len(buckets))
+	rows, err := orm.Search(ctx, "account.move.line", [][]interface{}{
+		{"reconciled", "=", false},
+		{"display_type", "=", "entry"},
+	})
+	if err != nil {
+		return nil, err
+	}
+	for _, ln := range rows {
+		acctID, _ := orm.CoerceInt64(ln["account_id"])
+		if acctID <= 0 {
+			continue
+		}
+		acct, err := orm.SearchOne(ctx, "account.account", map[string]interface{}{"id": acctID})
+		if err != nil || orm.AsString(acct["account_type"]) != acctType {
+			continue
+		}
+		res := numericFloat(ln["amount_residual"])
+		if math.Abs(res) <= balanceEpsilon {
+			continue
+		}
+		due := orm.AsString(ln["date"])
+		moveID, _ := orm.CoerceInt64(ln["move_id"])
+		if moveID > 0 {
+			if move, err := orm.SearchOne(ctx, "account.move", map[string]interface{}{"id": moveID}); err == nil {
+				if d := orm.AsString(move["invoice_date_due"]); d != "" {
+					due = d
+				} else if d := orm.AsString(move["invoice_date"]); d != "" {
+					due = d
+				} else if d := orm.AsString(move["date"]); d != "" {
+					due = d
+				}
+			}
+		}
+		dueDate, err := time.Parse("2006-01-02", due)
+		if err != nil {
+			dueDate = asOf
+		}
+		age := int(asOf.Sub(dueDate).Hours() / 24)
+		if age < 0 {
+			age = 0
+		}
+		amt := math.Abs(res)
+		if acctType == "liability_payable" {
+			amt = res
+			if amt > 0 {
+				amt = -amt
+			}
+			amt = math.Abs(amt)
+		}
+		for i, b := range buckets {
+			if b.max == 0 && age == 0 {
+				totals[i] += amt
+				break
+			}
+			if b.max == 0 {
+				continue
+			}
+			if age >= b.min && age <= b.max {
+				totals[i] += amt
+				break
+			}
+		}
+	}
+	lines := make([]ReportLine, 0, len(buckets))
+	total := 0.0
+	for i, b := range buckets {
+		lines = append(lines, ReportLine{Code: b.code, Name: b.name, Balance: round2(totals[i])})
+		total += totals[i]
+	}
+	return &ReportResult{
+		Title:     title,
+		DateFrom:  dateFrom,
+		DateTo:    dateTo,
+		Lines:     lines,
+		Total:     round2(total),
 		Generated: time.Now().Format(time.RFC3339),
 	}, nil
 }

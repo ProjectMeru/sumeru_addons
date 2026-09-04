@@ -1,21 +1,24 @@
 {
-  "name": "utm",
-  "display_name": "UTM Tracking",
-  "version": "1.0.0",
-  "summary": "Campaigns, mediums, and sources for marketing attribution",
-  "description": "Track marketing campaigns, mediums, and sources for lead attribution.",
-  "author": "Sumeru",
-  "depends": ["base"],
-  "data": [
-    "security/sys.access.csv",
-    "views/utm_campaign_list_views.xml",
-    "views/utm_campaign_form_views.xml",
-    "views/utm_medium_list_views.xml",
-    "views/utm_medium_form_views.xml",
-    "views/utm_source_list_views.xml",
-    "views/utm_source_form_views.xml",
-    "views/utm_actions.xml",
-    "views/menus.xml"
-  ],
-  "application": false
+    "name": "utm",
+    "display_name": "UTM Tracking",
+    "version": "1.0.0",
+    "summary": "Campaigns, mediums, and sources for marketing attribution",
+    "description": "Track marketing campaigns, mediums, and sources for lead attribution.",
+    "author": "Sumeru",
+    "depends": [
+        "base"
+    ],
+    "data": [
+        "security/sys.access.csv",
+        "views/utm_campaign_list_views.xml",
+        "views/utm_campaign_form_views.xml",
+        "views/utm_medium_list_views.xml",
+        "views/utm_medium_form_views.xml",
+        "views/utm_source_list_views.xml",
+        "views/utm_source_form_views.xml",
+        "views/utm_actions.xml",
+        "views/menus.xml"
+    ],
+    "application": false,
+    "category": "Marketing"
 }

@@ -6,12 +6,24 @@
                 <button name="action_set_won" string="Won" type="object" class="sum_highlight"/>
                 <button name="action_create_quotation" string="New Quotation" type="object"/>
                 <button name="action_convert_wizard" string="Convert" type="object"/>
+                <button name="action_mass_convert_wizard" string="Mass Convert" type="object"/>
                 <button name="action_lost_wizard" string="Lost" type="object"/>
                 <button name="action_merge_wizard" string="Merge" type="object"/>
                 <button name="action_restore" string="Restore" type="object"/>
                 <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
             </header>
             <sheet>
+                <div class="sum_button_box">
+                    <button name="action_create_quotation" type="object" class="sum_stat_button" icon="file-text">
+                        <field name="quotation_count" widget="statinfo" string="Quotations"/>
+                    </button>
+                    <button name="action_merge_wizard" type="object" class="sum_stat_button" icon="copy">
+                        <field name="duplicate_lead_count" widget="statinfo" string="Duplicates"/>
+                    </button>
+                    <button type="action" name="calendar.action_calendar_event" class="sum_stat_button" icon="calendar">
+                        <field name="meeting_count" widget="statinfo" string="Meetings"/>
+                    </button>
+                </div>
                 <div class="sum_title">
                     <h1>
                         <field name="name" placeholder="Opportunity..."/>
@@ -22,8 +34,10 @@
                         <field name="partner_id"/>
                         <field name="contact_name"/>
                         <field name="partner_name"/>
+                        <field name="function"/>
                         <field name="email_from"/>
                         <field name="phone"/>
+                        <field name="mobile"/>
                         <field name="website"/>
                     </group>
                     <group string="Pipeline">
@@ -31,6 +45,7 @@
                         <field name="date_deadline" widget="date"/>
                         <field name="user_id"/>
                         <field name="team_id"/>
+                        <field name="company_id"/>
                         <field name="priority" widget="priority" options="mode:stars,stars:3"/>
                         <field name="tag_ids" widget="many2many_tags"/>
                     </group>
@@ -39,20 +54,28 @@
                     <group string="Address">
                         <field name="street"/>
                         <field name="street2"/>
-                    </group>
-                    <group string="City">
                         <field name="city"/>
+                        <field name="state_id"/>
                         <field name="zip"/>
+                        <field name="country_id"/>
                     </group>
-                </group>
-                <group col="2">
                     <group string="Revenue">
                         <field name="expected_revenue"/>
                         <field name="probability"/>
+                        <field name="automated_probability"/>
                         <field name="recurring_revenue"/>
+                        <field name="recurring_revenue_monthly"/>
                         <field name="recurring_plan"/>
                         <field name="prorated_revenue"/>
                     </group>
+                </group>
+                <group string="Schedule Activity" name="activity_scheduler">
+                    <field name="date_open" readonly="1"/>
+                    <field name="date_conversion" readonly="1"/>
+                    <field name="day_open" readonly="1"/>
+                    <field name="day_close" readonly="1"/>
+                </group>
+                <group col="2">
                     <group string="Marketing">
                         <field name="campaign_id"/>
                         <field name="medium_id"/>
@@ -71,7 +94,7 @@
                             <field name="lost_reason_id"/>
                             <field name="lost_feedback"/>
                             <field name="date_closed"/>
-                            <field name="date_open"/>
+                            <field name="duplicate_lead_ids"/>
                         </group>
                     </page>
                 </notebook>

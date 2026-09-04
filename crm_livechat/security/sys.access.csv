@@ -1,0 +1,3 @@
+id,name,model,group_id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_livechat_session_user,access_crm_livechat_session_user,crm.livechat.session,crm.group_crm_user,1,1,1,0
+access_crm_livechat_session_manager,access_crm_livechat_session_manager,crm.livechat.session,crm.group_crm_manager,1,1,1,1

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="view_sale_order_form_sale_crm_inherit" model="sys.view">
+            <field name="inherit_id" ref="sale.view_sale_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="opportunity_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</sumeru>

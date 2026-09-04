@@ -15,7 +15,10 @@ access_crm_recurring_plan_user,access_crm_recurring_plan_user,crm.recurring.plan
 access_crm_recurring_plan_manager,access_crm_recurring_plan_manager,crm.recurring.plan,group_crm_manager,1,1,1,1
 access_crm_lead_lost_user,access_crm_lead_lost_user,crm.lead.lost,group_crm_user,1,1,1,1
 access_crm_lead2opportunity_user,access_crm_lead2opportunity_user,crm.lead2opportunity,group_crm_user,1,1,1,1
+access_crm_lead2opportunity_mass_user,access_crm_lead2opportunity_mass_user,crm.lead2opportunity.mass,group_crm_user,1,1,1,1
+access_crm_lead_pls_update_manager,access_crm_lead_pls_update_manager,crm.lead.pls.update,group_crm_manager,1,1,1,1
 access_crm_merge_opportunity_user,access_crm_merge_opportunity_user,crm.merge.opportunity,group_crm_user,1,1,1,1
+access_res_config_settings_manager,access_res_config_settings_manager,res.config.settings,group_crm_manager,1,1,1,1
 access_crm_activity_report_user,access_crm_activity_report_user,crm.activity.report,group_crm_user,1,0,0,0
 access_crm_activity_report_manager,access_crm_activity_report_manager,crm.activity.report,group_crm_manager,1,1,1,1
 access_crm_lead_scoring_frequency_manager,access_crm_lead_scoring_frequency_manager,crm.lead.scoring.frequency,group_crm_manager,1,1,1,1

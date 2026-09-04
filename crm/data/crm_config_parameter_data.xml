@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data noupdate="1">
+        <record id="crm_param_auto_assignment" model="sys.config.parameter">
+            <field name="key">crm.lead.auto.assignment</field>
+            <field name="value">false</field>
+        </record>
+        <record id="crm_param_membership_multi" model="sys.config.parameter">
+            <field name="key">sales_team.membership_multi</field>
+            <field name="value">false</field>
+        </record>
+        <record id="crm_param_lead_enrich" model="sys.config.parameter">
+            <field name="key">crm.iap.lead.enrich.setting</field>
+            <field name="value">auto</field>
+        </record>
+        <record id="crm_param_lead_mining_pipeline" model="sys.config.parameter">
+            <field name="key">crm.lead_mining_in_pipeline</field>
+            <field name="value">false</field>
+        </record>
+        <record id="crm_param_pls_start_date" model="sys.config.parameter">
+            <field name="key">crm.pls_start_date</field>
+            <field name="value">2026-08-25</field>
+        </record>
+        <record id="crm_param_pls_fields" model="sys.config.parameter">
+            <field name="key">crm.pls_fields</field>
+            <field name="value">stage_id</field>
+        </record>
+    </data>
+</sumeru>

@@ -1,0 +1,16 @@
+{
+    "name": "crm_sms",
+    "display_name": "CRM SMS",
+    "version": "1.0.0",
+    "summary": "Send SMS from CRM leads",
+    "description": "Stub SMS composer action on CRM leads.",
+    "author": "Sumeru",
+    "depends": [
+        "crm"
+    ],
+    "data": [
+        "views/crm_lead_form_inherit_views.xml"
+    ],
+    "application": false,
+    "category": "CRM"
+}

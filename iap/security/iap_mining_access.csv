@@ -1,0 +1,2 @@
+id,name,model,group_id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_iap_lead_mining_request_user,access_crm_iap_lead_mining_request_user,crm.iap.lead.mining.request,base.group_user,1,1,1,1

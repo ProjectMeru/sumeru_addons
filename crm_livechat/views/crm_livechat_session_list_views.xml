@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_livechat_session_list" model="crm.livechat.session" type="list">
+            <field name="name"/>
+            <field name="lead_id"/>
+            <field name="operator_id"/>
+            <field name="state"/>
+        </view>
+    </data>
+</sumeru>

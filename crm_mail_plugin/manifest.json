@@ -1,0 +1,14 @@
+{
+    "name": "crm_mail_plugin",
+    "display_name": "CRM Mail Plugin",
+    "version": "1.0.0",
+    "summary": "Create CRM leads from email plugin",
+    "description": "Stub API hook for email-to-lead creation from mail clients.",
+    "author": "Sumeru",
+    "depends": [
+        "crm"
+    ],
+    "data": [],
+    "application": false,
+    "category": "CRM"
+}

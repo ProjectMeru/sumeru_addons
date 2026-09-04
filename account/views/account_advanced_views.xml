@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_recurring_template_list" model="account.recurring.template" type="list">
+            <field name="name"/>
+            <field name="journal_id"/>
+            <field name="partner_id"/>
+            <field name="amount"/>
+            <field name="interval"/>
+            <field name="next_date"/>
+            <field name="active"/>
+        </view>
+        <view id="view_account_recurring_template_form" model="account.recurring.template" type="form">
+            <header>
+                <button name="action_generate" string="Generate Entries" type="object" class="sum_highlight"/>
+            </header>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="account_id"/>
+                    <field name="partner_id"/>
+                    <field name="move_type"/>
+                    <field name="amount"/>
+                    <field name="interval"/>
+                    <field name="next_date"/>
+                    <field name="active"/>
+                </group>
+            </sheet>
+        </view>
+        <view id="view_account_deferred_schedule_list" model="account.deferred.schedule" type="list">
+            <field name="name"/>
+            <field name="move_id"/>
+            <field name="start_date"/>
+            <field name="end_date"/>
+            <field name="amount"/>
+            <field name="state"/>
+        </view>
+        <view id="view_account_deferred_schedule_form" model="account.deferred.schedule" type="form">
+            <header>
+                <button name="action_recognize" string="Recognize Period" type="object" class="sum_highlight"/>
+            </header>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="move_id"/>
+                    <field name="account_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="amount"/>
+                    <field name="recognized_amount"/>
+                    <field name="state"/>
+                </group>
+            </sheet>
+        </view>
+        <view id="view_account_asset_list" model="account.asset" type="list">
+            <field name="name"/>
+            <field name="original_value"/>
+            <field name="book_value"/>
+            <field name="acquisition_date"/>
+            <field name="account_id"/>
+            <field name="state"/>
+        </view>
+        <view id="view_account_asset_form" model="account.asset" type="form">
+            <header>
+                <button name="action_depreciate" string="Post Depreciation" type="object" class="sum_highlight"/>
+            </header>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="original_value"/>
+                    <field name="salvage_value"/>
+                    <field name="book_value"/>
+                    <field name="months"/>
+                    <field name="method"/>
+                    <field name="acquisition_date"/>
+                    <field name="account_id"/>
+                    <field name="expense_account_id"/>
+                    <field name="state"/>
+                </group>
+            </sheet>
+        </view>
+        <view id="view_account_budget_list" model="account.budget" type="list">
+            <field name="name"/>
+            <field name="date_from"/>
+            <field name="date_to"/>
+            <field name="company_id"/>
+            <field name="state"/>
+        </view>
+        <view id="view_account_budget_form" model="account.budget" type="form">
+            <header>
+                <button name="action_refresh" string="Refresh Actuals" type="object" class="sum_highlight"/>
+            </header>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="company_id"/>
+                    <field name="account_id"/>
+                    <field name="amount"/>
+                    <field name="actual_amount"/>
+                    <field name="variance"/>
+                    <field name="state"/>
+                </group>
+            </sheet>
+        </view>
+        <view id="view_account_tax_return_list" model="account.tax.return" type="list">
+            <field name="name"/>
+            <field name="period_start"/>
+            <field name="period_end"/>
+            <field name="amount"/>
+            <field name="state"/>
+        </view>
+        <view id="view_account_tax_return_form" model="account.tax.return" type="form">
+            <header>
+                <button name="action_compute" string="Compute" type="object" class="sum_highlight"/>
+            </header>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="period_start"/>
+                    <field name="period_end"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </group>
+            </sheet>
+        </view>
+        <view id="view_account_lock_date_list" model="account.lock.date" type="list">
+            <field name="name"/>
+            <field name="journal_id"/>
+            <field name="hard_lock_date"/>
+            <field name="soft_lock_date"/>
+        </view>
+        <view id="view_account_lock_date_form" model="account.lock.date" type="form">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="hard_lock_date"/>
+                    <field name="soft_lock_date"/>
+                </group>
+            </sheet>
+        </view>
+        <view id="view_account_move_audit_list" model="account.move.audit" type="list">
+            <field name="move_id"/>
+            <field name="user_id"/>
+            <field name="action"/>
+            <field name="date"/>
+        </view>
+        <view id="view_account_move_audit_form" model="account.move.audit" type="form">
+            <sheet>
+                <group>
+                    <field name="move_id"/>
+                    <field name="user_id"/>
+                    <field name="action"/>
+                    <field name="date"/>
+                    <field name="snapshot"/>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

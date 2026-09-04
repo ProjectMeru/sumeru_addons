@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data noupdate="1">
+        <!-- Account groups -->
+        <record id="demo_group_assets" model="account.group">
+            <field name="name">Assets</field>
+            <field name="code_prefix">1</field>
+        </record>
+        <record id="demo_group_liabilities" model="account.group">
+            <field name="name">Liabilities</field>
+            <field name="code_prefix">2</field>
+        </record>
+        <record id="demo_group_equity" model="account.group">
+            <field name="name">Equity</field>
+            <field name="code_prefix">3</field>
+        </record>
+        <record id="demo_group_income" model="account.group">
+            <field name="name">Income</field>
+            <field name="code_prefix">4</field>
+        </record>
+        <record id="demo_group_expenses" model="account.group">
+            <field name="name">Expenses</field>
+            <field name="code_prefix">6</field>
+        </record>
+
+        <!-- Extended chart of accounts (~16 new + 9 in account_data = 25) -->
+        <record id="demo_account_prepaid" model="account.account">
+            <field name="code">103000</field>
+            <field name="name">Prepaid Expenses</field>
+            <field name="account_type">asset_current</field>
+            <field name="group_id" ref="demo_group_assets"/>
+        </record>
+        <record id="demo_account_other_recv" model="account.account">
+            <field name="code">122000</field>
+            <field name="name">Other Receivable</field>
+            <field name="account_type">asset_receivable</field>
+            <field name="reconcile" eval="True"/>
+            <field name="group_id" ref="demo_group_assets"/>
+        </record>
+        <record id="demo_account_fixed_assets" model="account.account">
+            <field name="code">152000</field>
+            <field name="name">Fixed Assets</field>
+            <field name="account_type">asset_current</field>
+            <field name="group_id" ref="demo_group_assets"/>
+        </record>
+        <record id="demo_account_accum_dep" model="account.account">
+            <field name="code">153000</field>
+            <field name="name">Accumulated Depreciation</field>
+            <field name="account_type">asset_current</field>
+            <field name="group_id" ref="demo_group_assets"/>
+        </record>
+        <record id="demo_account_accrued" model="account.account">
+            <field name="code">201000</field>
+            <field name="name">Accrued Expenses</field>
+            <field name="account_type">liability_current</field>
+            <field name="group_id" ref="demo_group_liabilities"/>
+        </record>
+        <record id="demo_account_other_pay" model="account.account">
+            <field name="code">212000</field>
+            <field name="name">Other Payable</field>
+            <field name="account_type">liability_payable</field>
+            <field name="reconcile" eval="True"/>
+            <field name="group_id" ref="demo_group_liabilities"/>
+        </record>
+        <record id="demo_account_service_rev" model="account.account">
+            <field name="code">401000</field>
+            <field name="name">Service Revenue</field>
+            <field name="account_type">income</field>
+            <field name="group_id" ref="demo_group_income"/>
+        </record>
+        <record id="demo_account_product_rev" model="account.account">
+            <field name="code">402000</field>
+            <field name="name">Product Revenue</field>
+            <field name="account_type">income</field>
+            <field name="group_id" ref="demo_group_income"/>
+        </record>
+        <record id="demo_account_salaries" model="account.account">
+            <field name="code">601000</field>
+            <field name="name">Salaries</field>
+            <field name="account_type">expense</field>
+            <field name="group_id" ref="demo_group_expenses"/>
+        </record>
+        <record id="demo_account_rent" model="account.account">
+            <field name="code">602000</field>
+            <field name="name">Rent</field>
+            <field name="account_type">expense</field>
+            <field name="group_id" ref="demo_group_expenses"/>
+        </record>
+        <record id="demo_account_utilities" model="account.account">
+            <field name="code">603000</field>
+            <field name="name">Utilities</field>
+            <field name="account_type">expense</field>
+            <field name="group_id" ref="demo_group_expenses"/>
+        </record>
+        <record id="demo_account_supplies" model="account.account">
+            <field name="code">604000</field>
+            <field name="name">Office Supplies</field>
+            <field name="account_type">expense</field>
+            <field name="group_id" ref="demo_group_expenses"/>
+        </record>
+        <record id="demo_account_travel" model="account.account">
+            <field name="code">605000</field>
+            <field name="name">Travel</field>
+            <field name="account_type">expense</field>
+            <field name="group_id" ref="demo_group_expenses"/>
+        </record>
+        <record id="demo_account_marketing" model="account.account">
+            <field name="code">606000</field>
+            <field name="name">Marketing</field>
+            <field name="account_type">expense</field>
+            <field name="group_id" ref="demo_group_expenses"/>
+        </record>
+        <record id="demo_account_depreciation" model="account.account">
+            <field name="code">607000</field>
+            <field name="name">Depreciation</field>
+            <field name="account_type">expense</field>
+            <field name="group_id" ref="demo_group_expenses"/>
+        </record>
+        <record id="demo_account_bank_fees" model="account.account">
+            <field name="code">608000</field>
+            <field name="name">Bank Fees</field>
+            <field name="account_type">expense</field>
+            <field name="group_id" ref="demo_group_expenses"/>
+        </record>
+
+        <!-- Analytic plans and accounts -->
+        <record id="demo_analytic_plan_dept" model="account.analytic.plan">
+            <field name="name">Departments</field>
+        </record>
+        <record id="demo_analytic_plan_project" model="account.analytic.plan">
+            <field name="name">Projects</field>
+        </record>
+        <record id="demo_analytic_sales" model="account.analytic.account">
+            <field name="name">Sales</field>
+            <field name="code">DEPT-SALES</field>
+            <field name="plan_id" ref="demo_analytic_plan_dept"/>
+        </record>
+        <record id="demo_analytic_ops" model="account.analytic.account">
+            <field name="name">Operations</field>
+            <field name="code">DEPT-OPS</field>
+            <field name="plan_id" ref="demo_analytic_plan_dept"/>
+        </record>
+        <record id="demo_analytic_project_alpha" model="account.analytic.account">
+            <field name="name">Project Alpha</field>
+            <field name="code">PRJ-ALPHA</field>
+            <field name="plan_id" ref="demo_analytic_plan_project"/>
+        </record>
+
+        <!-- Fiscal position (export — maps sale tax to purchase tax for IN partners) -->
+        <record id="demo_fiscal_position_export" model="account.fiscal.position">
+            <field name="name">Export (India)</field>
+            <field name="auto_apply" eval="True"/>
+            <field name="country_id" ref="base.country_in"/>
+            <field name="note">Maps domestic sale tax to purchase tax for export scenarios.</field>
+        </record>
+        <record id="demo_fiscal_position_tax_export" model="account.fiscal.position.tax">
+            <field name="position_id" ref="demo_fiscal_position_export"/>
+            <field name="tax_src_id" ref="tax_sale_18"/>
+            <field name="tax_dest_id" ref="tax_purchase_18"/>
+        </record>
+
+        <!-- Reconciliation models -->
+        <record id="demo_reconcile_model_acme" model="account.reconcile.model">
+            <field name="name">Acme Customer Payments</field>
+            <field name="match_label">Acme</field>
+            <field name="match_amount" eval="0.05"/>
+        </record>
+        <record id="demo_reconcile_model_bank_fee" model="account.reconcile.model">
+            <field name="name">Bank Fees</field>
+            <field name="match_label">Bank fee</field>
+            <field name="match_amount" eval="0.01"/>
+            <field name="writeoff_account_id" ref="demo_account_bank_fees"/>
+        </record>
+
+        <!-- Partners (5 total with account_demo.xml refs) -->
+        <record id="demo_ext_partner_acme" model="core.partner">
+            <field name="name">Acme Corporation</field>
+            <field name="email">billing@acme.example</field>
+            <field name="is_company" eval="True"/>
+            <field name="country_id" ref="base.country_us"/>
+            <field name="property_account_receivable_id" ref="account_receivable"/>
+            <field name="property_account_payable_id" ref="account_payable"/>
+        </record>
+        <record id="demo_ext_partner_globex" model="core.partner">
+            <field name="name">Globex Industries</field>
+            <field name="email">ap@globex.example</field>
+            <field name="is_company" eval="True"/>
+            <field name="property_account_receivable_id" ref="account_receivable"/>
+            <field name="property_account_payable_id" ref="account_payable"/>
+        </record>
+        <record id="demo_ext_partner_supplies" model="core.partner">
+            <field name="name">Office Supplies Co</field>
+            <field name="email">invoices@supplies.example</field>
+            <field name="is_company" eval="True"/>
+            <field name="property_account_payable_id" ref="account_payable"/>
+            <field name="property_account_receivable_id" ref="account_receivable"/>
+        </record>
+        <record id="demo_ext_partner_cloud" model="core.partner">
+            <field name="name">CloudHost Services</field>
+            <field name="email">billing@cloudhost.example</field>
+            <field name="is_company" eval="True"/>
+            <field name="property_account_payable_id" ref="account_payable"/>
+            <field name="property_account_receivable_id" ref="account_receivable"/>
+        </record>
+        <record id="demo_ext_partner_metro" model="core.partner">
+            <field name="name">Metro Retail Ltd</field>
+            <field name="email">finance@metro.example</field>
+            <field name="is_company" eval="True"/>
+            <field name="property_account_receivable_id" ref="account_receivable"/>
+            <field name="property_account_payable_id" ref="account_payable"/>
+        </record>
+
+        <!-- Posted customer invoice 1 -->
+        <record id="demo_ext_invoice_acme" model="account.move">
+            <field name="name">INV/EXT/0001</field>
+            <field name="move_type">out_invoice</field>
+            <field name="partner_id" ref="demo_ext_partner_acme"/>
+            <field name="journal_id" ref="journal_sale"/>
+            <field name="date">2026-01-10</field>
+            <field name="invoice_date">2026-01-10</field>
+            <field name="invoice_date_due">2026-01-25</field>
+            <field name="payment_term_id" ref="payment_term_15days"/>
+            <field name="state">posted</field>
+            <field name="amount_untaxed" eval="5000"/>
+            <field name="amount_tax" eval="900"/>
+            <field name="amount_total" eval="5900"/>
+            <field name="amount_residual" eval="5900"/>
+            <field name="payment_state">not_paid</field>
+            <field name="narration">Acme consulting engagement</field>
+        </record>
+        <record id="demo_ext_invoice_acme_product" model="account.move.line">
+            <field name="move_id" ref="demo_ext_invoice_acme"/>
+            <field name="name">Consulting — Phase 1</field>
+            <field name="account_id" ref="demo_account_service_rev"/>
+            <field name="tax_id" ref="tax_sale_18"/>
+            <field name="quantity" eval="1"/>
+            <field name="price_unit" eval="5000"/>
+            <field name="price_subtotal" eval="5000"/>
+            <field name="display_type">product</field>
+            <field name="partner_id" ref="demo_ext_partner_acme"/>
+            <field name="analytic_account_id" ref="demo_analytic_project_alpha"/>
+        </record>
+        <record id="demo_ext_invoice_acme_ar" model="account.move.line">
+            <field name="move_id" ref="demo_ext_invoice_acme"/>
+            <field name="name">INV/EXT/0001</field>
+            <field name="account_id" ref="account_receivable"/>
+            <field name="partner_id" ref="demo_ext_partner_acme"/>
+            <field name="display_type">entry</field>
+            <field name="debit" eval="5900"/>
+            <field name="credit" eval="0"/>
+            <field name="balance" eval="5900"/>
+            <field name="amount_residual" eval="5900"/>
+            <field name="reconciled" eval="False"/>
+        </record>
+        <record id="demo_ext_invoice_acme_income" model="account.move.line">
+            <field name="move_id" ref="demo_ext_invoice_acme"/>
+            <field name="name">INV/EXT/0001</field>
+            <field name="account_id" ref="demo_account_service_rev"/>
+            <field name="partner_id" ref="demo_ext_partner_acme"/>
+            <field name="display_type">entry</field>
+            <field name="debit" eval="0"/>
+            <field name="credit" eval="5000"/>
+            <field name="balance" eval="-5000"/>
+            <field name="amount_residual" eval="0"/>
+            <field name="reconciled" eval="True"/>
+        </record>
+        <record id="demo_ext_invoice_acme_tax" model="account.move.line">
+            <field name="move_id" ref="demo_ext_invoice_acme"/>
+            <field name="name">INV/EXT/0001 Tax</field>
+            <field name="account_id" ref="account_tax_payable"/>
+            <field name="partner_id" ref="demo_ext_partner_acme"/>
+            <field name="tax_id" ref="tax_sale_18"/>
+            <field name="display_type">tax</field>
+            <field name="debit" eval="0"/>
+            <field name="credit" eval="900"/>
+            <field name="balance" eval="-900"/>
+            <field name="amount_residual" eval="0"/>
+            <field name="reconciled" eval="True"/>
+        </record>
+
+        <!-- Posted customer invoice 2 -->
+        <record id="demo_ext_invoice_globex" model="account.move">
+            <field name="name">INV/EXT/0002</field>
+            <field name="move_type">out_invoice</field>
+            <field name="partner_id" ref="demo_ext_partner_globex"/>
+            <field name="journal_id" ref="journal_sale"/>
+            <field name="date">2026-02-01</field>
+            <field name="invoice_date">2026-02-01</field>
+            <field name="invoice_date_due">2026-03-03</field>
+            <field name="payment_term_id" ref="payment_term_30days"/>
+            <field name="state">posted</field>
+            <field name="amount_untaxed" eval="2500"/>
+            <field name="amount_tax" eval="450"/>
+            <field name="amount_total" eval="2950"/>
+            <field name="amount_residual" eval="2950"/>
+            <field name="payment_state">not_paid</field>
+        </record>
+        <record id="demo_ext_invoice_globex_product" model="account.move.line">
+            <field name="move_id" ref="demo_ext_invoice_globex"/>
+            <field name="name">Product license</field>
+            <field name="account_id" ref="demo_account_product_rev"/>
+            <field name="tax_id" ref="tax_sale_18"/>
+            <field name="quantity" eval="1"/>
+            <field name="price_unit" eval="2500"/>
+            <field name="price_subtotal" eval="2500"/>
+            <field name="display_type">product</field>
+            <field name="partner_id" ref="demo_ext_partner_globex"/>
+        </record>
+        <record id="demo_ext_invoice_globex_ar" model="account.move.line">
+            <field name="move_id" ref="demo_ext_invoice_globex"/>
+            <field name="name">INV/EXT/0002</field>
+            <field name="account_id" ref="account_receivable"/>
+            <field name="partner_id" ref="demo_ext_partner_globex"/>
+            <field name="display_type">entry</field>
+            <field name="debit" eval="2950"/>
+            <field name="credit" eval="0"/>
+            <field name="balance" eval="2950"/>
+            <field name="amount_residual" eval="2950"/>
+        </record>
+        <record id="demo_ext_invoice_globex_income" model="account.move.line">
+            <field name="move_id" ref="demo_ext_invoice_globex"/>
+            <field name="name">INV/EXT/0002</field>
+            <field name="account_id" ref="demo_account_product_rev"/>
+            <field name="partner_id" ref="demo_ext_partner_globex"/>
+            <field name="display_type">entry</field>
+            <field name="debit" eval="0"/>
+            <field name="credit" eval="2500"/>
+            <field name="balance" eval="-2500"/>
+            <field name="amount_residual" eval="0"/>
+        </record>
+        <record id="demo_ext_invoice_globex_tax" model="account.move.line">
+            <field name="move_id" ref="demo_ext_invoice_globex"/>
+            <field name="name">INV/EXT/0002 Tax</field>
+            <field name="account_id" ref="account_tax_payable"/>
+            <field name="partner_id" ref="demo_ext_partner_globex"/>
+            <field name="tax_id" ref="tax_sale_18"/>
+            <field name="display_type">tax</field>
+            <field name="debit" eval="0"/>
+            <field name="credit" eval="450"/>
+            <field name="balance" eval="-450"/>
+            <field name="amount_residual" eval="0"/>
+        </record>
+
+        <!-- Credit note (customer refund) -->
+        <record id="demo_ext_credit_metro" model="account.move">
+            <field name="name">RINV/EXT/0001</field>
+            <field name="move_type">out_refund</field>
+            <field name="partner_id" ref="demo_ext_partner_metro"/>
+            <field name="journal_id" ref="journal_sale"/>
+            <field name="date">2026-02-15</field>
+            <field name="invoice_date">2026-02-15</field>
+            <field name="state">posted</field>
+            <field name="amount_untaxed" eval="500"/>
+            <field name="amount_tax" eval="90"/>
+            <field name="amount_total" eval="590"/>
+            <field name="amount_residual" eval="590"/>
+            <field name="payment_state">not_paid</field>
+            <field name="narration">Partial refund for returned goods</field>
+        </record>
+        <record id="demo_ext_credit_metro_product" model="account.move.line">
+            <field name="move_id" ref="demo_ext_credit_metro"/>
+            <field name="name">Returned merchandise</field>
+            <field name="account_id" ref="account_income"/>
+            <field name="tax_id" ref="tax_sale_18"/>
+            <field name="quantity" eval="1"/>
+            <field name="price_unit" eval="500"/>
+            <field name="price_subtotal" eval="500"/>
+            <field name="display_type">product</field>
+            <field name="partner_id" ref="demo_ext_partner_metro"/>
+        </record>
+        <record id="demo_ext_credit_metro_ar" model="account.move.line">
+            <field name="move_id" ref="demo_ext_credit_metro"/>
+            <field name="name">RINV/EXT/0001</field>
+            <field name="account_id" ref="account_receivable"/>
+            <field name="partner_id" ref="demo_ext_partner_metro"/>
+            <field name="display_type">entry</field>
+            <field name="debit" eval="0"/>
+            <field name="credit" eval="590"/>
+            <field name="balance" eval="-590"/>
+            <field name="amount_residual" eval="-590"/>
+        </record>
+        <record id="demo_ext_credit_metro_income" model="account.move.line">
+            <field name="move_id" ref="demo_ext_credit_metro"/>
+            <field name="name">RINV/EXT/0001</field>
+            <field name="account_id" ref="account_income"/>
+            <field name="partner_id" ref="demo_ext_partner_metro"/>
+            <field name="display_type">entry</field>
+            <field name="debit" eval="500"/>
+            <field name="credit" eval="0"/>
+            <field name="balance" eval="500"/>
+            <field name="amount_residual" eval="0"/>
+        </record>
+        <record id="demo_ext_credit_metro_tax" model="account.move.line">
+            <field name="move_id" ref="demo_ext_credit_metro"/>
+            <field name="name">RINV/EXT/0001 Tax</field>
+            <field name="account_id" ref="account_tax_payable"/>
+            <field name="partner_id" ref="demo_ext_partner_metro"/>
+            <field name="tax_id" ref="tax_sale_18"/>
+            <field name="display_type">tax</field>
+            <field name="debit" eval="90"/>
+            <field name="credit" eval="0"/>
+            <field name="balance" eval="90"/>
+            <field name="amount_residual" eval="0"/>
+        </record>
+
+        <!-- Vendor bill 1 -->
+        <record id="demo_ext_bill_supplies" model="account.move">
+            <field name="name">BILL/EXT/0001</field>
+            <field name="move_type">in_invoice</field>
+            <field name="partner_id" ref="demo_ext_partner_supplies"/>
+            <field name="journal_id" ref="journal_purchase"/>
+            <field name="date">2026-01-20</field>
+            <field name="invoice_date">2026-01-20</field>
+            <field name="invoice_date_due">2026-02-04</field>
+            <field name="payment_term_id" ref="payment_term_15days"/>
+            <field name="state">posted</field>
+            <field name="amount_untaxed" eval="800"/>
+            <field name="amount_tax" eval="144"/>
+            <field name="amount_total" eval="944"/>
+            <field name="amount_residual" eval="944"/>
+            <field name="payment_state">not_paid</field>
+        </record>
+        <record id="demo_ext_bill_supplies_product" model="account.move.line">
+            <field name="move_id" ref="demo_ext_bill_supplies"/>
+            <field name="name">Office stationery</field>
+            <field name="account_id" ref="demo_account_supplies"/>
+            <field name="tax_id" ref="tax_purchase_18"/>
+            <field name="quantity" eval="1"/>
+            <field name="price_unit" eval="800"/>
+            <field name="price_subtotal" eval="800"/>
+            <field name="display_type">product</field>
+            <field name="partner_id" ref="demo_ext_partner_supplies"/>
+            <field name="analytic_account_id" ref="demo_analytic_ops"/>
+        </record>
+        <record id="demo_ext_bill_supplies_ap" model="account.move.line">
+            <field name="move_id" ref="demo_ext_bill_supplies"/>
+            <field name="name">BILL/EXT/0001</field>
+            <field name="account_id" ref="account_payable"/>
+            <field name="partner_id" ref="demo_ext_partner_supplies"/>
+            <field name="display_type">entry</field>
+            <field name="debit" eval="0"/>
+            <field name="credit" eval="944"/>
+            <field name="balance" eval="-944"/>
+            <field name="amount_residual" eval="-944"/>
+        </record>
+        <record id="demo_ext_bill_supplies_expense" model="account.move.line">
+            <field name="move_id" ref="demo_ext_bill_supplies"/>
+            <field name="name">BILL/EXT/0001</field>
+            <field name="account_id" ref="demo_account_supplies"/>
+            <field name="partner_id" ref="demo_ext_partner_supplies"/>
+            <field name="display_type">entry</field>
+            <field name="debit" eval="800"/>
+            <field name="credit" eval="0"/>
+            <field name="balance" eval="800"/>
+            <field name="amount_residual" eval="0"/>
+        </record>
+        <record id="demo_ext_bill_supplies_tax" model="account.move.line">
+            <field name="move_id" ref="demo_ext_bill_supplies"/>
+            <field name="name">BILL/EXT/0001 Tax</field>
+            <field name="account_id" ref="account_tax_receivable"/>
+            <field name="partner_id" ref="demo_ext_partner_supplies"/>
+            <field name="tax_id" ref="tax_purchase_18"/>
+            <field name="display_type">tax</field>
+            <field name="debit" eval="144"/>
+            <field name="credit" eval="0"/>
+            <field name="balance" eval="144"/>
+            <field name="amount_residual" eval="0"/>
+        </record>
+
+        <!-- Vendor bill 2 -->
+        <record id="demo_ext_bill_cloud" model="account.move">
+            <field name="name">BILL/EXT/0002</field>
+            <field name="move_type">in_invoice</field>
+            <field name="partner_id" ref="demo_ext_partner_cloud"/>
+            <field name="journal_id" ref="journal_purchase"/>
+            <field name="date">2026-02-05</field>
+            <field name="invoice_date">2026-02-05</field>
+            <field name="invoice_date_due">2026-03-07</field>
+            <field name="payment_term_id" ref="payment_term_30days"/>
+            <field name="state">posted</field>
+            <field name="amount_untaxed" eval="1200"/>
+            <field name="amount_tax" eval="216"/>
+            <field name="amount_total" eval="1416"/>
+            <field name="amount_residual" eval="1416"/>
+            <field name="payment_state">not_paid</field>
+        </record>
+        <record id="demo_ext_bill_cloud_product" model="account.move.line">
+            <field name="move_id" ref="demo_ext_bill_cloud"/>
+            <field name="name">Cloud hosting — February</field>
+            <field name="account_id" ref="demo_account_utilities"/>
+            <field name="tax_id" ref="tax_purchase_18"/>
+            <field name="quantity" eval="1"/>
+            <field name="price_unit" eval="1200"/>
+            <field name="price_subtotal" eval="1200"/>
+            <field name="display_type">product</field>
+            <field name="partner_id" ref="demo_ext_partner_cloud"/>
+        </record>
+        <record id="demo_ext_bill_cloud_ap" model="account.move.line">
+            <field name="move_id" ref="demo_ext_bill_cloud"/>
+            <field name="name">BILL/EXT/0002</field>
+            <field name="account_id" ref="account_payable"/>
+            <field name="partner_id" ref="demo_ext_partner_cloud"/>
+            <field name="display_type">entry</field>
+            <field name="debit" eval="0"/>
+            <field name="credit" eval="1416"/>
+            <field name="balance" eval="-1416"/>
+            <field name="amount_residual" eval="-1416"/>
+        </record>
+        <record id="demo_ext_bill_cloud_expense" model="account.move.line">
+            <field name="move_id" ref="demo_ext_bill_cloud"/>
+            <field name="name">BILL/EXT/0002</field>
+            <field name="account_id" ref="demo_account_utilities"/>
+            <field name="partner_id" ref="demo_ext_partner_cloud"/>
+            <field name="display_type">entry</field>
+            <field name="debit" eval="1200"/>
+            <field name="credit" eval="0"/>
+            <field name="balance" eval="1200"/>
+            <field name="amount_residual" eval="0"/>
+        </record>
+        <record id="demo_ext_bill_cloud_tax" model="account.move.line">
+            <field name="move_id" ref="demo_ext_bill_cloud"/>
+            <field name="name">BILL/EXT/0002 Tax</field>
+            <field name="account_id" ref="account_tax_receivable"/>
+            <field name="partner_id" ref="demo_ext_partner_cloud"/>
+            <field name="tax_id" ref="tax_purchase_18"/>
+            <field name="display_type">tax</field>
+            <field name="debit" eval="216"/>
+            <field name="credit" eval="0"/>
+            <field name="balance" eval="216"/>
+            <field name="amount_residual" eval="0"/>
+        </record>
+
+        <!-- Posted inbound payment (partial — not linked for bank recon demo) -->
+        <record id="demo_ext_payment_inbound" model="account.payment">
+            <field name="name">PAY/EXT/0001</field>
+            <field name="payment_type">inbound</field>
+            <field name="partner_type">customer</field>
+            <field name="partner_id" ref="demo_partner_customer"/>
+            <field name="amount" eval="1180"/>
+            <field name="date">2026-01-20</field>
+            <field name="journal_id" ref="journal_bank"/>
+            <field name="memo">Demo customer payment</field>
+            <field name="state">posted</field>
+            <field name="invoice_id" ref="demo_invoice_draft"/>
+        </record>
+
+        <!-- Posted outbound payment -->
+        <record id="demo_ext_payment_outbound" model="account.payment">
+            <field name="name">PAY/EXT/0002</field>
+            <field name="payment_type">outbound</field>
+            <field name="partner_type">supplier</field>
+            <field name="partner_id" ref="demo_ext_partner_supplies"/>
+            <field name="amount" eval="944"/>
+            <field name="date">2026-02-10</field>
+            <field name="journal_id" ref="journal_bank"/>
+            <field name="memo">Office supplies payment</field>
+            <field name="state">posted</field>
+            <field name="invoice_id" ref="demo_ext_bill_supplies"/>
+        </record>
+
+        <!-- Bank statement with lines -->
+        <record id="demo_ext_bank_statement" model="account.bank.statement">
+            <field name="name">BNK/EXT/2026-02</field>
+            <field name="journal_id" ref="journal_bank"/>
+            <field name="date">2026-02-28</field>
+            <field name="balance_end" eval="4956"/>
+            <field name="state">open</field>
+        </record>
+        <record id="demo_ext_stmt_line_acme" model="account.bank.statement.line">
+            <field name="statement_id" ref="demo_ext_bank_statement"/>
+            <field name="date">2026-02-20</field>
+            <field name="name">Wire from Acme Corporation</field>
+            <field name="amount" eval="5900"/>
+            <field name="partner_id" ref="demo_ext_partner_acme"/>
+            <field name="is_reconciled" eval="False"/>
+        </record>
+        <record id="demo_ext_stmt_line_globex" model="account.bank.statement.line">
+            <field name="statement_id" ref="demo_ext_bank_statement"/>
+            <field name="date">2026-02-22</field>
+            <field name="name">Globex Industries payment</field>
+            <field name="amount" eval="2950"/>
+            <field name="partner_id" ref="demo_ext_partner_globex"/>
+            <field name="is_reconciled" eval="False"/>
+        </record>
+        <record id="demo_ext_stmt_line_cloud" model="account.bank.statement.line">
+            <field name="statement_id" ref="demo_ext_bank_statement"/>
+            <field name="date">2026-02-25</field>
+            <field name="name">CloudHost Services bill payment</field>
+            <field name="amount" eval="-1416"/>
+            <field name="partner_id" ref="demo_ext_partner_cloud"/>
+            <field name="is_reconciled" eval="False"/>
+        </record>
+        <record id="demo_ext_stmt_line_fee" model="account.bank.statement.line">
+            <field name="statement_id" ref="demo_ext_bank_statement"/>
+            <field name="date">2026-02-28</field>
+            <field name="name">Bank fee — monthly service</field>
+            <field name="amount" eval="-25"/>
+            <field name="is_reconciled" eval="False"/>
+        </record>
+
+        <record id="demo_ext_lock_q1" model="account.lock.date">
+            <field name="name">2025 Year End</field>
+            <field name="hard_lock_date">2025-12-31</field>
+            <field name="soft_lock_date">2025-12-15</field>
+        </record>
+        <record id="demo_ext_recurring_rent" model="account.recurring.template">
+            <field name="name">Office Rent</field>
+            <field name="journal_id" ref="journal_general"/>
+            <field name="account_id" ref="demo_account_rent"/>
+            <field name="partner_id" ref="demo_ext_partner_cloud"/>
+            <field name="move_type">entry</field>
+            <field name="amount" eval="2500"/>
+            <field name="interval">monthly</field>
+            <field name="next_date">2026-03-01</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record id="demo_ext_deferred_hosting" model="account.deferred.schedule">
+            <field name="name">Prepaid hosting 2026</field>
+            <field name="account_id" ref="demo_account_prepaid"/>
+            <field name="start_date">2026-01-01</field>
+            <field name="end_date">2026-12-31</field>
+            <field name="amount" eval="12000"/>
+            <field name="recognized_amount" eval="2000"/>
+            <field name="state">open</field>
+        </record>
+        <record id="demo_ext_asset_laptop" model="account.asset">
+            <field name="name">Office Laptops</field>
+            <field name="original_value" eval="36000"/>
+            <field name="salvage_value" eval="0"/>
+            <field name="book_value" eval="36000"/>
+            <field name="months" eval="36"/>
+            <field name="method">straight_line</field>
+            <field name="acquisition_date">2026-01-01</field>
+            <field name="account_id" ref="demo_account_fixed_assets"/>
+            <field name="expense_account_id" ref="demo_account_depreciation"/>
+            <field name="state">open</field>
+        </record>
+        <record id="demo_ext_budget_marketing" model="account.budget">
+            <field name="name">Marketing 2026</field>
+            <field name="date_from">2026-01-01</field>
+            <field name="date_to">2026-12-31</field>
+            <field name="account_id" ref="demo_account_marketing"/>
+            <field name="amount" eval="50000"/>
+            <field name="actual_amount" eval="0"/>
+            <field name="variance" eval="50000"/>
+            <field name="state">draft</field>
+        </record>
+        <record id="demo_ext_tax_return_q1" model="account.tax.return">
+            <field name="name">GST Q1 2026</field>
+            <field name="period_start">2026-01-01</field>
+            <field name="period_end">2026-03-31</field>
+            <field name="amount" eval="0"/>
+            <field name="state">draft</field>
+        </record>
+    </data>
+</sumeru>

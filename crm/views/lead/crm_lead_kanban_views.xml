@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_lead_kanban" model="crm.lead" type="kanban" priority="10" default_group_by="stage_id" records_draggable="1">
+            <field name="stage_id"/>
+            <field name="name"/>
+            <field name="partner_id"/>
+            <field name="contact_name"/>
+            <field name="email_from"/>
+            <field name="priority" widget="priority"/>
+            <field name="user_id"/>
+        </view>
+    </data>
+</sumeru>

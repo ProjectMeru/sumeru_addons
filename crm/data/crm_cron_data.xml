@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data noupdate="1">
+        <record id="cron_crm_assign_leads" model="sys.cron">
+            <field name="name">CRM: Assign Leads</field>
+            <field name="event_name">crm.cron_assign_leads</field>
+            <field name="interval_number">1440</field>
+            <field name="active" eval="False"/>
+        </record>
+        <record id="cron_crm_pls_rebuild" model="sys.cron">
+            <field name="name">CRM: Rebuild Predictive Lead Scoring</field>
+            <field name="event_name">crm.cron_pls_rebuild</field>
+            <field name="interval_number">10080</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</sumeru>

@@ -1,23 +1,26 @@
 {
-  "name": "product",
-  "display_name": "Products",
-  "version": "1.0.0",
-  "summary": "Product catalog for sales and purchase",
-  "description": "Minimal product catalog shared by Sales, Purchase, and Accounting.",
-  "author": "Sumeru",
-  "depends": ["base"],
-  "data": [
-    "security/security.xml",
-    "security/sys.access.csv",
-    "data/product_category_data.xml",
-    "views/product_product_list_views.xml",
-    "views/product_product_kanban_views.xml",
-    "views/product_product_form_views.xml",
-    "views/product_category_list_views.xml",
-    "views/product_category_form_views.xml",
-    "views/product_product_actions.xml",
-    "views/product_category_actions.xml",
-    "views/menus.xml"
-  ],
-  "application": true
+    "name": "product",
+    "display_name": "Products",
+    "version": "1.0.0",
+    "summary": "Product catalog for sales and purchase",
+    "description": "Minimal product catalog shared by Sales, Purchase, and Accounting.",
+    "author": "Sumeru",
+    "depends": [
+        "base"
+    ],
+    "data": [
+        "security/security.xml",
+        "security/sys.access.csv",
+        "data/product_category_data.xml",
+        "views/product_product_list_views.xml",
+        "views/product_product_kanban_views.xml",
+        "views/product_product_form_views.xml",
+        "views/product_category_list_views.xml",
+        "views/product_category_form_views.xml",
+        "views/product_product_actions.xml",
+        "views/product_category_actions.xml",
+        "views/menus.xml"
+    ],
+    "application": true,
+    "category": "Inventory"
 }

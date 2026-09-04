@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_livechat_session_form" model="crm.livechat.session" type="form">
+            <header>
+                <button name="action_create_lead" string="Create Lead" type="object" class="sum_highlight"/>
+                <field name="state" widget="statusbar"/>
+            </header>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="lead_id"/>
+                    <field name="operator_id"/>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

@@ -8,6 +8,7 @@ func init() {
 	sdk.MustRegister("crm",
 		&CrmActivityReport{},
 		&CrmLead{},
+		&CrmLeadIapEnrich{},
 		&CrmLeadScoringFrequency{},
 		&CrmLeadScoringFrequencyField{},
 		&CrmLostReason{},
@@ -16,5 +17,6 @@ func init() {
 		&CrmTag{},
 		&CrmTeam{},
 		&CrmTeamMember{},
+		&ResConfigSettings{},
 	)
 }

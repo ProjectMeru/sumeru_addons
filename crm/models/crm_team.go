@@ -18,5 +18,8 @@ type CrmTeam struct {
 	MemberIDs         sdk.One2Many[CrmTeamMember] `sumeru:"string=Members"`
 	AssignmentEnabled sdk.Boolean               `sumeru:"string=Lead Assignment,default=false"`
 	AssignmentMax     sdk.Integer               `sumeru:"string=Max Leads / Member,default=30"`
-	AssignmentDomain  sdk.String                `sumeru:"string=Assignment Domain"`
+	AssignmentDomain           sdk.String  `sumeru:"string=Assignment Domain"`
+	LeadPropertiesDefinition   sdk.Text    `sumeru:"string=Lead Properties Definition"`
+	InvoicingTarget            sdk.Numeric `sumeru:"string=Invoicing Target,precision=18,scale=2"`
+	QuotationTarget            sdk.Numeric `sumeru:"string=Quotation Target,precision=18,scale=2"`
 }

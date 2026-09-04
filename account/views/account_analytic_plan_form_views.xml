@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_analytic_plan_form" model="account.analytic.plan" type="form">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="active"/>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

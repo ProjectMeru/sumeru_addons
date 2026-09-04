@@ -5,5 +5,10 @@
         <action id="action_report_balance_sheet" type="url" name="Balance Sheet" url="/account/reports/view?type=balance_sheet"/>
         <action id="action_report_trial_balance" type="url" name="Trial Balance" url="/account/reports/view?type=trial_balance"/>
         <action id="action_report_general_ledger" type="url" name="General Ledger" url="/account/reports/view?type=general_ledger"/>
+        <action id="action_report_partner_ledger" type="url" name="Partner Ledger" url="/account/reports/view?type=partner_ledger"/>
+        <action id="action_report_aged_receivable" type="url" name="Aged Receivable" url="/account/reports/view?type=aged_receivable"/>
+        <action id="action_report_aged_payable" type="url" name="Aged Payable" url="/account/reports/view?type=aged_payable"/>
+        <action id="action_report_cash_flow" type="url" name="Cash Flow" url="/account/reports/view?type=cash_flow"/>
+        <action id="action_report_annual_composite" type="url" name="Annual Composite" url="/account/reports/view?type=annual_composite"/>
     </data>
 </sumeru>

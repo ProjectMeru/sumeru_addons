@@ -12,4 +12,5 @@ type AccountTax struct {
 	TypeTaxUse sdk.Selection[TaxUse]        `sumeru:"string=Tax Type,default=sale"`
 	AccountID  sdk.Many2One[AccountAccount] `sumeru:"string=Tax Account"`
 	Active     sdk.Boolean                  `sumeru:"string=Active,default=true"`
+	RepartitionLineIDs sdk.One2Many[AccountTaxRepartitionLine] `sumeru:"string=Repartition Lines"`
 }

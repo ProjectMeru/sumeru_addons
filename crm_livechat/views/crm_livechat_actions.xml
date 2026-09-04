@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_crm_livechat_sessions" type="window" model="crm.livechat.session" name="Live Chat Sessions" view_mode="list,form"/>
+    </data>
+</sumeru>

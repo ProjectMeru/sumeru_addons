@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="view_crm_team_form_sale_crm_inherit" model="sys.view">
+            <field name="inherit_id" ref="crm.view_crm_team_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@string='Assignment']" position="after">
+                    <group string="Sales Targets">
+                        <field name="invoicing_target"/>
+                        <field name="quotation_target"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</sumeru>

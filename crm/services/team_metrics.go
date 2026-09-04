@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"math"
 	"sort"
 	"strconv"
 	"strings"
@@ -100,6 +101,16 @@ func assignTeamLeads(ctx context.Context, teamID int) error {
 	return nil
 }
 
+func actionAssignTeamLeads(ctx context.Context, model string, id int, vals map[string]string) (string, error) {
+	if model != "crm.team" || id <= 0 {
+		return "", fmt.Errorf("invalid team")
+	}
+	if err := assignTeamLeads(ctx, id); err != nil {
+		return "", err
+	}
+	return vals["next"], nil
+}
+
 func parseAssignmentDomain(raw string) map[string]interface{} {
 	out := map[string]interface{}{}
 	raw = strings.TrimSpace(raw)
@@ -171,4 +182,56 @@ func countOpenLeadsForUser(ctx context.Context, userID int64) int {
 		return 0
 	}
 	return len(rows)
+}
+
+// ProratedRevenue returns expected revenue weighted by win probability.
+func ProratedRevenue(expectedRevenue, probability float64) float64 {
+	if expectedRevenue <= 0 {
+		return 0
+	}
+	if probability < 0 {
+		probability = 0
+	}
+	if probability > 100 {
+		probability = 100
+	}
+	return roundMoney(expectedRevenue * probability / 100)
+}
+
+// WeightedPipeline includes recurring revenue scaled by plan months.
+func WeightedPipeline(expected, recurring, probability, planMonths float64) float64 {
+	base := expected
+	if recurring > 0 && planMonths > 0 {
+		base += recurring * planMonths
+	}
+	return ProratedRevenue(base, probability)
+}
+
+func roundMoney(v float64) float64 {
+	return math.Round(v*100) / 100
+}
+
+func recomputeLeadRevenue(ctx context.Context, leadID int) error {
+	bypass := orm.ContextWithBypass(ctx, true)
+	lead, err := orm.SearchOne(bypass, "crm.lead", map[string]interface{}{"id": leadID})
+	if err != nil {
+		return err
+	}
+	expected := numericFloat(lead["expected_revenue"])
+	recurring := numericFloat(lead["recurring_revenue"])
+	prob := numericFloat(lead["probability"])
+	if asBool(lead["is_automated_probability"]) {
+		prob = numericFloat(lead["automated_probability"])
+	}
+	planMonths := 1.0
+	if planID, ok := orm.CoerceInt64(lead["recurring_plan"]); ok && planID > 0 {
+		if plan, err := orm.SearchOne(bypass, "crm.recurring.plan", map[string]interface{}{"id": planID}); err == nil {
+			if m, ok := orm.CoerceInt64(plan["number_of_months"]); ok && m > 0 {
+				planMonths = float64(m)
+			}
+		}
+	}
+	return orm.UpdateRecordByID(bypass, "crm.lead", leadID, map[string]interface{}{
+		"prorated_revenue": WeightedPipeline(expected, recurring, prob, planMonths),
+	})
 }

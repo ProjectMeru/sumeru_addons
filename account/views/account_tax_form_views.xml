@@ -14,6 +14,17 @@
                     <field name="account_id" string="Tax Account"/>
                     <field name="active" string="Active"/>
                 </group>
+                <notebook>
+                    <page title="Repartition">
+                        <field name="repartition_line_ids">
+                            <list editable="bottom">
+                                <field name="repartition_type"/>
+                                <field name="factor_percent"/>
+                                <field name="account_id"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
             </sheet>
         </view>
     </data>

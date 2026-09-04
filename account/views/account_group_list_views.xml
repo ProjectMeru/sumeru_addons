@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_account_group_list" model="account.group" type="list">
+            <field name="name"/>
+            <field name="code_prefix"/>
+            <field name="parent_id"/>
+            <field name="active"/>
+        </view>
+    </data>
+</sumeru>

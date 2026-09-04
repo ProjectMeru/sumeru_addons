@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_lead_pls_update_form" model="crm.lead.pls.update" type="form">
+            <sheet>
+                <group string="Predictive Lead Scoring">
+                    <field name="start_date"/>
+                    <field name="field_list"/>
+                </group>
+            </sheet>
+            <footer>
+                <button name="action_apply_pls_update" string="Update Probabilities" type="object" class="sum_highlight"/>
+            </footer>
+        </view>
+        <action id="action_pls_update" type="window" model="crm.lead.pls.update" name="Update Probabilities" view_mode="form" target="new"/>
+    </data>
+</sumeru>

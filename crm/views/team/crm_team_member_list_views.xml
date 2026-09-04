@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_team_member_list" model="crm.team.member" type="list">
+            <field name="team_id"/>
+            <field name="user_id"/>
+            <field name="assignment_max"/>
+            <field name="lead_month_count"/>
+            <field name="assignment_optout"/>
+            <field name="active"/>
+        </view>
+    </data>
+</sumeru>

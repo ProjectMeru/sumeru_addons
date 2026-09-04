@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"context"
 	"encoding/json"
 	"html/template"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"sumeru/core/orm"
@@ -32,8 +34,9 @@ form{margin-bottom:1rem;display:flex;gap:.5rem;flex-wrap:wrap}
 <input type="hidden" name="type" value="{{.Type}}"/>
 <label>From <input type="date" name="date_from" value="{{.DateFrom}}"/></label>
 <label>To <input type="date" name="date_to" value="{{.DateTo}}"/></label>
+{{if eq .Type "general_ledger"}}<label>Account ID <input type="number" name="account_id" value="{{.AccountID}}"/></label>{{end}}
 <button type="submit">Run</button>
-<a href="/account/reports/export.csv?type={{.Type}}&date_from={{.DateFrom}}&date_to={{.DateTo}}">Export CSV</a>
+<a href="/account/reports/export.csv?type={{.Type}}&date_from={{.DateFrom}}&date_to={{.DateTo}}&account_id={{.AccountID}}">Export CSV</a>
 </form>
 <h1>{{.Title}}</h1>
 <div class="meta">{{.DateFrom}} → {{.DateTo}}</div>
@@ -43,17 +46,12 @@ form{margin-bottom:1rem;display:flex;gap:.5rem;flex-wrap:wrap}
 </tbody></table></body></html>`))
 
 type reportPage struct {
-	Type, Title, DateFrom, DateTo string
-	Total                         float64
-	Lines                         []services.ReportLine
+	Type, Title, DateFrom, DateTo, AccountID string
+	Total                                    float64
+	Lines                                    []services.ReportLine
 }
 
-func reportViewHandler(w http.ResponseWriter, r *http.Request) {
-	ctx := orm.ContextWithBypass(r.Context(), true)
-	q := r.URL.Query()
-	typ := strings.TrimSpace(q.Get("type"))
-	from := strings.TrimSpace(q.Get("date_from"))
-	to := strings.TrimSpace(q.Get("date_to"))
+func runReport(ctx context.Context, typ, from, to string, accountID int64) (*services.ReportResult, string, error) {
 	var (
 		res *services.ReportResult
 		err error
@@ -64,40 +62,56 @@ func reportViewHandler(w http.ResponseWriter, r *http.Request) {
 	case "trial_balance":
 		res, err = services.TrialBalance(ctx, from, to)
 	case "general_ledger":
-		res, err = services.GeneralLedger(ctx, 0, from, to)
+		res, err = services.GeneralLedger(ctx, accountID, from, to)
+	case "partner_ledger":
+		res, err = services.PartnerLedger(ctx, from, to)
+	case "aged_receivable":
+		res, err = services.AgedReceivable(ctx, from, to)
+	case "aged_payable":
+		res, err = services.AgedPayable(ctx, from, to)
+	case "cash_flow":
+		res, err = services.CashFlow(ctx, from, to)
+	case "annual_composite":
+		res, err = services.AnnualComposite(ctx, from, to)
 	default:
 		typ = "profit_loss"
 		res, err = services.ProfitAndLoss(ctx, from, to)
 	}
+	return res, typ, err
+}
+
+func reportQuery(r *http.Request) (typ, from, to string, accountID int64) {
+	q := r.URL.Query()
+	typ = strings.TrimSpace(q.Get("type"))
+	from = strings.TrimSpace(q.Get("date_from"))
+	to = strings.TrimSpace(q.Get("date_to"))
+	if id, err := strconv.ParseInt(strings.TrimSpace(q.Get("account_id")), 10, 64); err == nil {
+		accountID = id
+	}
+	return typ, from, to, accountID
+}
+
+func reportViewHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := orm.ContextWithBypass(r.Context(), true)
+	typ, from, to, accountID := reportQuery(r)
+	res, typ, err := runReport(ctx, typ, from, to, accountID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	page := reportPage{Type: typ, Title: res.Title, DateFrom: res.DateFrom, DateTo: res.DateTo, Total: res.Total, Lines: res.Lines}
+	acct := ""
+	if accountID > 0 {
+		acct = strconv.FormatInt(accountID, 10)
+	}
+	page := reportPage{Type: typ, Title: res.Title, DateFrom: res.DateFrom, DateTo: res.DateTo, AccountID: acct, Total: res.Total, Lines: res.Lines}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	_ = reportTmpl.Execute(w, page)
 }
 
 func reportCSVHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := orm.ContextWithBypass(r.Context(), true)
-	q := r.URL.Query()
-	typ := strings.TrimSpace(q.Get("type"))
-	from := strings.TrimSpace(q.Get("date_from"))
-	to := strings.TrimSpace(q.Get("date_to"))
-	var (
-		res *services.ReportResult
-		err error
-	)
-	switch typ {
-	case "balance_sheet":
-		res, err = services.BalanceSheet(ctx, from, to)
-	case "trial_balance":
-		res, err = services.TrialBalance(ctx, from, to)
-	case "general_ledger":
-		res, err = services.GeneralLedger(ctx, 0, from, to)
-	default:
-		res, err = services.ProfitAndLoss(ctx, from, to)
-	}
+	typ, from, to, accountID := reportQuery(r)
+	res, _, err := runReport(ctx, typ, from, to, accountID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

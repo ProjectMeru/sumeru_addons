@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="view_core_partner_form_crm_inherit" model="sys.view">
+            <field name="inherit_id" ref="contacts.view_core_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <group string="CRM">
+                        <field name="customer_rank"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <action id="action_partner_opportunities" type="window" model="crm.lead" name="Opportunities"
+                view_mode="kanban,list,form"
+                domain='[["partner_id","=",active_id],["type","=","opportunity"]]'/>
+    </data>
+</sumeru>

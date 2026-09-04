@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_crm_iap_lead_mining_request_form" model="crm.iap.lead.mining.request" type="form">
+            <sheet>
+                <group>
+                    <field name="country_id"/>
+                    <field name="industry"/>
+                    <field name="size"/>
+                </group>
+            </sheet>
+            <footer>
+                <button name="action_mine_leads" string="Mine Leads" type="object" class="sum_highlight"/>
+            </footer>
+        </view>
+    </data>
+</sumeru>

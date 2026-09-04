@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_my_pipeline" type="window" model="crm.lead" name="My Pipeline" view_mode="kanban,list,form,calendar"
+                view_id="view_crm_lead_pipeline_kanban"
+                search_view_id="view_crm_pipeline_search"
+                context='{"default_type": "opportunity"}'
+                domain='[["type","=","opportunity"],["active","=",true],["user_id","=","$uid"]]'/>
+        <action id="action_team_pipeline" type="window" model="crm.lead" name="Teams" view_mode="kanban,list,form"
+                view_id="view_crm_lead_pipeline_kanban"
+                search_view_id="view_crm_pipeline_search"
+                context='{"default_type": "opportunity"}'
+                domain='[["type","=","opportunity"],["active","=",true],["team_id","!=",false]]'/>
+        <action id="action_customers" type="window" model="core.partner" name="Customers" view_mode="list,form,kanban"
+                domain='[["customer_rank",">",0]]'/>
+        <action id="action_leads_root" type="window" model="crm.lead" name="Leads" view_mode="kanban,list,form,calendar"
+                search_view_id="view_crm_leads_search"
+                context='{"default_type": "lead"}'
+                domain='[["type","=","lead"],["active","=",true]]'/>
+        <action id="action_leads" type="window" model="crm.lead" name="Leads" view_mode="kanban,list,form,calendar"
+                search_view_id="view_crm_leads_search"
+                context='{"default_type": "lead"}'
+                domain='[["type","=","lead"],["active","=",true]]'>
+            <help>Use leads if you need a qualification step before creating an opportunity.</help>
+        </action>
+        <action id="action_opportunities" type="window" model="crm.lead" name="Pipeline" view_mode="kanban,list,form,calendar"
+                view_id="view_crm_lead_pipeline_kanban"
+                search_view_id="view_crm_pipeline_search"
+                context='{"default_type": "opportunity"}'
+                domain='[["type","=","opportunity"],["active","=",true]]'>
+            <help>Drag opportunities across stages to update the pipeline.</help>
+        </action>
+        <action id="action_my_activities" type="window" model="crm.activity.report" name="My Activities" view_mode="list"
+                domain='[["user_id","=","$uid"],["state","=","planned"]]'/>
+        <action id="action_forecast" type="window" model="crm.lead" name="Forecast" view_mode="kanban,list,form"
+                view_id="view_crm_lead_forecast_kanban"
+                search_view_id="view_crm_forecast_search"
+                context='{"default_type": "opportunity"}'
+                domain='[["type","=","opportunity"],["active","=",true],["date_deadline","!=",false]]'/>
+        <action id="action_pipeline_analysis" type="window" model="crm.lead" name="Pipeline" view_mode="graph,pivot,list,form"
+                domain='[["type","=","opportunity"]]'/>
+        <action id="action_leads_analysis" type="window" model="crm.lead" name="Leads" view_mode="graph,pivot,list,form"
+                domain='[["type","=","lead"]]'/>
+        <action id="action_activity_report" type="window" model="crm.activity.report" name="Activities" view_mode="list"/>
+    </data>
+</sumeru>

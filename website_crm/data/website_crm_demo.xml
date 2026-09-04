@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data noupdate="1">
+        <record id="website_crm_form_demo" model="website.crm.form">
+            <field name="name">Contact Us</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</sumeru>
