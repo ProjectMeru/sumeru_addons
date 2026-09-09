@@ -1,0 +1,13 @@
+{
+  "name": "sale_stock",
+  "display_name": "Sales Inventory Bridge",
+  "version": "1.0.0",
+  "summary": "Create delivery orders from confirmed sales orders",
+  "description": "A confirmed sales order automatically creates an outgoing transfer (delivery order) for its storable lines.",
+  "author": "Sumeru",
+  "depends": ["sale", "stock"],
+  "data": [
+    "views/sale_order_views.xml"
+  ],
+  "application": false
+}
