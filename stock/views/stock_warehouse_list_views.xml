@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_warehouse_list" model="stock.warehouse" type="list">
+            <field name="name" string="Warehouse"/>
+            <field name="code" string="Short Name"/>
+            <field name="company_id" string="Company"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
+        </view>
+    </data>
+</sumeru>

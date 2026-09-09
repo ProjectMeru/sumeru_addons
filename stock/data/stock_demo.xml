@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="product_demo_table" model="product.product">
+            <field name="name">Conference Table</field>
+            <field name="type">consu</field>
+            <field name="list_price" eval="250"/>
+            <field name="standard_price" eval="100"/>
+        </record>
+        <record id="product_demo_chair" model="product.product">
+            <field name="name">Conference Chair</field>
+            <field name="type">consu</field>
+            <field name="list_price" eval="80"/>
+            <field name="standard_price" eval="30"/>
+        </record>
+        <record id="quant_demo_table" model="stock.quant">
+            <field name="product_id" ref="product_demo_table"/>
+            <field name="location_id" ref="stock_location_stock"/>
+            <field name="quantity" eval="10"/>
+        </record>
+        <record id="quant_demo_chair" model="stock.quant">
+            <field name="product_id" ref="product_demo_chair"/>
+            <field name="location_id" ref="stock_location_stock"/>
+            <field name="quantity" eval="20"/>
+        </record>
+    </data>
+</sumeru>

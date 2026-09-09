@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_rule_form" model="stock.rule" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Rule Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Rule">
+                        <field name="name" string="Name"/>
+                        <field name="action" string="Action"/>
+                        <field name="procure_method" string="Supply Method"/>
+                        <field name="active" string="Active"/>
+                    </group>
+                    <group string="Flow">
+                        <field name="location_src_id" string="Source Location"/>
+                        <field name="location_dest_id" string="Destination Location"/>
+                        <field name="picking_type_id" string="Operation Type"/>
+                        <field name="delay" string="Lead Time"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Other">
+                        <field name="sequence" string="Sequence"/>
+                        <field name="company_id" string="Company"/>
+                    </group>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

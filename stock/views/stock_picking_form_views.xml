@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_picking_form" model="stock.picking" type="form">
+            <header>
+                <button name="action_confirm" string="Confirm" type="object" class="sum_highlight"/>
+                <button name="action_assign" string="Check Availability" type="object"/>
+                <button name="action_done" string="Validate" type="object"/>
+                <button name="action_cancel" string="Cancel" type="object"/>
+                <button name="action_print" string="Print" type="object"/>
+                <field name="state" widget="statusbar"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="e.g. WH/IN/00001"/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Transfer">
+                        <field name="picking_type_id" string="Operation Type"/>
+                        <field name="picking_type_code" string="Type of Operation"/>
+                        <field name="partner_id" string="Contact"/>
+                        <field name="origin" string="Source Document"/>
+                        <field name="move_type" string="Shipping Policy"/>
+                        <field name="priority" string="Priority"/>
+                    </group>
+                    <group string="Locations">
+                        <field name="location_id" string="Source Location"/>
+                        <field name="location_dest_id" string="Destination Location"/>
+                        <field name="scheduled_date" string="Scheduled Date"/>
+                        <field name="date_done" string="Date of Transfer"/>
+                        <field name="company_id" string="Company"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Operations">
+                        <field name="move_ids" string="Stock Moves">
+                            <list editable="bottom">
+                                <field name="product_id" string="Product"/>
+                                <field name="name" string="Description"/>
+                                <field name="product_qty" string="Demand"/>
+                                <field name="quantity" string="Done"/>
+                                <field name="location_id" string="From"/>
+                                <field name="location_dest_id" string="To"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Detailed Operations">
+                        <field name="move_line_ids" string="Operations">
+                            <list>
+                                <field name="product_id" string="Product"/>
+                                <field name="quantity" string="Quantity"/>
+                                <field name="lot_id" string="Lot/Serial Number"/>
+                                <field name="location_id" string="From"/>
+                                <field name="location_dest_id" string="To"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Notes">
+                        <field name="note" string="Notes"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

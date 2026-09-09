@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_move_form" model="stock.move" type="form">
+            <header>
+                <field name="state" widget="statusbar"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Description..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Move">
+                        <field name="product_id" string="Product"/>
+                        <field name="name" string="Description"/>
+                        <field name="product_qty" string="Demand"/>
+                        <field name="quantity" string="Quantity Done"/>
+                        <field name="priority" string="Priority"/>
+                    </group>
+                    <group string="Flow">
+                        <field name="location_id" string="From"/>
+                        <field name="location_dest_id" string="To"/>
+                        <field name="picking_id" string="Transfer"/>
+                        <field name="picking_type_id" string="Operation Type"/>
+                        <field name="date" string="Scheduled Date"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Other">
+                        <field name="origin" string="Source Document"/>
+                        <field name="reference" string="Reference"/>
+                        <field name="company_id" string="Company"/>
+                        <field name="is_inventory" string="Inventory"/>
+                    </group>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

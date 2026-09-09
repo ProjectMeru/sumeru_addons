@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_warehouse_form" model="stock.warehouse" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Warehouse Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Warehouse">
+                        <field name="name" string="Warehouse"/>
+                        <field name="code" string="Short Name"/>
+                        <field name="company_id" string="Company"/>
+                        <field name="active" string="Active"/>
+                    </group>
+                    <group string="Locations">
+                        <field name="view_location_id" string="View Location"/>
+                        <field name="lot_stock_id" string="Stock Location"/>
+                        <field name="input_location_id" string="Input Location"/>
+                        <field name="output_location_id" string="Output Location"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Shipments">
+                        <field name="reception_steps" string="Incoming Shipments"/>
+                        <field name="delivery_steps" string="Outgoing Shipments"/>
+                    </group>
+                    <group string="Operation Types">
+                        <field name="in_type_id" string="Receipt Type"/>
+                        <field name="out_type_id" string="Delivery Type"/>
+                        <field name="int_type_id" string="Internal Type"/>
+                    </group>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_lot_form" model="stock.lot" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Lot/Serial Number..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Lot">
+                        <field name="name" string="Lot/Serial Number"/>
+                        <field name="ref" string="Internal Reference"/>
+                        <field name="product_id" string="Product"/>
+                    </group>
+                    <group string="Quantities">
+                        <field name="product_qty" string="On Hand Quantity"/>
+                        <field name="company_id" string="Company"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Description">
+                        <field name="note" string="Description"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

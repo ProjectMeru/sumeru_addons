@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_orderpoint_list" model="stock.warehouse.orderpoint" type="list">
+            <field name="name" string="Name"/>
+            <field name="product_id" string="Product"/>
+            <field name="location_id" string="Location"/>
+            <field name="product_min_qty" string="Minimum"/>
+            <field name="product_max_qty" string="Maximum"/>
+            <field name="qty_on_hand" string="On Hand"/>
+            <field name="qty_forecast" string="Forecast"/>
+            <field name="qty_to_order" string="To Order"/>
+        </view>
+    </data>
+</sumeru>

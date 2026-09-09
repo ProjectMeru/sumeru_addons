@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_lot_list" model="stock.lot" type="list">
+            <field name="name" string="Lot/Serial Number"/>
+            <field name="product_id" string="Product"/>
+            <field name="ref" string="Internal Reference"/>
+            <field name="product_qty" string="On Hand"/>
+        </view>
+    </data>
+</sumeru>
