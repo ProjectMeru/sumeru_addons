@@ -1,0 +1,13 @@
+{
+  "name": "purchase_stock",
+  "display_name": "Purchase Inventory Bridge",
+  "version": "1.0.0",
+  "summary": "Create receipts from confirmed purchase orders",
+  "description": "A confirmed purchase order automatically creates an incoming transfer (receipt) for its storable lines.",
+  "author": "Sumeru",
+  "depends": ["purchase", "stock"],
+  "data": [
+    "views/purchase_order_views.xml"
+  ],
+  "application": false
+}
