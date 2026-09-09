@@ -4,7 +4,7 @@
         <record id="view_crm_lead_form_iap_enrich" model="sys.view">
             <field name="inherit_id" ref="crm.view_crm_lead_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//header/button[@name='action_set_won']" position="after">
+                <xpath expr="//button[@name='action_set_won']" position="after">
                     <button name="enrich_lead" string="Enrich" type="object"/>
                 </xpath>
                 <xpath expr="//page[@string='Extra Info']/group" position="inside">
