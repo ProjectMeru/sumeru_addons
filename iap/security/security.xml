@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <record id="module_category_iap" model="sys.module.category">
+            <field name="name">Technical</field>
+            <field name="sequence">100</field>
+        </record>
+    </data>
+</sumeru>

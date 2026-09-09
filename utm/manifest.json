@@ -9,6 +9,7 @@
         "base"
     ],
     "data": [
+        "security/security.xml",
         "security/sys.access.csv",
         "views/utm_campaign_list_views.xml",
         "views/utm_campaign_form_views.xml",

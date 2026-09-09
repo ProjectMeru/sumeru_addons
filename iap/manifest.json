@@ -9,6 +9,7 @@
         "base"
     ],
     "data": [
+        "security/security.xml",
         "security/sys.access.csv",
         "security/iap_mining_access.csv",
         "views/iap_account_list_views.xml",
