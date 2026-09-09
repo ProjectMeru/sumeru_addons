@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_move_line_form" model="stock.move.line" type="form">
+            <sheet>
+                <group>
+                    <group string="Operation">
+                        <field name="product_id" string="Product"/>
+                        <field name="quantity" string="Quantity"/>
+                        <field name="lot_id" string="Lot/Serial Number"/>
+                        <field name="lot_name" string="Lot/Serial Number Name"/>
+                    </group>
+                    <group string="Flow">
+                        <field name="location_id" string="From"/>
+                        <field name="location_dest_id" string="To"/>
+                        <field name="picking_id" string="Transfer"/>
+                        <field name="move_id" string="Move"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Other">
+                        <field name="date" string="Date"/>
+                        <field name="reference" string="Reference"/>
+                        <field name="company_id" string="Company"/>
+                    </group>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

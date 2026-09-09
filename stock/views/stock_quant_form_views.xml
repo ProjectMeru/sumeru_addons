@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_quant_form" model="stock.quant" type="form">
+            <header>
+                <button name="action_apply_inventory" string="Apply" type="object" class="sum_highlight"
+                        invisible="!inventory_quantity_set"/>
+                <button name="action_apply_all_inventory" string="Apply All Counts" type="object"
+                        invisible="!inventory_quantity_set"/>
+                <button name="action_set_inventory_zero" string="Set Count to 0" type="object"/>
+                <button name="action_clear_inventory" string="Clear Count" type="object"
+                        invisible="!inventory_quantity_set"/>
+            </header>
+            <sheet>
+                <group>
+                    <group string="Quant">
+                        <field name="product_id" string="Product"/>
+                        <field name="location_id" string="Location"/>
+                        <field name="lot_id" string="Lot/Serial Number"/>
+                        <field name="company_id" string="Company"/>
+                    </group>
+                    <group string="Quantities">
+                        <field name="quantity" string="Quantity"/>
+                        <field name="reserved_quantity" string="Reserved Quantity"/>
+                        <field name="available_quantity" string="Available Quantity"/>
+                        <field name="in_date" string="Incoming Date"/>
+                    </group>
+                </group>
+                <separator string="Inventory Adjustment"/>
+                <group>
+                    <group string="Physical Count">
+                        <field name="inventory_quantity" string="Counted Quantity"/>
+                        <field name="inventory_diff_quantity" string="Difference"/>
+                        <field name="inventory_quantity_set" string="Counted"/>
+                        <field name="inventory_name" string="Count Reason"/>
+                    </group>
+                    <group string="Planning">
+                        <field name="inventory_date" string="Scheduled Count Date"/>
+                        <field name="last_count_date" string="Last Count Date"/>
+                        <field name="user_id" string="Assigned To"/>
+                    </group>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>
