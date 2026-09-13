@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"log"
+	"strings"
 
 	"sumeru/core/event"
 	"sumeru/core/orm"
@@ -14,6 +15,8 @@ func init() {
 	event.Subscribe("record.updated", onMovePost)
 	event.Subscribe("record.updated", onPaymentPost)
 	event.Subscribe("record.updated", onAccountMoveLineUpdated)
+	event.Subscribe("record.created", onInvoiceOriginSync)
+	event.Subscribe("record.updated", onInvoiceOriginSync)
 	orm.RegisterOnchange("account.move.line", "quantity", onAccountMoveLineSubtotalChange)
 	orm.RegisterOnchange("account.move.line", "price_unit", onAccountMoveLineSubtotalChange)
 }
@@ -56,6 +59,49 @@ func onAccountMoveLineUpdated(ctx context.Context, ev event.Event) error {
 		return nil
 	}
 	return recomputeMoveAmounts(bypass, int(moveID))
+}
+
+// onInvoiceOriginSync keeps sale.order.invoice_status truthful whenever an
+// invoice (account.move) referencing it is created or updated: cancelled
+// invoices reset the flag, everything else marks it invoiced.
+func onInvoiceOriginSync(ctx context.Context, ev event.Event) error {
+	model, _ := ev.Payload["model"].(string)
+	if model != "account.move" {
+		return nil
+	}
+	id, ok := coerceID(ev.Payload["id"])
+	if !ok {
+		return nil
+	}
+	if _, ok := orm.Registry["sale.order"]; !ok {
+		return nil
+	}
+	bypass := orm.ContextWithBypass(ctx, true)
+	move, err := orm.SearchOne(bypass, "account.move", map[string]interface{}{"id": id})
+	if err != nil {
+		return nil
+	}
+	origin := strings.TrimSpace(orm.AsString(move["invoice_origin"]))
+	if origin == "" {
+		return nil
+	}
+	status := "invoiced"
+	if orm.AsString(move["state"]) == "cancel" {
+		status = "to invoice"
+	}
+	orders, _ := orm.Search(bypass, "sale.order", [][]interface{}{{"name", "=", origin}})
+	for _, r := range orders {
+		oid, _ := orm.CoerceInt64(r["id"])
+		if oid <= 0 || orm.AsString(r["invoice_status"]) == status {
+			continue
+		}
+		if err := orm.UpdateRecordByID(bypass, "sale.order", int(oid), map[string]interface{}{
+			"invoice_status": status,
+		}); err != nil {
+			log.Printf("account: sync invoice_status for SO %d: %v", oid, err)
+		}
+	}
+	return nil
 }
 
 func onSaleOrderToInvoice(ctx context.Context, ev event.Event) error {

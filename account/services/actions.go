@@ -18,9 +18,37 @@ func init() {
 	orm.RegisterObjectAction("account.move", "action_register_payment", actionRegisterPayment)
 	orm.RegisterObjectAction("account.move", "action_reverse", actionReverseWizard)
 	orm.RegisterObjectAction("account.move", "action_print_invoice", actionPrintInvoice)
+
 	orm.RegisterObjectAction("account.payment", "action_post", actionPostPayment)
 	orm.RegisterObjectAction("account.payment.register", "action_create_payments", actionCreatePayments)
 	orm.RegisterObjectAction("account.move.reversal", "action_reverse_moves", actionReverseMoves)
+
+	orm.RegisterWriteGuard("account.move", guardMoveWrite)
+	orm.RegisterUnlinkGuard("account.move", guardMoveUnlink)
+}
+
+// guardMoveWrite locks posted journal entries: only payment bookkeeping
+// (payment_state/amount_residual maintained by reconciliation) and state
+// transitions stay writable.
+func guardMoveWrite(_ context.Context, _ string, before map[string]interface{}, values map[string]interface{}) error {
+	if orm.AsString(before["state"]) != "posted" {
+		return nil
+	}
+	for k := range values {
+		if k != "state" && k != "payment_state" && k != "amount_residual" {
+			return fmt.Errorf("cannot modify a posted entry")
+		}
+	}
+	return nil
+}
+
+// guardMoveUnlink allows deleting only draft journal entries.
+func guardMoveUnlink(_ context.Context, _ string, record map[string]interface{}) error {
+	state := orm.AsString(record["state"])
+	if state != "draft" {
+		return fmt.Errorf("cannot delete a %s entry", state)
+	}
+	return nil
 }
 
 func actionPostMove(ctx context.Context, model string, id int, vals map[string]string) (string, error) {

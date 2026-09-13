@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <view id="view_account_move_form" model="account.move" type="form">
+        <view id="view_account_move_form" model="account.move" type="form"
+              edit_invisible="state === 'posted' || state === 'cancel'">
             <header>
-                <button name="action_post" string="Post" type="object" class="sum_highlight"/>
-                <button name="action_register_payment" string="Register Payment" type="object"/>
-                <button name="action_reverse" string="Credit Note" type="object"/>
-                <button name="action_print_invoice" string="Print" type="object"/>
-                <button name="action_draft" string="Reset to Draft" type="object"/>
-                <button name="action_cancel" string="Cancel" type="object"/>
-                <field name="state" widget="statusbar"/>
+                <button name="action_post" string="Post" type="object" class="sum_highlight"
+                        invisible="state !== 'draft'"/>
+                <button name="action_register_payment" string="Register Payment" type="object"
+                        invisible="state !== 'posted'"/>
+                <button name="action_reverse" string="Credit Note" type="object"
+                        invisible="state !== 'posted'"/>
+                <button name="action_print_invoice" string="Print" type="object"
+                        invisible="state === 'draft'"/>
+                <button name="action_draft" string="Reset to Draft" type="object"
+                        invisible="state !== 'cancel'"/>
+                <button name="action_cancel" string="Cancel" type="object"
+                        invisible="state === 'cancel'"/>
+                <field name="state" widget="statusbar" options="{'clickable': '0', 'display': 'current'}"/>
             </header>
             <sheet>
                 <div class="sum_title">
