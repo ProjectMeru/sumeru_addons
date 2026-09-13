@@ -19,8 +19,39 @@ func init() {
 	orm.RegisterObjectAction("sale.order", "action_draft", actionDraftSale)
 	orm.RegisterObjectAction("sale.order", "action_view_invoices", actionViewInvoices)
 
+	orm.RegisterWriteGuard("sale.order", guardSaleOrderWrite)
+	orm.RegisterUnlinkGuard("sale.order", guardSaleOrderUnlink)
+
 	event.Subscribe("record.updated", onSaleLineUpdated)
 	event.Subscribe("record.created", onSaleLineCreated)
+}
+
+// guardSaleOrderWrite locks confirmed orders: once state=sale, user edits are
+// rejected except state transitions (e.g. Cancel) and invoice_status, which the
+// account module maintains when invoices are created from the order.
+func guardSaleOrderWrite(_ context.Context, _ string, before map[string]interface{}, values map[string]interface{}) error {
+	if orm.AsString(before["state"]) != "sale" {
+		return nil
+	}
+	if newState, ok := values["state"].(string); ok && newState != "" && newState != "sale" {
+		return nil // allowed: transition away from sale (e.g. cancel)
+	}
+	for k := range values {
+		if k == "state" || k == "invoice_status" {
+			continue
+		}
+		return fmt.Errorf("cannot modify a confirmed order (state=sale)")
+	}
+	return nil
+}
+
+// guardSaleOrderUnlink allows deleting only draft or cancelled orders.
+func guardSaleOrderUnlink(_ context.Context, _ string, record map[string]interface{}) error {
+	state := orm.AsString(record["state"])
+	if state != "draft" && state != "cancel" {
+		return fmt.Errorf("cannot delete an order in state %q", state)
+	}
+	return nil
 }
 
 func actionConfirmSale(ctx context.Context, model string, id int, vals map[string]string) (string, error) {
@@ -34,6 +65,10 @@ func actionConfirmSale(ctx context.Context, model string, id int, vals map[strin
 	}
 	if orm.AsString(order["state"]) == "cancel" {
 		return "", fmt.Errorf("order cancelled")
+	}
+	state := orm.AsString(order["state"])
+	if state != "draft" && state != "sent" {
+		return "", fmt.Errorf("order already confirmed")
 	}
 	name := orm.AsString(order["name"])
 	if name == "" || name == "New" {
