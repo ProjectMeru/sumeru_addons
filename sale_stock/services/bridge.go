@@ -14,12 +14,56 @@ import (
 	_ "sumeru_addons/sale"
 	stocksvc "sumeru_addons/stock/services"
 
+	"sumeru/core/event"
 	"sumeru/core/orm"
 )
 
 func init() {
 	orm.RegisterObjectAction("sale.order", "action_confirm", actionConfirmSale)
 	orm.RegisterObjectAction("sale.order", "action_create_delivery", actionCreateDelivery)
+	orm.RegisterObjectAction("sale.order", "action_view_deliveries", actionViewDeliveries)
+
+	event.Subscribe("record.deleted", onPickingDeleted)
+}
+
+// onPickingDeleted reacts to a deleted transfer: it resets the linked sale
+// order back to draft so the Confirm button reappears. Reservation cleanup
+// happens earlier, in stock's unlink guard, while moves are still linked.
+func onPickingDeleted(ctx context.Context, ev event.Event) error {
+	model, _ := ev.Payload["model"].(string)
+	if model != "stock.picking" {
+		return nil
+	}
+	before, _ := ev.Payload["before"].(map[string]interface{})
+	if before == nil {
+		return nil
+	}
+	code := orm.AsString(before["picking_type_code"])
+	if code != "outgoing" {
+		return nil
+	}
+	origin := strings.TrimSpace(orm.AsString(before["origin"]))
+	if origin == "" {
+		return nil
+	}
+	bypass := orm.ContextWithBypass(ctx, true)
+	orders, err := orm.Search(bypass, "sale.order", [][]interface{}{{"name", "=", origin}})
+	if err != nil {
+		return err
+	}
+	for _, r := range orders {
+		id, _ := orm.CoerceInt64(r["id"])
+		if id <= 0 || orm.AsString(r["state"]) != "sale" {
+			continue
+		}
+		if err := orm.UpdateRecordByID(bypass, "sale.order", int(id), map[string]interface{}{
+			"state":          "draft",
+			"invoice_status": "no",
+		}); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // actionConfirmSale mirrors sale/services actionConfirmSale and, once the order
@@ -36,6 +80,10 @@ func actionConfirmSale(ctx context.Context, model string, id int, vals map[strin
 	}
 	if orm.AsString(order["state"]) == "cancel" {
 		return "", fmt.Errorf("order cancelled")
+	}
+	state := orm.AsString(order["state"])
+	if state != "draft" && state != "sent" {
+		return "", fmt.Errorf("order already confirmed")
 	}
 	name := orm.AsString(order["name"])
 	if name == "" || name == "New" {
@@ -61,15 +109,60 @@ func actionConfirmSale(ctx context.Context, model string, id int, vals map[strin
 	return vals["next"], nil
 }
 
-// actionCreateDelivery backs the manual "Delivery" button on the sale order.
+// actionCreateDelivery backs the manual "Delivery" button on the sale order:
+// it creates the outgoing transfer when missing (idempotent otherwise) and
+// opens the delivery form so the click always has a visible result.
 func actionCreateDelivery(ctx context.Context, model string, id int, vals map[string]string) (string, error) {
 	if model != "sale.order" || id <= 0 {
 		return "", fmt.Errorf("invalid order")
 	}
-	if _, err := CreateDeliveryForOrder(ctx, id); err != nil {
+	order, err := orm.SearchOne(ctx, "sale.order", map[string]interface{}{"id": id})
+	if err != nil {
 		return "", err
 	}
-	return vals["next"], nil
+	pickID, err := CreateDeliveryForOrder(ctx, id)
+	if err != nil {
+		return "", err
+	}
+	if pickID <= 0 {
+		// No storable lines to create a transfer — reuse an existing delivery.
+		if pid, ok := stocksvc.TransferForOrigin(ctx, orm.AsString(order["name"]), "outgoing"); ok {
+			pickID = pid
+		}
+	}
+	if pickID <= 0 {
+		return "", fmt.Errorf("no storable lines to deliver")
+	}
+	actionID, _, err := orm.ResolveXmlId(ctx, "stock.action_stock_picking_out")
+	if err != nil || actionID <= 0 {
+		return "", fmt.Errorf("delivery action not found")
+	}
+	return fmt.Sprintf("/web?action=%d&view_type=form&id=%d", actionID, pickID), nil
+}
+
+// actionViewDeliveries backs the "Deliveries" smart button: it opens the
+// delivery order (outgoing picking) created for the sale order.
+func actionViewDeliveries(ctx context.Context, model string, id int, vals map[string]string) (string, error) {
+	if model != "sale.order" || id <= 0 {
+		return "", fmt.Errorf("invalid order")
+	}
+	order, err := orm.SearchOne(ctx, "sale.order", map[string]interface{}{"id": id})
+	if err != nil {
+		return "", err
+	}
+	picks, err := orm.Search(ctx, "stock.picking", [][]interface{}{
+		{"origin", "=", orm.AsString(order["name"])},
+		{"picking_type_code", "=", "outgoing"},
+	})
+	if err != nil || len(picks) == 0 {
+		return "", fmt.Errorf("no deliveries for this order")
+	}
+	pickID, _ := orm.CoerceInt64(picks[0]["id"])
+	actionID, _, err := orm.ResolveXmlId(ctx, "stock.action_stock_picking_out")
+	if err != nil || actionID <= 0 {
+		return "", fmt.Errorf("delivery action not found")
+	}
+	return fmt.Sprintf("/web?action=%d&view_type=form&id=%d", actionID, pickID), nil
 }
 
 // CreateDeliveryForOrder creates an outgoing transfer (delivery order) for the

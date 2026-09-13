@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <!-- Add a manual "Delivery" button next to the sales order status bar. -->
+        <!-- Smart button linking the sales order to its delivery order,
+             appended to the existing smart-button box. -->
         <record id="view_sale_order_form_stock" model="sys.view">
             <field name="inherit_id" ref="sale.view_sale_order_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='state']" position="before">
-                    <button name="action_create_delivery" string="Delivery" type="object"/>
+                <xpath expr="//div[hasclass('sum_button_box')]" position="inside">
+                    <button name="action_view_deliveries" string="Deliveries" type="object"/>
                 </xpath>
             </field>
         </record>
