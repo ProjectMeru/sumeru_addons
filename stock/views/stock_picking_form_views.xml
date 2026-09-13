@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <view id="view_stock_picking_form" model="stock.picking" type="form">
+        <view id="view_stock_picking_form" model="stock.picking" type="form"
+              edit_invisible="state === 'done' || state === 'cancel'">
             <header>
-                <button name="action_confirm" string="Confirm" type="object" class="sum_highlight"/>
-                <button name="action_assign" string="Check Availability" type="object"/>
-                <button name="action_done" string="Validate" type="object"/>
-                <button name="action_cancel" string="Cancel" type="object"/>
-                <button name="action_print" string="Print" type="object"/>
-                <field name="state" widget="statusbar"/>
+                <button name="action_confirm" string="Confirm" type="object" class="sum_highlight"
+                        invisible="state !== 'draft'"/>
+                <button name="action_assign" string="Check Availability" type="object"
+                        invisible="state !== 'confirmed' &amp;&amp; state !== 'assigned'"/>
+                <button name="action_done" string="Validate" type="object"
+                        invisible="state !== 'confirmed' &amp;&amp; state !== 'assigned'"/>
+                <button name="action_cancel" string="Cancel" type="object"
+                        invisible="state === 'done' || state === 'cancel'"/>
+                <button name="action_print" string="Print" type="object"
+                        invisible="state === 'draft'"/>
+                <field name="state" widget="statusbar" options="{'clickable': '0', 'display': 'current'}"/>
             </header>
             <sheet>
                 <div class="sum_title">

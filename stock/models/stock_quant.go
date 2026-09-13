@@ -12,7 +12,7 @@ type StockQuant struct {
 	LocationID        sdk.Many2One[StockLocation] `sumeru:"required,string=Location"`
 	LotID             sdk.Many2One[StockLot]      `sumeru:"string=Lot/Serial Number"`
 	Quantity          sdk.Float64                 `sumeru:"string=Quantity,default=0"`
-	ReservedQuantity  sdk.Float64                 `sumeru:"string=Reserved Quantity,default=0"`
+	ReservedQuantity  sdk.Float64                 `sumeru:"string=Reserved Quantity,default=0,readonly"`
 	AvailableQuantity sdk.Float64                 `sumeru:"string=Available Quantity,default=0,readonly"`
 	InDate            sdk.DateTime                `sumeru:"string=Incoming Date"`
 

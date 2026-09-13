@@ -3,10 +3,13 @@
     <data>
         <view id="view_stock_quant_form" model="stock.quant" type="form">
             <header>
-                <button name="action_apply_inventory" string="Apply" type="object" class="sum_highlight"/>
-                <button name="action_apply_all_inventory" string="Apply All Counts" type="object"/>
+                <button name="action_apply_inventory" string="Apply" type="object" class="sum_highlight"
+                        invisible="!inventory_quantity_set"/>
+                <button name="action_apply_all_inventory" string="Apply All Counts" type="object"
+                        invisible="!inventory_quantity_set"/>
                 <button name="action_set_inventory_zero" string="Set Count to 0" type="object"/>
-                <button name="action_clear_inventory" string="Clear Count" type="object"/>
+                <button name="action_clear_inventory" string="Clear Count" type="object"
+                        invisible="!inventory_quantity_set"/>
             </header>
             <sheet>
                 <group>
