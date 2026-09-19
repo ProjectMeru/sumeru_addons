@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
-    <data noupdate="1">
+    <data noupdate="true">
         <record id="account_receivable" model="account.account">
             <field name="code">121000</field>
             <field name="name">Account Receivable</field>

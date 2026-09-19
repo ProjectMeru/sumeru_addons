@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
-    <data noupdate="1">
+    <data noupdate="true">
         <!-- Account groups -->
         <record id="demo_group_assets" model="account.group">
             <field name="name">Assets</field>
