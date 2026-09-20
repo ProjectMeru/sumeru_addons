@@ -2,48 +2,48 @@
 <sumeru>
     <data>
         <menuitem id="account_menu_root" name="Invoicing" web_icon="file-text" sequence="40" groups="account.group_account_invoice"/>
-        <menuitem id="account_menu_customers" name="Customers" parent="account_menu_root" sequence="10" groups="account.group_account_invoice"/>
+        <menuitem id="account_menu_customers" name="Customers" parent="account_menu_root" sequence="10" groups="account.group_account_invoice" web_icon="contact"/>
         <menuitem id="menu_account_invoices" name="Invoices" parent="account_menu_customers" action="account.action_account_moves_out" sequence="1" web_icon="file-text" groups="account.group_account_invoice"/>
         <menuitem id="menu_account_credit_notes" name="Credit Notes" parent="account_menu_customers" action="account.action_account_moves_out_refund" sequence="2" web_icon="file-minus" groups="account.group_account_invoice"/>
         <menuitem id="menu_account_payments_in" name="Payments" parent="account_menu_customers" action="account.action_account_payments_inbound" sequence="3" web_icon="credit-card" groups="account.group_account_invoice"/>
-        <menuitem id="account_menu_vendors" name="Vendors" parent="account_menu_root" sequence="20" groups="account.group_account_invoice"/>
+        <menuitem id="account_menu_vendors" name="Vendors" parent="account_menu_root" sequence="20" groups="account.group_account_invoice" web_icon="building"/>
         <menuitem id="menu_account_bills" name="Bills" parent="account_menu_vendors" action="account.action_account_moves_in" sequence="1" web_icon="file-text" groups="account.group_account_invoice"/>
         <menuitem id="menu_account_refunds" name="Refunds" parent="account_menu_vendors" action="account.action_account_moves_in_refund" sequence="2" web_icon="file-minus" groups="account.group_account_invoice"/>
         <menuitem id="menu_account_payments_out" name="Payments" parent="account_menu_vendors" action="account.action_account_payments_outbound" sequence="3" web_icon="credit-card" groups="account.group_account_invoice"/>
-        <menuitem id="account_menu_accounting" name="Accounting" parent="account_menu_root" sequence="30" groups="account.group_account_invoice"/>
+        <menuitem id="account_menu_accounting" name="Accounting" parent="account_menu_root" sequence="30" groups="account.group_account_invoice" web_icon="ledger"/>
         <menuitem id="menu_account_moves" name="Journal Entries" parent="account_menu_accounting" action="account.action_account_moves" sequence="1" web_icon="book" groups="account.group_account_invoice"/>
         <menuitem id="menu_account_move_lines" name="Journal Items" parent="account_menu_accounting" action="account.action_account_move_lines" sequence="2" web_icon="list" groups="account.group_account_invoice"/>
-        <menuitem id="account_menu_reporting" name="Reporting" parent="account_menu_root" sequence="40" groups="account.group_account_invoice"/>
+        <menuitem id="account_menu_reporting" name="Reporting" parent="account_menu_root" sequence="40" groups="account.group_account_invoice" web_icon="bar-chart"/>
         <menuitem id="menu_account_invoice_report" name="Invoice Analysis" parent="account_menu_reporting" action="account.action_account_invoice_report" sequence="1" web_icon="bar-chart-2" groups="account.group_account_invoice"/>
         <menuitem id="account_menu_config" name="Configuration" parent="account_menu_root" sequence="90" web_icon="settings" groups="account.group_account_manager"/>
         <menuitem id="menu_account_accounts" name="Chart of Accounts" parent="account_menu_config" action="account.action_account_accounts" sequence="1" web_icon="layers" groups="account.group_account_manager"/>
         <menuitem id="menu_account_journals" name="Journals" parent="account_menu_config" action="account.action_account_journals" sequence="2" web_icon="book" groups="account.group_account_manager"/>
         <menuitem id="menu_account_taxes" name="Taxes" parent="account_menu_config" action="account.action_account_taxes" sequence="3" web_icon="percent" groups="account.group_account_manager"/>
         <menuitem id="menu_account_payment_terms" name="Payment Terms" parent="account_menu_config" action="account.action_account_payment_terms" sequence="4" web_icon="calendar" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_groups" name="Account Groups" parent="account_menu_config" action="account.action_account_groups" sequence="5" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_fiscal_positions" name="Fiscal Positions" parent="account_menu_config" action="account.action_account_fiscal_positions" sequence="6" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_reconcile_models" name="Reconciliation Models" parent="account_menu_config" action="account.action_account_reconcile_models" sequence="7" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_analytic_plans" name="Analytic Plans" parent="account_menu_config" action="account.action_analytic_plans" sequence="8" groups="account.group_account_manager"/>
+        <menuitem id="menu_account_groups" name="Account Groups" parent="account_menu_config" action="account.action_account_groups" sequence="5" groups="account.group_account_manager" web_icon="folder"/>
+        <menuitem id="menu_account_fiscal_positions" name="Fiscal Positions" parent="account_menu_config" action="account.action_account_fiscal_positions" sequence="6" groups="account.group_account_manager" web_icon="flag"/>
+        <menuitem id="menu_account_reconcile_models" name="Reconciliation Models" parent="account_menu_config" action="account.action_account_reconcile_models" sequence="7" groups="account.group_account_manager" web_icon="refresh-cw"/>
+        <menuitem id="menu_account_analytic_plans" name="Analytic Plans" parent="account_menu_config" action="account.action_analytic_plans" sequence="8" groups="account.group_account_manager" web_icon="layout"/>
         <menuitem id="menu_account_analytic" name="Analytic Accounts" parent="account_menu_config" action="account.action_analytic_accounts" sequence="10" web_icon="pie-chart" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_bank_root" name="Bank" parent="account_menu_accounting" sequence="15" groups="account.group_account_invoice"/>
-        <menuitem id="menu_account_bank_statements" name="Statements" parent="menu_account_bank_root" action="account.action_bank_statements" sequence="1"/>
-        <menuitem id="menu_account_bank_reconcile" name="Reconciliation" parent="menu_account_bank_root" action="account.action_bank_reconcile_workspace" sequence="2"/>
-        <menuitem id="menu_account_reports_pl" name="Profit &amp; Loss" parent="account_menu_reporting" action="account.action_report_profit_loss" sequence="10" groups="account.group_account_invoice"/>
-        <menuitem id="menu_account_reports_bs" name="Balance Sheet" parent="account_menu_reporting" action="account.action_report_balance_sheet" sequence="20" groups="account.group_account_invoice"/>
-        <menuitem id="menu_account_reports_tb" name="Trial Balance" parent="account_menu_reporting" action="account.action_report_trial_balance" sequence="30" groups="account.group_account_invoice"/>
-        <menuitem id="menu_account_reports_gl" name="General Ledger" parent="account_menu_reporting" action="account.action_report_general_ledger" sequence="40" groups="account.group_account_invoice"/>
-        <menuitem id="menu_account_reports_partner_ledger" name="Partner Ledger" parent="account_menu_reporting" action="account.action_report_partner_ledger" sequence="50" groups="account.group_account_invoice"/>
-        <menuitem id="menu_account_reports_aged_ar" name="Aged Receivable" parent="account_menu_reporting" action="account.action_report_aged_receivable" sequence="60" groups="account.group_account_invoice"/>
-        <menuitem id="menu_account_reports_aged_ap" name="Aged Payable" parent="account_menu_reporting" action="account.action_report_aged_payable" sequence="70" groups="account.group_account_invoice"/>
-        <menuitem id="menu_account_reports_cash_flow" name="Cash Flow" parent="account_menu_reporting" action="account.action_report_cash_flow" sequence="80" groups="account.group_account_invoice"/>
-        <menuitem id="menu_account_reports_annual" name="Annual Composite" parent="account_menu_reporting" action="account.action_report_annual_composite" sequence="90" groups="account.group_account_invoice"/>
-        <menuitem id="account_menu_advanced" name="Advanced" parent="account_menu_root" sequence="50" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_recurring_templates" name="Recurring Templates" parent="account_menu_advanced" action="account.action_account_recurring_templates" sequence="1" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_deferred_schedules" name="Deferred Schedules" parent="account_menu_advanced" action="account.action_account_deferred_schedules" sequence="2" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_assets" name="Assets" parent="account_menu_advanced" action="account.action_account_assets" sequence="3" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_budgets" name="Budgets" parent="account_menu_advanced" action="account.action_account_budgets" sequence="4" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_tax_returns" name="Tax Returns" parent="account_menu_advanced" action="account.action_account_tax_returns" sequence="5" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_lock_dates" name="Lock Dates" parent="account_menu_config" action="account.action_account_lock_dates" sequence="11" groups="account.group_account_manager"/>
-        <menuitem id="menu_account_move_audits" name="Move Audit Log" parent="account_menu_config" action="account.action_account_move_audits" sequence="12" groups="account.group_account_manager"/>
+        <menuitem id="menu_account_bank_root" name="Bank" parent="account_menu_accounting" sequence="15" groups="account.group_account_invoice" web_icon="banknote"/>
+        <menuitem id="menu_account_bank_statements" name="Statements" parent="menu_account_bank_root" action="account.action_bank_statements" sequence="1" web_icon="receipt"/>
+        <menuitem id="menu_account_bank_reconcile" name="Reconciliation" parent="menu_account_bank_root" action="account.action_bank_reconcile_workspace" sequence="2" web_icon="check"/>
+        <menuitem id="menu_account_reports_pl" name="Profit &amp; Loss" parent="account_menu_reporting" action="account.action_report_profit_loss" sequence="10" groups="account.group_account_invoice" web_icon="trending-up"/>
+        <menuitem id="menu_account_reports_bs" name="Balance Sheet" parent="account_menu_reporting" action="account.action_report_balance_sheet" sequence="20" groups="account.group_account_invoice" web_icon="bar-chart-3"/>
+        <menuitem id="menu_account_reports_tb" name="Trial Balance" parent="account_menu_reporting" action="account.action_report_trial_balance" sequence="30" groups="account.group_account_invoice" web_icon="list"/>
+        <menuitem id="menu_account_reports_gl" name="General Ledger" parent="account_menu_reporting" action="account.action_report_general_ledger" sequence="40" groups="account.group_account_invoice" web_icon="book"/>
+        <menuitem id="menu_account_reports_partner_ledger" name="Partner Ledger" parent="account_menu_reporting" action="account.action_report_partner_ledger" sequence="50" groups="account.group_account_invoice" web_icon="users"/>
+        <menuitem id="menu_account_reports_aged_ar" name="Aged Receivable" parent="account_menu_reporting" action="account.action_report_aged_receivable" sequence="60" groups="account.group_account_invoice" web_icon="clock"/>
+        <menuitem id="menu_account_reports_aged_ap" name="Aged Payable" parent="account_menu_reporting" action="account.action_report_aged_payable" sequence="70" groups="account.group_account_invoice" web_icon="timer"/>
+        <menuitem id="menu_account_reports_cash_flow" name="Cash Flow" parent="account_menu_reporting" action="account.action_report_cash_flow" sequence="80" groups="account.group_account_invoice" web_icon="activity"/>
+        <menuitem id="menu_account_reports_annual" name="Annual Composite" parent="account_menu_reporting" action="account.action_report_annual_composite" sequence="90" groups="account.group_account_invoice" web_icon="calendar"/>
+        <menuitem id="account_menu_advanced" name="Advanced" parent="account_menu_root" sequence="50" groups="account.group_account_manager" web_icon="wrench"/>
+        <menuitem id="menu_account_recurring_templates" name="Recurring Templates" parent="account_menu_advanced" action="account.action_account_recurring_templates" sequence="1" groups="account.group_account_manager" web_icon="refresh-cw"/>
+        <menuitem id="menu_account_deferred_schedules" name="Deferred Schedules" parent="account_menu_advanced" action="account.action_account_deferred_schedules" sequence="2" groups="account.group_account_manager" web_icon="clock"/>
+        <menuitem id="menu_account_assets" name="Assets" parent="account_menu_advanced" action="account.action_account_assets" sequence="3" groups="account.group_account_manager" web_icon="archive"/>
+        <menuitem id="menu_account_budgets" name="Budgets" parent="account_menu_advanced" action="account.action_account_budgets" sequence="4" groups="account.group_account_manager" web_icon="gauge"/>
+        <menuitem id="menu_account_tax_returns" name="Tax Returns" parent="account_menu_advanced" action="account.action_account_tax_returns" sequence="5" groups="account.group_account_manager" web_icon="percent"/>
+        <menuitem id="menu_account_lock_dates" name="Lock Dates" parent="account_menu_config" action="account.action_account_lock_dates" sequence="11" groups="account.group_account_manager" web_icon="lock"/>
+        <menuitem id="menu_account_move_audits" name="Move Audit Log" parent="account_menu_config" action="account.action_account_move_audits" sequence="12" groups="account.group_account_manager" web_icon="log"/>
     </data>
 </sumeru>
