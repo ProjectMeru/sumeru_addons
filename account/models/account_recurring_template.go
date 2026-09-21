@@ -7,7 +7,7 @@ import (
 type AccountRecurringTemplate struct {
 	sdk.Model `sumeru:"model=account.recurring.template"`
 
-	Name      sdk.String                   `sumeru:"required,string=Name"`
+	Name      sdk.String                   `sumeru:"required,unique,string=Name"`
 	JournalID sdk.Many2One[AccountJournal] `sumeru:"string=Journal"`
 	AccountID sdk.Many2One[AccountAccount] `sumeru:"string=Account"`
 	PartnerID sdk.Many2One[CorePartner]    `sumeru:"string=Partner"`

@@ -7,7 +7,7 @@ import (
 type AccountBudget struct {
 	sdk.Model `sumeru:"model=account.budget"`
 
-	Name        sdk.String                   `sumeru:"required,string=Name"`
+	Name        sdk.String                   `sumeru:"required,unique,string=Name"`
 	DateFrom    sdk.Date                     `sumeru:"string=Start Date"`
 	DateTo      sdk.Date                     `sumeru:"string=End Date"`
 	CompanyID   sdk.Many2One[CoreCompany]    `sumeru:"string=Company"`

@@ -7,7 +7,7 @@ import (
 type AccountAsset struct {
 	sdk.Model `sumeru:"model=account.asset"`
 
-	Name            sdk.String                   `sumeru:"required,string=Name"`
+	Name            sdk.String                   `sumeru:"required,unique,string=Name"`
 	OriginalValue   sdk.Numeric                  `sumeru:"string=Original Value,precision=18,scale=2,default=0"`
 	SalvageValue    sdk.Numeric                  `sumeru:"string=Salvage Value,precision=18,scale=2,default=0"`
 	BookValue       sdk.Numeric                  `sumeru:"string=Book Value,precision=18,scale=2,default=0"`

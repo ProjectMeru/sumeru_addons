@@ -7,7 +7,7 @@ import (
 type AccountLockDate struct {
 	sdk.Model `sumeru:"model=account.lock.date"`
 
-	Name          sdk.String                   `sumeru:"required,string=Name"`
+	Name          sdk.String                   `sumeru:"required,unique,string=Name"`
 	JournalID     sdk.Many2One[AccountJournal] `sumeru:"string=Journal"`
 	HardLockDate  sdk.Date                     `sumeru:"string=Hard Lock Date"`
 	SoftLockDate  sdk.Date                     `sumeru:"string=Soft Lock Date"`

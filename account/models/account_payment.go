@@ -7,7 +7,7 @@ import (
 type AccountPayment struct {
 	sdk.Model `sumeru:"model=account.payment"`
 
-	Name        sdk.String                      `sumeru:"string=Number"`
+	Name        sdk.String                      `sumeru:"unique,string=Number"`
 	PaymentType sdk.Selection[PaymentType]      `sumeru:"required,string=Payment Type,default=inbound"`
 	PartnerType sdk.Selection[PartnerType]      `sumeru:"string=Partner Type,default=customer"`
 	PartnerID   sdk.Many2One[CorePartner]       `sumeru:"string=Partner"`
