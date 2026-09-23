@@ -61,7 +61,7 @@ func TestValidatePickingRequiresLotForTrackedProduct(t *testing.T) {
 	if err := orm.UpdateRecordByID(ctx, "product.product", int(productID), map[string]interface{}{"tracking": "lot"}); err != nil {
 		t.Fatalf("set tracking=lot: %v", err)
 	}
-	defer orm.UpdateRecordByID(ctx, "product.product", int(productID), map[string]interface{}{"tracking": "none"})
+	defer func() { _ = orm.UpdateRecordByID(ctx, "product.product", int(productID), map[string]interface{}{"tracking": "none"}) }()
 
 	pickingID := createTrackingPicking(ctx, t, productID)
 	defer cleanupPicking(ctx, pickingID)
@@ -103,8 +103,8 @@ func TestValidatePickingRequiresLotForTrackedProduct(t *testing.T) {
 		t.Fatalf("expected 1 lot created, got %d", len(lots))
 	}
 	lotID, _ := orm.CoerceInt64(lots[0]["id"])
-	defer orm.UnlinkWhere(ctx, "stock.quant", [][]interface{}{{"lot_id", "=", lotID}})
-	defer orm.Unlink(ctx, "stock.lot", int(lotID))
+	defer func() { _, _ = orm.UnlinkWhere(ctx, "stock.quant", [][]interface{}{{"lot_id", "=", lotID}}) }()
+	defer func() { _ = orm.Unlink(ctx, "stock.lot", int(lotID)) }()
 }
 
 func createTrackingPicking(ctx context.Context, t *testing.T, productID int64) int {
@@ -147,7 +147,7 @@ func createTrackingPicking(ctx context.Context, t *testing.T, productID int64) i
 }
 
 func cleanupPicking(ctx context.Context, pickingID int) {
-	orm.UnlinkWhere(ctx, "stock.move.line", [][]interface{}{{"picking_id", "=", pickingID}})
-	orm.UnlinkWhere(ctx, "stock.move", [][]interface{}{{"picking_id", "=", pickingID}})
-	orm.Unlink(ctx, "stock.picking", pickingID)
+	_, _ = orm.UnlinkWhere(ctx, "stock.move.line", [][]interface{}{{"picking_id", "=", pickingID}})
+	_, _ = orm.UnlinkWhere(ctx, "stock.move", [][]interface{}{{"picking_id", "=", pickingID}})
+	_ = orm.Unlink(ctx, "stock.picking", pickingID)
 }
