@@ -4,6 +4,7 @@ package account
 
 import (
 	_ "sumeru/addons/contacts"
+	_ "sumeru/addons/geo"
 	_ "sumeru_addons/product"
 	_ "sumeru_addons/account/models"
 	_ "sumeru_addons/account/services"

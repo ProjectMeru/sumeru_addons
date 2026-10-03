@@ -4,16 +4,17 @@ package models
 
 import (
 	basemodels "sumeru/addons/base/models"
+	geomodels "sumeru/addons/geo/models"
 )
 
 // CoreCompany → core.company
 type CoreCompany = basemodels.CoreCompany
 
 // CoreCountry → core.country
-type CoreCountry = basemodels.CoreCountry
+type CoreCountry = geomodels.CoreCountry
 
 // CoreCurrency → core.currency
-type CoreCurrency = basemodels.CoreCurrency
+type CoreCurrency = geomodels.CoreCurrency
 
 // CorePartner → core.partner
 type CorePartner = basemodels.CorePartner

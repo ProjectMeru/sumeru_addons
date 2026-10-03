@@ -8,7 +8,7 @@ import (
 
 	_ "sumeru/addons/base"
 	_ "sumeru/addons/contacts"
-	_ "sumeru/addons/mail"
+	_ "sumeru/addons/im"
 	_ "sumeru_addons/crm"
 	_ "sumeru_addons/product"
 	_ "sumeru_addons/utm"

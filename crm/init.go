@@ -5,8 +5,10 @@ package crm
 import (
 	_ "sumeru/addons/base"
 	_ "sumeru/addons/contacts"
+	_ "sumeru/addons/geo"
+	_ "sumeru/addons/i18n"
 	_ "sumeru_addons/iap"
-	_ "sumeru/addons/mail"
+	_ "sumeru/addons/im"
 	_ "sumeru/addons/automation"
 	_ "sumeru_addons/utm"
 	_ "sumeru_addons/crm/models"
