@@ -10,7 +10,7 @@ Use the right repository so core and standard apps stay pullable for everyone:
 
 | Change type | Repository | Notes |
 | ----------- | ---------- | ----- |
-| Engine, ORM, server, web shell, kernel addons (`base`, `mail`, …) | **`sumeru`** | Prefer `sumeru/core/sdk` from addon Go code; avoid new direct imports of `sumeru/core/orm` |
+| Engine, ORM, server, web shell, kernel addons (`base`, `im`, `geo`, `i18n`, …) | **`sumeru`** | Prefer `sumeru/core/sdk` from addon Go code; avoid new direct imports of `sumeru/core/orm` |
 | Shared business apps (CRM, Sales, Accounting, …) | **`sumeru_addons`** (this repo) | Depends only on `sumeru`; folder name = technical module name |
 | Customer-specific modules, branding, local runner | **`sumeru_custom_addons`** | Keep custom code under `addons/`; do not fork this repo for one-off features |
 

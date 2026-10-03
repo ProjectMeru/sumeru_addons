@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"fmt"
 	"sort"
 	"strings"
 	"time"
@@ -162,56 +161,4 @@ func onCronAssignLeads(ctx context.Context, ev event.Event) error {
 
 func onCronPLSRebuild(ctx context.Context, ev event.Event) error {
 	return rebuildAllLeadScores(ctx)
-}
-
-func onActivityCreated(ctx context.Context, ev event.Event) error {
-	model, _ := ev.Payload["model"].(string)
-	if model != "mail.activity" {
-		return nil
-	}
-	id, ok := coerceID(ev.Payload["id"])
-	if !ok {
-		return nil
-	}
-	return syncActivityReport(ctx, id)
-}
-
-func onActivityUpdated(ctx context.Context, ev event.Event) error {
-	return onActivityCreated(ctx, ev)
-}
-
-func syncActivityReport(ctx context.Context, activityID int) error {
-	act, err := orm.SearchOne(ctx, "mail.activity", map[string]interface{}{"id": activityID})
-	if err != nil || orm.AsString(act["model"]) != "crm.lead" {
-		return nil
-	}
-	lid, _ := orm.CoerceInt64(act["res_id"])
-	if lid <= 0 {
-		return nil
-	}
-	lead, err := orm.SearchOne(ctx, "crm.lead", map[string]interface{}{"id": lid})
-	if err != nil {
-		return nil
-	}
-	vals := map[string]interface{}{
-		"activity_id":   activityID,
-		"lead_id":       lid,
-		"user_id":       act["user_id"],
-		"team_id":       lead["team_id"],
-		"stage_id":      lead["stage_id"],
-		"summary":       act["summary"],
-		"date_deadline": act["date_deadline"],
-		"state":         act["state"],
-	}
-	existing, _ := orm.Search(ctx, "crm.activity.report", [][]interface{}{{"activity_id", "=", activityID}})
-	if len(existing) > 0 {
-		rid, _ := orm.CoerceInt64(existing[0]["id"])
-		return orm.UpdateRecordByID(ctx, "crm.activity.report", int(rid), vals)
-	}
-	m, ok := orm.Registry["crm.activity.report"]
-	if !ok {
-		return fmt.Errorf("crm.activity.report not registered")
-	}
-	_, err = orm.Create(ctx, m, vals)
-	return err
 }

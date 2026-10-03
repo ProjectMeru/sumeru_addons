@@ -122,22 +122,6 @@
                   web_icon="user-check"
                   groups="crm.group_crm_manager"/>
 
-        <menuitem id="menu_crm_config_activity_types"
-                  name="Activity Types"
-                  parent="crm_menu_config"
-                  action="mail.action_mail.activity.type"
-                  sequence="20"
-                  web_icon="list"
-                  groups="crm.group_crm_manager"/>
-
-        <menuitem id="menu_crm_config_activity_plans"
-                  name="Activity Plans"
-                  parent="crm_menu_config"
-                  action="mail.action_mail.activity.plan"
-                  sequence="21"
-                  web_icon="clipboard"
-                  groups="crm.group_crm_manager"/>
-
         <menuitem id="menu_crm_config_recurring_plans"
                   name="Recurring Plans"
                   parent="crm_menu_config"

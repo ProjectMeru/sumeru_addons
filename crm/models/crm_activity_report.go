@@ -7,7 +7,7 @@ import (
 type CrmActivityReport struct {
 	sdk.Model `sumeru:"model=crm.activity.report"`
 
-	ActivityID sdk.Many2One[MailActivity] `sumeru:"string=Activity"`
+	ActivityID sdk.Integer `sumeru:"string=Activity"`
 	LeadID     sdk.Many2One[CrmLead]      `sumeru:"string=Lead"`
 	UserID     sdk.Many2One[CoreUser]       `sumeru:"string=Assigned To"`
 	TeamID     sdk.Many2One[CrmTeam]        `sumeru:"string=Sales Team"`

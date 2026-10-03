@@ -14,8 +14,6 @@ func init() {
 
 	event.Subscribe("record.created", onLeadCreated)
 	event.Subscribe("record.updated", onLeadUpdated)
-	event.Subscribe("record.created", onActivityCreated)
-	event.Subscribe("record.updated", onActivityUpdated)
 	event.Subscribe("crm.cron_assign_leads", onCronAssignLeads)
 	event.Subscribe("crm.cron_pls_rebuild", onCronPLSRebuild)
 

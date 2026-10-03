@@ -28,14 +28,14 @@ Go module: `sumeru_addons` · depends on [`sumeru`](../sumeru/) only (`replace s
 | ------ | -------------- | ------- | ------- |
 | [`product`](product/) | Products | Product catalog shared by sales, purchase, and accounting | `base` |
 | [`utm`](utm/) | UTM Tracking | Campaigns, mediums, and sources for lead attribution | `base` |
-| [`crm`](crm/) | CRM | Leads, pipelines, teams, and opportunities | `base`, `contacts`, `mail`, `utm` |
+| [`crm`](crm/) | CRM | Leads, pipelines, teams, and opportunities | `base`, `contacts`, `im`, `geo`, `i18n`, `utm` |
 | [`sale`](sale/) | Sales | Quotations and sales orders | `product`, `contacts`, `crm` |
 | [`sale_crm`](sale_crm/) | Sales CRM Bridge | Draft quotation when an opportunity is won | `sale`, `crm` |
-| [`account`](account/) | Invoicing | COA, journal entries, taxes, payments, financial reports, bank reconciliation, analytic | `product`, `contacts` |
+| [`account`](account/) | Invoicing | COA, journal entries, taxes, payments, financial reports, bank reconciliation, analytic | `product`, `contacts`, `geo` |
 | [`purchase`](purchase/) | Purchase | RFQ → confirmed PO → vendor bill | `account`, `product` |
 | [`hr`](hr/) | Employees | Employee directory, departments, and job positions | `base`, `contacts` |
 
-Kernel apps such as `contacts` and `mail` ship with **[`sumeru`](../sumeru/)** — they are not in this repository but are required by several modules above.
+Kernel apps such as `contacts`, `im`, `geo`, and `i18n` ship with **[`sumeru`](../sumeru/)** — they are not in this repository but are required by several modules above.
 
 ### Install order
 
@@ -162,7 +162,7 @@ go vet ./...
 | ---- | ----- |
 | Improve a standard business app | Pull request to **this repo** |
 | Customer-specific module or override | [`sumeru_custom_addons/addons/`](../sumeru_custom_addons/addons/) |
-| Engine, kernel apps (`base`, `mail`, …) | [`sumeru`](../sumeru/) |
+| Engine, kernel apps (`base`, `im`, `geo`, `i18n`, …) | [`sumeru`](../sumeru/) |
 
 Do not fork or patch modules here for a single deployment — extend from the custom workspace so upstream pulls stay clean.
 
