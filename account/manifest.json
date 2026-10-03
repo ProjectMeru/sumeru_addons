@@ -7,7 +7,8 @@
     "author": "Sumeru",
     "depends": [
         "product",
-        "contacts"
+        "contacts",
+        "geo"
     ],
     "data": [
         "security/security.xml",

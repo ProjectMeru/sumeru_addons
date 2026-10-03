@@ -43,7 +43,6 @@ func expandCRMStageColumns(ctx context.Context, model, groupField string, record
 		return orm.AsString(stages[i]["name"]) < orm.AsString(stages[j]["name"])
 	})
 	stages = filterStagesForTeam(stages, teamID, stageTeams)
-	enrichLeadNextActivities(ctx, records)
 
 	buckets := map[int64][]map[string]interface{}{}
 	var unassigned []map[string]interface{}
@@ -214,68 +213,3 @@ func stageTeamIncludes(teams []int64, teamID int64) bool {
 	return false
 }
 
-func enrichLeadNextActivities(ctx context.Context, records []map[string]interface{}) {
-	if len(records) == 0 || orm.DB == nil {
-		return
-	}
-	leadIDs := make([]interface{}, 0, len(records))
-	leadIndex := map[int64]map[string]interface{}{}
-	for _, row := range records {
-		id, ok := orm.CoerceInt64(row["id"])
-		if !ok || id <= 0 {
-			continue
-		}
-		leadIDs = append(leadIDs, id)
-		leadIndex[id] = row
-	}
-	if len(leadIDs) == 0 {
-		return
-	}
-	acts, err := orm.Search(ctx, "mail.activity", [][]interface{}{
-		{"model", "=", "crm.lead"},
-		{"res_id", "in", leadIDs},
-		{"state", "=", "planned"},
-	})
-	if err != nil || len(acts) == 0 {
-		return
-	}
-	nextByLead := map[int64]map[string]interface{}{}
-	for _, act := range acts {
-		lid, ok := orm.CoerceInt64(act["res_id"])
-		if !ok || lid <= 0 {
-			continue
-		}
-		prev, exists := nextByLead[lid]
-		if !exists || activityDeadlineBefore(act, prev) {
-			nextByLead[lid] = act
-		}
-	}
-	for lid, act := range nextByLead {
-		row, ok := leadIndex[lid]
-		if !ok {
-			continue
-		}
-		summary := strings.TrimSpace(orm.AsString(act["summary"]))
-		if summary == "" {
-			summary = strings.TrimSpace(orm.AsString(act["name"]))
-		}
-		if summary != "" {
-			row["activity_summary"] = summary
-		}
-		if deadline := strings.TrimSpace(orm.AsString(act["date_deadline"])); deadline != "" {
-			row["activity_deadline"] = deadline
-		}
-	}
-}
-
-func activityDeadlineBefore(candidate, current map[string]interface{}) bool {
-	c := strings.TrimSpace(orm.AsString(candidate["date_deadline"]))
-	p := strings.TrimSpace(orm.AsString(current["date_deadline"]))
-	if c == "" {
-		return false
-	}
-	if p == "" {
-		return true
-	}
-	return c < p
-}

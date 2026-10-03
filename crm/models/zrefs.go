@@ -4,7 +4,8 @@ package models
 
 import (
 	basemodels "sumeru/addons/base/models"
-	mailmodels "sumeru/addons/mail/models"
+	geomodels "sumeru/addons/geo/models"
+	i18nmodels "sumeru/addons/i18n/models"
 	utmmodels "sumeru_addons/utm/models"
 )
 
@@ -12,25 +13,22 @@ import (
 type CoreCompany = basemodels.CoreCompany
 
 // CoreCountry → core.country
-type CoreCountry = basemodels.CoreCountry
+type CoreCountry = geomodels.CoreCountry
 
 // CoreCountryState → core.country.state
-type CoreCountryState = basemodels.CoreCountryState
+type CoreCountryState = geomodels.CoreCountryState
 
 // CoreCurrency → core.currency
-type CoreCurrency = basemodels.CoreCurrency
+type CoreCurrency = geomodels.CoreCurrency
 
 // CoreLang → core.lang
-type CoreLang = basemodels.CoreLang
+type CoreLang = i18nmodels.CoreLang
 
 // CorePartner → core.partner
 type CorePartner = basemodels.CorePartner
 
 // CoreUser → core.user
 type CoreUser = basemodels.CoreUser
-
-// MailActivity → mail.activity
-type MailActivity = mailmodels.MailActivity
 
 // UtmCampaign → utm.campaign
 type UtmCampaign = utmmodels.UtmCampaign
