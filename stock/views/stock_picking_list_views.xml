@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_picking_list" model="stock.picking" type="list">
+            <field name="name" string="Reference"/>
+            <field name="origin" string="Source"/>
+            <field name="picking_type_id" string="Operation Type"/>
+            <field name="picking_type_code" string="Type"/>
+            <field name="partner_id" string="Contact"/>
+            <field name="scheduled_date" string="Scheduled Date"/>
+            <field name="state" string="Status"/>
+        </view>
+    </data>
+</sumeru>

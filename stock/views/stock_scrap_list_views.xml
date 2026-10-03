@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_scrap_list" model="stock.scrap" type="list">
+            <field name="name" string="Reference"/>
+            <field name="product_id" string="Product"/>
+            <field name="scrap_qty" string="Quantity"/>
+            <field name="location_id" string="Source Location"/>
+            <field name="state" string="Status"/>
+        </view>
+    </data>
+</sumeru>

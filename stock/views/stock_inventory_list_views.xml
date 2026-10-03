@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <!-- Counting list used by the Physical Inventory action (lower priority
+             than the default On Hand list so it is only picked via view_id). -->
+        <view id="view_stock_quant_inventory_list" model="stock.quant" type="list" priority="20">
+            <field name="product_id" string="Product"/>
+            <field name="location_id" string="Location"/>
+            <field name="lot_id" string="Lot/Serial Number"/>
+            <field name="quantity" string="On Hand"/>
+            <field name="inventory_quantity" string="Counted"/>
+            <field name="inventory_diff_quantity" string="Difference"/>
+            <field name="inventory_quantity_set" string="Counted?" widget="boolean_toggle"/>
+            <field name="inventory_date" string="Scheduled"/>
+            <field name="last_count_date" string="Last Count"/>
+            <field name="user_id" string="Assigned To"/>
+        </view>
+    </data>
+</sumeru>

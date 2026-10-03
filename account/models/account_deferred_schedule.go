@@ -7,7 +7,7 @@ import (
 type AccountDeferredSchedule struct {
 	sdk.Model `sumeru:"model=account.deferred.schedule"`
 
-	Name              sdk.String                   `sumeru:"required,string=Name"`
+	Name              sdk.String                   `sumeru:"required,unique,string=Name"`
 	MoveID            sdk.Many2One[AccountMove]    `sumeru:"string=Journal Entry"`
 	AccountID         sdk.Many2One[AccountAccount] `sumeru:"string=Recognition Account"`
 	StartDate         sdk.Date                     `sumeru:"string=Start Date"`

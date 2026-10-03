@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_move_list" model="stock.move" type="list">
+            <field name="reference" string="Reference"/>
+            <field name="product_id" string="Product"/>
+            <field name="product_qty" string="Demand"/>
+            <field name="quantity" string="Done"/>
+            <field name="location_id" string="From"/>
+            <field name="location_dest_id" string="To"/>
+            <field name="state" string="Status"/>
+        </view>
+    </data>
+</sumeru>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data noupdate="true">
+        <record id="product_category_automotive" model="product.category">
+            <field name="name">Automotive</field>
+            <field name="parent_id" ref="product_category_goods"/>
+            <field name="sequence">10</field>
+        </record>
+        <record id="product_category_automotive_spare_parts" model="product.category">
+            <field name="name">Spare Parts</field>
+            <field name="parent_id" ref="product_category_automotive"/>
+            <field name="sequence">10</field>
+        </record>
+        <record id="product_category_automotive_oils" model="product.category">
+            <field name="name">Oils &amp; Fluids</field>
+            <field name="parent_id" ref="product_category_automotive"/>
+            <field name="sequence">20</field>
+        </record>
+        <record id="product_category_automotive_tires" model="product.category">
+            <field name="name">Tires &amp; Wheels</field>
+            <field name="parent_id" ref="product_category_automotive"/>
+            <field name="sequence">30</field>
+        </record>
+        <record id="product_category_automotive_batteries" model="product.category">
+            <field name="name">Batteries &amp; Electrical</field>
+            <field name="parent_id" ref="product_category_automotive"/>
+            <field name="sequence">40</field>
+        </record>
+        <record id="product_category_automotive_accessories" model="product.category">
+            <field name="name">Accessories</field>
+            <field name="parent_id" ref="product_category_automotive"/>
+            <field name="sequence">50</field>
+        </record>
+
+        <!-- Oils & Fluids -->
+        <record id="product_engine_oil_10w40" model="product.product">
+            <field name="name">Engine Oil SAE 10W-40 (1L)</field>
+            <field name="default_code">OIL-10W40</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_oils"/>
+            <field name="list_price" eval="85000"/>
+            <field name="standard_price" eval="68000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Mineral engine oil for gasoline engines, 1 liter pack. API SL certified.</field>
+        </record>
+        <record id="product_engine_oil_5w30" model="product.product">
+            <field name="name">Engine Oil Synthetic SAE 5W-30 (1L)</field>
+            <field name="default_code">OIL-5W30</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_oils"/>
+            <field name="list_price" eval="145000"/>
+            <field name="standard_price" eval="115000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Full synthetic engine oil for modern gasoline and diesel engines. 1 liter pack.</field>
+        </record>
+        <record id="product_radiator_coolant" model="product.product">
+            <field name="name">Radiator Coolant Premix (1L)</field>
+            <field name="default_code">COOL-01</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_oils"/>
+            <field name="list_price" eval="55000"/>
+            <field name="standard_price" eval="42000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Ready-to-use radiator coolant with anti-rust and anti-freeze protection.</field>
+        </record>
+        <record id="product_brake_fluid" model="product.product">
+            <field name="name">Brake Fluid DOT 4 (500ml)</field>
+            <field name="default_code">FLUID-DOT4</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_oils"/>
+            <field name="list_price" eval="48000"/>
+            <field name="standard_price" eval="36000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">DOT 4 brake fluid, high boiling point for hydraulic brake systems.</field>
+        </record>
+
+        <!-- Spare Parts -->
+        <record id="product_oil_filter" model="product.product">
+            <field name="name">Oil Filter</field>
+            <field name="default_code">SP-OILFIL</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_spare_parts"/>
+            <field name="list_price" eval="65000"/>
+            <field name="standard_price" eval="45000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Spin-on oil filter for passenger cars, compatible with common 4-cylinder engines.</field>
+        </record>
+        <record id="product_air_filter" model="product.product">
+            <field name="name">Air Filter</field>
+            <field name="default_code">SP-AIRFIL</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_spare_parts"/>
+            <field name="list_price" eval="75000"/>
+            <field name="standard_price" eval="52000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Panel type air filter element to keep engine air intake clean.</field>
+        </record>
+        <record id="product_brake_pad_front" model="product.product">
+            <field name="name">Brake Pad Set (Front)</field>
+            <field name="default_code">SP-BRAKEPAD</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_spare_parts"/>
+            <field name="list_price" eval="420000"/>
+            <field name="standard_price" eval="320000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Ceramic brake pad set for front axle, low dust and low noise.</field>
+        </record>
+        <record id="product_spark_plug" model="product.product">
+            <field name="name">Spark Plug (Iridium)</field>
+            <field name="default_code">SP-PLUG</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_spare_parts"/>
+            <field name="list_price" eval="60000"/>
+            <field name="standard_price" eval="42000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Iridium spark plug for gasoline engines, long service life.</field>
+        </record>
+        <record id="product_timing_belt" model="product.product">
+            <field name="name">Timing Belt Kit</field>
+            <field name="default_code">SP-TIMBELT</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_spare_parts"/>
+            <field name="list_price" eval="650000"/>
+            <field name="standard_price" eval="510000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Timing belt kit including tensioner and idler pulley.</field>
+        </record>
+        <record id="product_alternator" model="product.product">
+            <field name="name">Alternator 12V 90A</field>
+            <field name="default_code">SP-ALT90</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_spare_parts"/>
+            <field name="list_price" eval="1850000"/>
+            <field name="standard_price" eval="1500000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Remanufactured alternator 12V 90A for compact and midsize cars.</field>
+        </record>
+
+        <!-- Tires & Wheels -->
+        <record id="product_tire_205_55_r16" model="product.product">
+            <field name="name">Tire 205/55 R16</field>
+            <field name="default_code">TIR-2055516</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_tires"/>
+            <field name="list_price" eval="950000"/>
+            <field name="standard_price" eval="780000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Tubeless radial tire 205/55 R16, all-season tread pattern.</field>
+        </record>
+        <record id="product_tire_185_65_r15" model="product.product">
+            <field name="name">Tire 185/65 R15</field>
+            <field name="default_code">TIR-1856515</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_tires"/>
+            <field name="list_price" eval="720000"/>
+            <field name="standard_price" eval="580000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Tubeless radial tire 185/65 R15 for city cars.</field>
+        </record>
+
+        <!-- Batteries & Electrical -->
+        <record id="product_battery_12v_60ah" model="product.product">
+            <field name="name">Car Battery 12V 60Ah (Maintenance Free)</field>
+            <field name="default_code">BAT-1260</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_batteries"/>
+            <field name="list_price" eval="1450000"/>
+            <field name="standard_price" eval="1180000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Maintenance-free automotive battery 12V 60Ah, 1 year warranty.</field>
+        </record>
+        <record id="product_headlamp_led" model="product.product">
+            <field name="name">LED Headlamp Bulb H4</field>
+            <field name="default_code">BAT-H4LED</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_batteries"/>
+            <field name="list_price" eval="185000"/>
+            <field name="standard_price" eval="130000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">LED headlamp bulb H4 pair, 6000K bright white, plug and play.</field>
+        </record>
+
+        <!-- Accessories -->
+        <record id="product_dashcam" model="product.product">
+            <field name="name">Dashcam Full HD 1080p</field>
+            <field name="default_code">ACC-DASHCAM</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_accessories"/>
+            <field name="list_price" eval="750000"/>
+            <field name="standard_price" eval="560000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Full HD 1080p dashcam with loop recording and night vision.</field>
+        </record>
+        <record id="product_car_floor_mat" model="product.product">
+            <field name="name">Car Floor Mat (Universal Set)</field>
+            <field name="default_code">ACC-MAT</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_accessories"/>
+            <field name="list_price" eval="350000"/>
+            <field name="standard_price" eval="240000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Universal car floor mat set, waterproof and easy to clean.</field>
+        </record>
+        <record id="product_wiper_blade" model="product.product">
+            <field name="name">Wiper Blade 24"/16" Set</field>
+            <field name="default_code">ACC-WIPER</field>
+            <field name="type">consu</field>
+            <field name="categ_id" ref="product_category_automotive_accessories"/>
+            <field name="list_price" eval="125000"/>
+            <field name="standard_price" eval="85000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Aero flat wiper blade set 24 inch and 16 inch.</field>
+        </record>
+
+        <!-- Service -->
+        <record id="product_tire_repair_service" model="product.product">
+            <field name="name">Tire Repair &amp; Balancing Service</field>
+            <field name="default_code">SRV-TIRE</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="product_category_automotive_tires"/>
+            <field name="list_price" eval="50000"/>
+            <field name="standard_price" eval="0"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="description">Tire patching, mounting, and wheel balancing service per wheel.</field>
+        </record>
+        <record id="product_engine_tuneup_service" model="product.product">
+            <field name="name">Engine Tune-Up Service</field>
+            <field name="default_code">SRV-TUNEUP</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="product_category_automotive_spare_parts"/>
+            <field name="list_price" eval="350000"/>
+            <field name="standard_price" eval="0"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="description">Engine tune-up service including spark plug replacement and throttle body cleaning.</field>
+        </record>
+    </data>
+</sumeru>

@@ -7,7 +7,7 @@ import (
 type AccountBankStatement struct {
 	sdk.Model `sumeru:"model=account.bank.statement"`
 
-	Name       sdk.String                         `sumeru:"required,string=Reference"`
+	Name       sdk.String                         `sumeru:"required,unique,string=Reference"`
 	JournalID  sdk.Many2One[AccountJournal]       `sumeru:"required,string=Journal"`
 	Date       sdk.Date                           `sumeru:"string=Date"`
 	BalanceEnd sdk.Numeric                        `sumeru:"string=Ending Balance,precision=18,scale=2,default=0"`
@@ -20,7 +20,7 @@ type AccountBankStatementLine struct {
 
 	StatementID  sdk.Many2One[AccountBankStatement] `sumeru:"required,index,string=Statement"`
 	Date         sdk.Date                           `sumeru:"string=Date"`
-	Name         sdk.String                         `sumeru:"string=Label"`
+	Name         sdk.String                         `sumeru:"unique,string=Label"`
 	Amount       sdk.Numeric                        `sumeru:"string=Amount,precision=18,scale=2,default=0"`
 	PartnerID    sdk.Many2One[CorePartner]          `sumeru:"string=Partner"`
 	IsReconciled sdk.Boolean                        `sumeru:"string=Reconciled,default=false"`
@@ -30,7 +30,7 @@ type AccountBankStatementLine struct {
 type AccountReconcileModel struct {
 	sdk.Model `sumeru:"model=account.reconcile.model"`
 
-	Name              sdk.String                 `sumeru:"required,string=Name"`
+	Name              sdk.String                 `sumeru:"required,unique,string=Name"`
 	MatchLabel        sdk.String                 `sumeru:"string=Label Contains"`
 	MatchAmount       sdk.Numeric                `sumeru:"string=Amount Tolerance,precision=18,scale=2,default=0.01"`
 	WriteoffAccountID sdk.Many2One[AccountAccount] `sumeru:"string=Write-off Account"`

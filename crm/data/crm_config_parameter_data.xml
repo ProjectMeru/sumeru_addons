@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
-    <data noupdate="1">
+    <data noupdate="true">
         <record id="crm_param_auto_assignment" model="sys.config.parameter">
             <field name="key">crm.lead.auto.assignment</field>
             <field name="value">false</field>

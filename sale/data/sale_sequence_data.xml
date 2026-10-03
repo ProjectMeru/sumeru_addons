@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
-    <data noupdate="1">
+    <data noupdate="true">
         <record id="seq_sale_order" model="sys.sequence">
             <field name="name">Sales Order</field>
             <field name="code">sale.order</field>

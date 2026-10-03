@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_rule_list" model="stock.rule" type="list">
+            <field name="name" string="Name"/>
+            <field name="action" string="Action"/>
+            <field name="location_src_id" string="Source"/>
+            <field name="location_dest_id" string="Destination"/>
+            <field name="picking_type_id" string="Operation Type"/>
+            <field name="delay" string="Lead Time"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
+        </view>
+    </data>
+</sumeru>

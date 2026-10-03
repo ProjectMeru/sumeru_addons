@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <menuitem id="stock_menu_root" name="Inventory" web_icon="package" sequence="30" groups="stock.group_stock_user"/>
+        <menuitem id="stock_menu_operations" name="Operations" parent="stock_menu_root" sequence="10" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_picking" name="Transfers" parent="stock_menu_operations" action="stock.action_stock_picking" sequence="1" web_icon="truck" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_picking_in" name="Receipts" parent="stock_menu_operations" action="stock.action_stock_picking_in" sequence="2" web_icon="download" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_picking_out" name="Delivery Orders" parent="stock_menu_operations" action="stock.action_stock_picking_out" sequence="3" web_icon="upload" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_picking_internal" name="Internal Transfers" parent="stock_menu_operations" action="stock.action_stock_picking_internal" sequence="4" web_icon="shuffle" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_move" name="Stock Moves" parent="stock_menu_operations" action="stock.action_stock_move" sequence="5" web_icon="list" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_move_line" name="Detailed Operations" parent="stock_menu_operations" action="stock.action_stock_move_line" sequence="6" web_icon="list" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_scrap" name="Scraps" parent="stock_menu_operations" action="stock.action_stock_scrap" sequence="7" web_icon="trash-2" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_orderpoint" name="Reordering Rules" parent="stock_menu_operations" action="stock.action_stock_orderpoint" sequence="8" web_icon="refresh-cw" groups="stock.group_stock_user"/>
+        <menuitem id="stock_menu_products" name="Products" parent="stock_menu_root" sequence="20" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_quant" name="On Hand" parent="stock_menu_products" action="stock.action_stock_quant" sequence="1" web_icon="layers" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_lot" name="Lots/Serial Numbers" parent="stock_menu_products" action="stock.action_stock_lot" sequence="2" web_icon="hash" groups="stock.group_stock_user"/>
+        <menuitem id="stock_menu_adjustments" name="Adjustments" parent="stock_menu_root" sequence="30" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_inventory" name="Physical Inventory" parent="stock_menu_adjustments" action="stock.action_stock_inventory" sequence="1" web_icon="clipboard" groups="stock.group_stock_user"/>
+        <menuitem id="menu_stock_inventory_todo" name="Counts to Apply" parent="stock_menu_adjustments" action="stock.action_stock_inventory_todo" sequence="2" web_icon="check-square" groups="stock.group_stock_user"/>
+        <menuitem id="stock_menu_config" name="Configuration" parent="stock_menu_root" sequence="90" web_icon="settings" groups="stock.group_stock_manager"/>
+        <menuitem id="menu_stock_warehouse" name="Warehouses" parent="stock_menu_config" action="stock.action_stock_warehouse" sequence="1" web_icon="home" groups="stock.group_stock_manager"/>
+        <menuitem id="menu_stock_location" name="Locations" parent="stock_menu_config" action="stock.action_stock_location" sequence="2" web_icon="map-pin" groups="stock.group_stock_manager"/>
+        <menuitem id="menu_stock_picking_type" name="Operation Types" parent="stock_menu_config" action="stock.action_stock_picking_type" sequence="3" web_icon="truck" groups="stock.group_stock_manager"/>
+        <menuitem id="menu_stock_rule" name="Rules" parent="stock_menu_config" action="stock.action_stock_rule" sequence="4" web_icon="git-branch" groups="stock.group_stock_manager"/>
+    </data>
+</sumeru>

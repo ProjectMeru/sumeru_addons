@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
-    <data noupdate="1">
+    <data noupdate="true">
         <record id="demo_opp_acme" model="crm.lead">
             <field name="name">Acme Corp — ERP rollout</field>
             <field name="type">opportunity</field>

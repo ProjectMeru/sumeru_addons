@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
-    <data noupdate="1">
+    <data noupdate="true">
         <record id="cron_crm_assign_leads" model="sys.cron">
             <field name="name">CRM: Assign Leads</field>
             <field name="event_name">crm.cron_assign_leads</field>

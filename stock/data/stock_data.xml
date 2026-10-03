@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data noupdate="1">
+        <!-- Locations -->
+        <record id="stock_location_virtual" model="stock.location">
+            <field name="name">Virtual Locations</field>
+            <field name="usage">view</field>
+        </record>
+        <record id="stock_location_partners" model="stock.location">
+            <field name="name">Partners Locations</field>
+            <field name="usage">view</field>
+        </record>
+        <record id="stock_location_company" model="stock.location">
+            <field name="name">Physical Locations</field>
+            <field name="usage">view</field>
+        </record>
+        <record id="stock_location_stock" model="stock.location">
+            <field name="name">Stock</field>
+            <field name="usage">internal</field>
+            <field name="location_id" ref="stock_location_company"/>
+        </record>
+        <record id="stock_location_supplier" model="stock.location">
+            <field name="name">Vendors</field>
+            <field name="usage">supplier</field>
+            <field name="location_id" ref="stock_location_partners"/>
+        </record>
+        <record id="stock_location_customer" model="stock.location">
+            <field name="name">Customers</field>
+            <field name="usage">customer</field>
+            <field name="location_id" ref="stock_location_partners"/>
+        </record>
+        <record id="stock_location_inventory" model="stock.location">
+            <field name="name">Inventory Loss</field>
+            <field name="usage">inventory</field>
+            <field name="location_id" ref="stock_location_virtual"/>
+        </record>
+        <record id="stock_location_scrap" model="stock.location">
+            <field name="name">Scrap</field>
+            <field name="usage">inventory</field>
+            <field name="location_id" ref="stock_location_virtual"/>
+        </record>
+
+        <!-- Operation Types -->
+        <record id="stock_picking_type_in" model="stock.picking.type">
+            <field name="name">Receipts</field>
+            <field name="code">incoming</field>
+            <field name="sequence_code">IN</field>
+            <field name="default_location_src_id" ref="stock_location_supplier"/>
+            <field name="default_location_dest_id" ref="stock_location_stock"/>
+            <field name="sequence" eval="1"/>
+        </record>
+        <record id="stock_picking_type_out" model="stock.picking.type">
+            <field name="name">Delivery Orders</field>
+            <field name="code">outgoing</field>
+            <field name="sequence_code">OUT</field>
+            <field name="default_location_src_id" ref="stock_location_stock"/>
+            <field name="default_location_dest_id" ref="stock_location_customer"/>
+            <field name="sequence" eval="2"/>
+        </record>
+        <record id="stock_picking_type_internal" model="stock.picking.type">
+            <field name="name">Internal Transfers</field>
+            <field name="code">internal</field>
+            <field name="sequence_code">INT</field>
+            <field name="default_location_src_id" ref="stock_location_stock"/>
+            <field name="default_location_dest_id" ref="stock_location_stock"/>
+            <field name="sequence" eval="3"/>
+        </record>
+
+        <!-- Warehouse -->
+        <record id="stock_warehouse_main" model="stock.warehouse">
+            <field name="name">Main Warehouse</field>
+            <field name="code">WH</field>
+            <field name="view_location_id" ref="stock_location_company"/>
+            <field name="lot_stock_id" ref="stock_location_stock"/>
+            <field name="reception_steps">one_step</field>
+            <field name="delivery_steps">one_step</field>
+            <field name="in_type_id" ref="stock_picking_type_in"/>
+            <field name="out_type_id" ref="stock_picking_type_out"/>
+            <field name="int_type_id" ref="stock_picking_type_internal"/>
+        </record>
+
+        <!-- Sequences -->
+        <record id="seq_stock_picking_in" model="sys.sequence">
+            <field name="name">Receipts</field>
+            <field name="code">stock.picking.in</field>
+            <field name="prefix">WH/IN/</field>
+            <field name="padding" eval="5"/>
+            <field name="number_next" eval="1"/>
+        </record>
+        <record id="seq_stock_picking_out" model="sys.sequence">
+            <field name="name">Delivery Orders</field>
+            <field name="code">stock.picking.out</field>
+            <field name="prefix">WH/OUT/</field>
+            <field name="padding" eval="5"/>
+            <field name="number_next" eval="1"/>
+        </record>
+        <record id="seq_stock_picking_internal" model="sys.sequence">
+            <field name="name">Internal Transfers</field>
+            <field name="code">stock.picking.internal</field>
+            <field name="prefix">WH/INT/</field>
+            <field name="padding" eval="5"/>
+            <field name="number_next" eval="1"/>
+        </record>
+    </data>
+</sumeru>

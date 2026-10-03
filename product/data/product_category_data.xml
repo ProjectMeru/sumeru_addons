@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
-    <data noupdate="1">
+    <data noupdate="true">
         <record id="product_category_all" model="product.category">
             <field name="name">All</field>
             <field name="sequence">1</field>

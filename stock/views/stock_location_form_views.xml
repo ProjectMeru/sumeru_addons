@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_location_form" model="stock.location" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Location Name..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Location">
+                        <field name="name" string="Location Name"/>
+                        <field name="complete_name" string="Full Name"/>
+                        <field name="usage" string="Type"/>
+                        <field name="active" string="Active"/>
+                    </group>
+                    <group string="Hierarchy">
+                        <field name="location_id" string="Parent Location"/>
+                        <field name="company_id" string="Company"/>
+                        <field name="barcode" string="Barcode"/>
+                    </group>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

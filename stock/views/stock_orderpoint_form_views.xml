@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_stock_orderpoint_form" model="stock.warehouse.orderpoint" type="form">
+            <header>
+                <button name="action_replenish" string="Replenish" type="object" class="sum_highlight"/>
+            </header>
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Reordering Rule..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group string="Reordering Rule">
+                        <field name="name" string="Name"/>
+                        <field name="product_id" string="Product"/>
+                        <field name="location_id" string="Location"/>
+                        <field name="warehouse_id" string="Warehouse"/>
+                        <field name="trigger" string="Trigger"/>
+                    </group>
+                    <group string="Quantities">
+                        <field name="product_min_qty" string="Minimum Quantity"/>
+                        <field name="product_max_qty" string="Maximum Quantity"/>
+                        <field name="qty_on_hand" string="On Hand"/>
+                        <field name="qty_forecast" string="Forecast"/>
+                        <field name="qty_to_order" string="To Order"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Other">
+                        <field name="active" string="Active"/>
+                        <field name="company_id" string="Company"/>
+                    </group>
+                </group>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

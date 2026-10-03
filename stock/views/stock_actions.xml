@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <action id="action_stock_picking" type="window" model="stock.picking" name="Transfers" view_mode="list,form">
+            <help>Create and process stock transfers.</help>
+        </action>
+        <action id="action_stock_picking_in" type="window" model="stock.picking" name="Receipts" view_mode="list,form"
+                domain='[["picking_type_code","=","incoming"]]'
+                context='{"default_picking_type_code": "incoming"}'>
+            <help>Incoming shipments from vendors.</help>
+        </action>
+        <action id="action_stock_picking_out" type="window" model="stock.picking" name="Delivery Orders" view_mode="list,form"
+                domain='[["picking_type_code","=","outgoing"]]'
+                context='{"default_picking_type_code": "outgoing"}'>
+            <help>Outgoing shipments to customers.</help>
+        </action>
+        <action id="action_stock_picking_internal" type="window" model="stock.picking" name="Internal Transfers" view_mode="list,form"
+                domain='[["picking_type_code","=","internal"]]'
+                context='{"default_picking_type_code": "internal"}'>
+            <help>Moves between internal locations.</help>
+        </action>
+        <action id="action_stock_move" type="window" model="stock.move" name="Stock Moves" view_mode="list,form"/>
+        <action id="action_stock_move_line" type="window" model="stock.move.line" name="Detailed Operations" view_mode="list,form"/>
+        <action id="action_stock_quant" type="window" model="stock.quant" name="On Hand" view_mode="list,form"/>
+        <action id="action_stock_inventory" type="window" model="stock.quant" name="Physical Inventory" view_mode="list,form"
+                view_id="view_stock_quant_inventory_list">
+            <help>Count your stock: fill Counted Quantity on a line, open it and press Apply (or Apply All Counts).</help>
+        </action>
+        <action id="action_stock_inventory_todo" type="window" model="stock.quant" name="Counts to Apply" view_mode="list,form"
+                view_id="view_stock_quant_inventory_list"
+                domain='[["inventory_quantity_set","=",true]]'>
+            <help>Pending physical counts waiting to be applied.</help>
+        </action>
+        <action id="action_stock_lot" type="window" model="stock.lot" name="Lots/Serial Numbers" view_mode="list,form"/>
+        <action id="action_stock_scrap" type="window" model="stock.scrap" name="Scraps" view_mode="list,form"/>
+        <action id="action_stock_orderpoint" type="window" model="stock.warehouse.orderpoint" name="Reordering Rules" view_mode="list,form"/>
+        <action id="action_stock_warehouse" type="window" model="stock.warehouse" name="Warehouses" view_mode="list,form"/>
+        <action id="action_stock_location" type="window" model="stock.location" name="Locations" view_mode="list,form"/>
+        <action id="action_stock_picking_type" type="window" model="stock.picking.type" name="Operation Types" view_mode="list,form"/>
+        <action id="action_stock_rule" type="window" model="stock.rule" name="Rules" view_mode="list,form"/>
+    </data>
+</sumeru>
