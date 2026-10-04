@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
-    <data noupdate="1">
+    <data noupdate="true">
         <!-- Locations -->
         <record id="stock_location_virtual" model="stock.location">
             <field name="name">Virtual Locations</field>

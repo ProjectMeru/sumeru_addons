@@ -4,7 +4,7 @@
         <view id="view_crm_lead_lost_form" model="crm.lead.lost" type="form">
             <sheet>
                 <group>
-                    <field name="lead_id" readonly="1"/>
+                    <field name="lead_id" readonly="True"/>
                     <field name="lost_reason_id"/>
                     <field name="lost_feedback"/>
                 </group>
