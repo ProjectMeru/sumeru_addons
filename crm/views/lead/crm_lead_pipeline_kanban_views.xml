@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sumeru>
     <data>
-        <view id="view_crm_lead_pipeline_kanban" model="crm.lead" type="kanban" priority="20" default_group_by="stage_id" records_draggable="1">
+        <view id="view_crm_lead_pipeline_kanban" model="crm.lead" type="kanban" priority="20" default_group_by="stage_id" records_draggable="true">
             <field name="stage_id"/>
             <field name="name"/>
             <field name="partner_id"/>

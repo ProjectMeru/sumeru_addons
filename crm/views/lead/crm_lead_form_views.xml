@@ -70,10 +70,10 @@
                     </group>
                 </group>
                 <group string="Schedule Activity" name="activity_scheduler">
-                    <field name="date_open" readonly="1"/>
-                    <field name="date_conversion" readonly="1"/>
-                    <field name="day_open" readonly="1"/>
-                    <field name="day_close" readonly="1"/>
+                    <field name="date_open" readonly="true"/>
+                    <field name="date_conversion" readonly="true"/>
+                    <field name="day_open" readonly="true"/>
+                    <field name="day_close" readonly="true"/>
                 </group>
                 <group col="2">
                     <group string="Marketing">

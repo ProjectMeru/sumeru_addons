@@ -4,7 +4,7 @@
         <view id="view_crm_lead2opportunity_form" model="crm.lead2opportunity" type="form">
             <sheet>
                 <group>
-                    <field name="lead_id" readonly="1"/>
+                    <field name="lead_id" readonly="true"/>
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="user_id"/>

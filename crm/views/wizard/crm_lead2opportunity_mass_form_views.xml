@@ -4,7 +4,7 @@
         <view id="view_crm_lead2opportunity_mass_form" model="crm.lead2opportunity.mass" type="form">
             <sheet>
                 <group>
-                    <field name="lead_ids" readonly="1"/>
+                    <field name="lead_ids" readonly="true"/>
                     <field name="user_id"/>
                     <field name="team_id"/>
                     <field name="force_assign"/>
