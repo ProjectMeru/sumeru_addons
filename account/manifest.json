@@ -7,6 +7,7 @@
     "author": "Sumeru",
     "depends": [
         "product",
+        "currency",
         "contacts",
         "geo"
     ],

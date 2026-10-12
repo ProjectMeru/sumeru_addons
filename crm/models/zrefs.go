@@ -4,6 +4,7 @@ package models
 
 import (
 	basemodels "sumeru/addons/base/models"
+	currencymodels "sumeru/addons/currency/models"
 	geomodels "sumeru/addons/geo/models"
 	i18nmodels "sumeru/addons/i18n/models"
 	utmmodels "sumeru_addons/utm/models"
@@ -19,7 +20,7 @@ type CoreCountry = geomodels.CoreCountry
 type CoreCountryState = geomodels.CoreCountryState
 
 // CoreCurrency → core.currency
-type CoreCurrency = geomodels.CoreCurrency
+type CoreCurrency = currencymodels.CoreCurrency
 
 // CoreLang → core.lang
 type CoreLang = i18nmodels.CoreLang
