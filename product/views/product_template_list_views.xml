@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_product_template_list" model="product.template" type="list">
+            <field name="name" string="Template"/>
+            <field name="type" string="Type"/>
+            <field name="categ_id" string="Category"/>
+            <field name="list_price" string="Sales Price"/>
+            <field name="variant_count" string="Variants"/>
+            <field name="sale_ok" string="Can be Sold"/>
+            <field name="active" string="Active" widget="boolean_toggle"/>
+        </view>
+    </data>
+</sumeru>

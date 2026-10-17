@@ -22,6 +22,14 @@
                         <field name="sale_ok" string="Can be Sold"/>
                         <field name="purchase_ok" string="Can be Purchased"/>
                     </group>
+                    <group string="Variant">
+                        <field name="product_tmpl_id" string="Template"/>
+                        <field name="barcode" string="Barcode"/>
+                        <field name="combination" string="Combination" readonly="true"/>
+                        <field name="price_extra" string="Variant Extra" readonly="true"/>
+                        <field name="variant_key" string="Variant Key" readonly="true"/>
+                        <field name="company_id" string="Company"/>
+                    </group>
                 </group>
                 <notebook>
                     <page string="Description">

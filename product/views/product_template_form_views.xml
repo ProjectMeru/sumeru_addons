@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_product_template_form" model="product.template" type="form">
+            <sheet>
+                <div class="sum_title">
+                    <h1>
+                        <field name="name" placeholder="Template Name..."/>
+                    </h1>
+                </div>
+                <header>
+                    <button name="action_generate_variants" string="Generate Variants" type="object"/>
+                    <button name="action_open_configurator" string="Configure" type="object" class="sum_highlight"/>
+                    <button name="action_backfill_products" string="Link Existing Products" type="object"/>
+                </header>
+                <group>
+                    <group string="General">
+                        <field name="type" string="Product Type"/>
+                        <field name="categ_id" string="Category"/>
+                        <field name="active" string="Active"/>
+                    </group>
+                    <group string="Pricing">
+                        <field name="list_price" string="Sales Price"/>
+                        <field name="sale_ok" string="Can be Sold"/>
+                        <field name="purchase_ok" string="Can be Purchased"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Attributes &amp; Values">
+                        <field name="attribute_line_ids" string="Attribute Lines">
+                            <list editable="bottom">
+                                <field name="attribute_id" string="Attribute"/>
+                                <field name="sequence" string="Sequence"/>
+                                <field name="active" string="Active"/>
+                            </list>
+                        </field>
+                        <field name="attribute_value_ids" string="Values">
+                            <list editable="bottom">
+                                <field name="attribute_id" string="Attribute"/>
+                                <field name="product_attribute_value_id" string="Value"/>
+                                <field name="price_extra" string="Extra Price"/>
+                                <field name="sequence" string="Sequence"/>
+                                <field name="active" string="Active"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Variants">
+                        <field name="product_variant_ids" string="Variants">
+                            <list editable="false">
+                                <field name="name" string="Variant"/>
+                                <field name="combination" string="Combination"/>
+                                <field name="list_price" string="Sales Price"/>
+                                <field name="active" string="Active"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Description">
+                        <field name="description" string="Description"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </view>
+    </data>
+</sumeru>

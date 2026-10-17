@@ -6,6 +6,9 @@
             <field name="name" string="Product"/>
             <field name="type" string="Type"/>
             <field name="categ_id" string="Category"/>
+            <field name="product_tmpl_id" string="Template"/>
+            <field name="combination" string="Combination"/>
+            <field name="barcode" string="Barcode"/>
             <field name="list_price" string="Sales Price"/>
             <field name="standard_price" string="Cost"/>
             <field name="active" string="Active" widget="boolean_toggle"/>

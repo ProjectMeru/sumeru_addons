@@ -5,4 +5,6 @@ package product
 import (
 	_ "sumeru/addons/base"
 	_ "sumeru_addons/product/models"
+	_ "sumeru_addons/product/services"
+	_ "sumeru_addons/product/wizard"
 )

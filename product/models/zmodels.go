@@ -6,7 +6,12 @@ import "sumeru/core/sdk"
 
 func init() {
 	sdk.MustRegister("product",
+		&ProductAttribute{},
+		&ProductAttributeValue{},
 		&ProductCategory{},
 		&ProductProduct{},
+		&ProductTemplate{},
+		&ProductTemplateAttributeLine{},
+		&ProductTemplateAttributeValue{},
 	)
 }
