@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data>
+        <view id="view_product_template_search" model="product.template" type="search">
+            <field name="name"/>
+            <filter name="active" string="Active" domain='[["active","=",true]]'/>
+            <filter name="saleable" string="Can be Sold" domain='[["sale_ok","=",true]]'/>
+            <filter name="no_variants" string="No variants yet" domain='[["product_variant_ids","=",false]]'/>
+        </view>
+    </data>
+</sumeru>

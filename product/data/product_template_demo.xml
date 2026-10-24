@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumeru>
+    <data noupdate="true">
+        <!-- Demo attributes: value rows and template attribute values are
+             seeded by services.EnsureDemoVariantCatalog (Go) because the XML
+             loader requires a unique `name` conflict column. -->
+        <record id="product_attribute_color" model="product.attribute">
+            <field name="name">Color</field>
+            <field name="display_type">radio</field>
+            <field name="create_variant">always</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="product_attribute_size" model="product.attribute">
+            <field name="name">Size</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="product_template_demo_tshirt" model="product.template">
+            <field name="name">Demo T-Shirt</field>
+            <field name="type">consu</field>
+            <field name="list_price" eval="150000"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="description">Demo configurable T-Shirt with Color and Size variants.</field>
+        </record>
+    </data>
+</sumeru>
